@@ -1,0 +1,31 @@
+package com.wdj.mankai.ui.chat;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.wdj.mankai.R;
+import com.wdj.mankai.adapter.RoomsAdapter;
+import com.wdj.mankai.data.model.Room;
+
+public class ChatDMListFragment extends Fragment {
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_chat_dm_list, container, false);
+
+        ChatActivity.setRoomList(rootView);
+
+        return rootView;
+    }
+}
