@@ -1,23 +1,24 @@
 package com.wdj.mankai.ui.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.wdj.mankai.R;
-import com.wdj.mankai.ui.mypage.FragMyPageHead;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,16 +28,15 @@ public class MainActivity extends AppCompatActivity {
     String userName = null;
     String userDescription = null;
     String userProfile = null;
-    FragMyPageHead fragMyPageHead ;
 
+    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-//       MainActivity를 실행하는 모습을 확인하고 SharedPreferences에서 값을 갖고와서
-//       Intent에 값을 넘겨주면 될 것이다.
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
         String token = sharedPreferences.getString("login_token","");
@@ -63,26 +63,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        Button mypageButton = (Button)findViewById(R.id.mypageButton);
-//      이 버튼을 MYPAGE들어가기 버튼으로 하면 될 것이다.
 
-        mypageButton.setOnClickListener(new View.OnClickListener(){
+
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new HomeFragment()).commit();
+
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view){
-
-
-                Bundle bundle = new Bundle();
-                bundle.putString("userName",userName);
-                bundle.putString("userDescription",userDescription);
-                bundle.putString("userProfile",userProfile);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                FragMyPageHead fragMyPageHead = new FragMyPageHead();
-                fragMyPageHead.setArguments(bundle);
-                transaction.replace(R.id.frame,fragMyPageHead);
-                transaction.commit();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.chat:
+                        fragment = new ChatFragment();
+                        break;
+                    case R.id.group:
+                        fragment = new GroupFragment();
+                        break;
+                    case R.id.mypage:
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userName",userName);
+                        bundle.putString("userDescription",userDescription);
+                        bundle.putString("userProfile",userProfile);
+                        MyPageFragment myPageFragment = new MyPageFragment();
+                        myPageFragment.setArguments(bundle);
+                        fragment = myPageFragment;
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
+                return true;
             }
         });
-
     }
 
     private void getUser(String token) {
