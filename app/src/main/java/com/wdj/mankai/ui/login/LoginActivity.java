@@ -28,8 +28,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
-import com.wdj.mankai.ui.login.LoginViewModel;
-import com.wdj.mankai.ui.login.LoginViewModelFactory;
 import com.wdj.mankai.databinding.ActivityLoginBinding;
 import com.wdj.mankai.ui.main.MainActivity;
 
@@ -45,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordEditText;
     TextView emailValidationText;
     TextView passwordValidationText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password);
         emailValidationText = findViewById(R.id.emailValidation);
         passwordValidationText = findViewById(R.id.passwordValidation);
+
+
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
         getToken(); // 토큰 불러옴
@@ -138,6 +139,9 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+
+
+
     }
     private void getToken() {
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
