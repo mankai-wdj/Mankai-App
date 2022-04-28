@@ -60,6 +60,3 @@ dependencies {
     implementation 'org.webrtc:google-webrtc:1.0.32006'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 }
-
-
-
