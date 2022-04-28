@@ -135,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 login();
             }
@@ -158,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        System.out.print("로그인 함수로 들어왔음");
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -180,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                         emailValidationText.setText(jsonObject.getString("email"));
                         passwordValidationText.setText(jsonObject.getString("password"));
                         System.out.println(response);
+                        System.out.print("400번에러");
                     } else if(statusCode == 401){
                         Toast.makeText(LoginActivity.this,"아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                       
