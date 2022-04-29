@@ -9,14 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.MemoData;
+
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    String data1[];
+    ArrayList<MemoData> list;
     Context context;
 
-    public MyAdapter(Context ct, String s1[]){
-        context = ct;
-        data1 = s1;
+    public MyAdapter(Context context, ArrayList<MemoData> list){
+        this.context = context;
+        this.list = list;
     }
 
     @NonNull
@@ -31,12 +35,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.title_txt.setText(data1[position]);
+        MemoData mdata = list.get(position);
+        holder.title_txt.setText(mdata.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return list.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -46,6 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title_txt = itemView.findViewById(R.id.title_txt);
+
         }
     }
 }
