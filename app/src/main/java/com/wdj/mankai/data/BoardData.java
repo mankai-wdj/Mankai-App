@@ -1,9 +1,13 @@
 package com.wdj.mankai.data;
 
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class BoardData implements Serializable {
 
@@ -23,6 +27,11 @@ public class BoardData implements Serializable {
         this.jsonData = jsonData;
         try {
             this.jsonData.put("viewType",0);
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("comments","댓글이 없습니다.");
+            jsonArray.put(jsonObject);
+            this.jsonData.put("comments",jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,5 +114,26 @@ public class BoardData implements Serializable {
     }
     public void setViewType(int viewType)throws JSONException  {
         this.jsonData.put("viewType",viewType);
+    }
+    public ArrayList<String> getComments() throws JSONException {
+        JSONArray jsonArray = jsonData.getJSONArray("comments");
+        ArrayList<String> arrayList = new ArrayList<String>();
+        for(int i = 0 ;i < jsonArray.length();i++){
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            arrayList.add(jsonObject.getString("comments"));
+        }
+        return arrayList;
+    }
+    public void setComments(ArrayList<String> comments)throws JSONException  {
+
+        JSONArray jsonArray = new JSONArray();
+
+        for(int i = 0 ;i<comments.size();i++){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("comments",comments.get(i));
+            jsonArray.put(i,jsonObject);
+        }
+
+        this.jsonData.put("comments",jsonArray);
     }
 }

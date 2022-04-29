@@ -16,6 +16,7 @@ import com.wdj.mankai.data.BoardData;
 
 import org.json.JSONException;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
@@ -40,9 +41,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ImageView snsUserImage = itemView.findViewById(R.id.snsUserImage);
         TextView snsContent = itemView.findViewById(R.id.snsContent);
         ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
+        TextView snsComment = itemView.findViewById(R.id.snsComment);
     }
 
-    BoardAdapter(ArrayList<BoardData> list){
+    public BoardAdapter(ArrayList<BoardData> list){
         mData = list;
     }
     //    아이템뷰를 위한 뷰홀더 객체 생성하여 리턴
@@ -71,21 +73,32 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         try {
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
+
             Glide.with(holder.itemView.getContext())
                     .load(snsdata.getProfile())
                     .override(100, 100)
                     .into(holder.snsUserImage);
 
+            if(snsdata.getComments()!=null) {
+                Log.d("Board", position+"댓글 있다고 판단");
+                String ch ="";
+                for (int i = 0; i <  snsdata.getComments().size(); i++) {
+                    ch +=  snsdata.getComments().get(i)+"\n"  ;
+                }
+                holder.snsComment.setText(ch);
+
+            }
+
 //            사진 있을경우 1
-            Log.d("Board", position+" "+snsdata.getViewType());
             if(snsdata.getViewType() == 1) {
                 Glide.with(holder.itemView.getContext())
                         .load(snsdata.getBoardImage())
                         .centerCrop()
                         .into(holder.snsMainImage);
             }
-
         } catch (JSONException e) {
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

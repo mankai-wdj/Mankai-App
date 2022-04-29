@@ -6,12 +6,11 @@
     android:layout_height="wrap_content"
 
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:paddingVertical="3dp"
+        android:paddingVertical="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/boardrounded"
@@ -29,11 +28,12 @@
         <TextView
             android:id="@+id/snsContent"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="4dp"
             android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
-            android:textSize="16dp"
+            android:textSize="18dp"
             app:layout_constraintStart_toStartOf="@+id/snsUserImage"
             app:layout_constraintTop_toBottomOf="@+id/snsUserImage" />
 
@@ -48,14 +48,45 @@
             app:layout_constraintStart_toEndOf="@+id/snsUserImage"
             app:layout_constraintTop_toTopOf="@+id/snsUserImage" />
 
-        <ImageView
-            android:id="@+id/snsMainImage"
+        <GridLayout
+            android:id="@+id/ButtonList"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintStart_toStartOf="@+id/snsUserImage"
-            app:layout_constraintTop_toBottomOf="@+id/snsContent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/snsContent"
+            app:layout_constraintTop_toBottomOf="@id/snsContent"
+            android:useDefaultMargins="true"
+            android:rowCount="3"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:backgroundTint="@color/white"
+                android:text="좋아요"
+                android:textColor="@color/black"
+                android:layout_columnWeight="1"
+                />
+            <Button
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:layout_columnWeight="1"
+                android:text="댓글"
+                />
+            <Button
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:layout_columnWeight="1"
+                android:text="번역" />
+        </GridLayout>
+        <TextView
+            android:id="@+id/snsComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="댓글"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintStart_toStartOf="@+id/ButtonList"
+            app:layout_constraintTop_toBottomOf="@+id/ButtonList"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

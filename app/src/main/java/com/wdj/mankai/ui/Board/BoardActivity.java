@@ -92,6 +92,10 @@ public class BoardActivity extends AppCompatActivity {
                                             public void onResponse(String response) {
                                                 try {
                                                     JSONObject subJson = new JSONObject(response);
+                                                    JSONArray CommentArray = subJson.getJSONArray("comment");
+
+
+                                                    //                                                  이미지 처리
                                                     JSONArray subArray = subJson.getJSONArray("images");
                                                     if(subArray.length()==0){
                                                         for(int i =0 ;i<list.size();i++)
