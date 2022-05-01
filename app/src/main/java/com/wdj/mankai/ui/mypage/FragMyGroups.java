@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.mypage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.wdj.mankai.R;
 
-public class FragMyGroups extends Fragment {
+public class FragMyGroups extends Fragment implements ViewPagerData{
     private View view;
 
     public static FragMyGroups newInstance(){
@@ -26,5 +27,10 @@ public class FragMyGroups extends Fragment {
         view = inflater.inflate(R.layout.frag_mygroups,container,false);
 
         return view;
+    }
+
+    @Override
+    public void memoResponse(String response) {
+        Log.i("responseInGroups",response);
     }
 }

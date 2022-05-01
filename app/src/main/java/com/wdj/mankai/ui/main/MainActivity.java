@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     String userName = null;
     String userDescription = null;
     String userProfile = null;
+    String userId = null;
 
     BottomNavigationView bottomNavigationView;
     @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
            userName = obj.getString("name");
            userDescription = obj.getString("description");
            userProfile = obj.getString("profile");
+           userId = obj.getString("id");
 
 
         } catch (Throwable t) {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         bundle.putString("userName",userName);
                         bundle.putString("userDescription",userDescription);
                         bundle.putString("userProfile",userProfile);
+                        bundle.putString("userId",userId);
                         MyPageFragment myPageFragment = new MyPageFragment();
                         myPageFragment.setArguments(bundle);
                         fragment = myPageFragment;
