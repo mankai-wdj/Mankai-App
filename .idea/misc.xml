@@ -11,6 +11,8 @@
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/item_selector.xml" value="0.1" />
+        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/left_arrow_nor.xml" value="0.1055" />
+        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/memo_box.xml" value="0.1055" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/rounded_corner.xml" value="0.1" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.32653061224489793" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout-w936dp/activity_login.xml" value="0.190234375" />
@@ -32,7 +34,9 @@
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_mygroups.xml" value="0.25" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_mymemos.xml" value="0.1" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myposts.xml" value="0.25" />
-        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.152" />
+        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_home.xml" value="0.16875" />
+        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.1" />
+        <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/memo_item.xml" value="0.264" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/peer_video.xml" value="0.10729166666666666" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/sdfsd.xml" value="1.7142857142857142" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/menu/menu.xml" value="0.176" />

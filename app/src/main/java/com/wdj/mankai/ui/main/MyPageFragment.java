@@ -56,8 +56,6 @@ public class MyPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        /*이게 핵심이 될 것 같다. getActivity를 했을 때 expect null이라고 하는 거 보면
-        * 파라미터로 context를 제대로 못 념겨준 것 같다.*/
 
         view = inflater.inflate(R.layout.fragment_my_page,container,false);
 
@@ -85,7 +83,7 @@ public class MyPageFragment extends Fragment {
 
 //      뷰페이저 세팅
         ViewPager viewPager = view.findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerAdapter = new ViewPagerAdapter(userId,getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 //
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         viewPager.setAdapter(viewPagerAdapter);
@@ -114,26 +112,6 @@ public class MyPageFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-
-               switch (position){
-                   case 0:
-                       myPageRequest("followers");
-                       break;
-                   case 1:
-                       myPageRequest("follows");
-                       break;
-                   case 2:
-                       myPageRequest("myposts");
-                       break;
-                   case 3:
-                       myPageRequest("show/mygroup");
-                       break;
-                   case 4:
-                       myPageRequest("memo");
-                       break;
-                   default:
-                       break;
-               }
                 if(position == 0||position == 1||position == 2||position ==3){
                     FragMyMemoExceptToolbar fragMyMemoExceptToolbar = new FragMyMemoExceptToolbar();
                     getParentFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoExceptToolbar).commit();
@@ -141,9 +119,8 @@ public class MyPageFragment extends Fragment {
                     FragMyMemoToolbar fragMyMemoToolbar = new FragMyMemoToolbar();
                     getParentFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoToolbar).commit();
                 }
-
-
             }
+            /*오직 상태바 변경을 위해서*/
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -151,29 +128,8 @@ public class MyPageFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
-    public void myPageRequest(String type){
-        StringRequest myPageStringRequest = new StringRequest(
-                Request.Method.GET,
-                url+type+"/"+userId,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("response",response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("error",""+error);
-                    }
-                });
-
-        myPageStringRequest.setShouldCache(false);
-        AppHelper.requestQueue.add(myPageStringRequest);
-    }
 
 }
