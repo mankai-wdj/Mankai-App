@@ -1,5 +1,7 @@
 package com.wdj.mankai.ui.main;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -20,6 +23,7 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.Board.BoardAdapter;
+import com.wdj.mankai.ui.Board.BoardCategoryActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,17 +39,21 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
 
+    public static String category;
+    public static ArrayList<BoardData> list = new ArrayList<BoardData>();
+    public static BoardAdapter adapter;
+    public static int CurrentPage = 1;
+    private static BoardData boardData;
+    private static String URL = "https://api.mankai.shop/api";
+
     private View view;
-    private String URL = "https://api.mankai.shop/api";
-    private ArrayList<BoardData> list = new ArrayList<BoardData>();
-    private BoardData boardData;
-    private BoardAdapter adapter;
     private ListView CommentList;
-    private int CurrentPage = 1;
+
 
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
     public static HomeFragment newInstance() {
         HomeFragment homeFragment = new HomeFragment();
@@ -55,26 +63,31 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
+            category = "전체";
 
-        this.GETBOARD("/board/show/전체/?page="+CurrentPage);
+        this.GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
         CurrentPage+=1;
-
-
     }
-
-    public void GETBOARD(String subPoint) {
+    public static void GETBOARD(String subPoint) {
 //        1차 기본 보드 데이터
+
+        Log.d("Board", category);
         StringRequest request = new StringRequest(Request.Method.POST, URL+subPoint,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             JSONObject json = new JSONObject(response);
                             JSONArray BoardJsonArray = json.getJSONArray("data");
+
+                            if(BoardJsonArray.length() ==0){
+                                Log.d("Board", "빈값임 ㅋㅋ");
+                                JSONObject ch = new JSONObject();
+                                ch.put("viewType",2);
+                            }
 
 //                          보드데이터 별로 하나씩 요청
                             for (int i = 0; i < BoardJsonArray.length(); i++) {
@@ -159,12 +172,23 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_board, container, false);
+        Button categoryBtn = view.findViewById(R.id.category_btn);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+
+        RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
         adapter = new BoardAdapter(list);
         recyclerView.setAdapter(adapter);
 
+
+        categoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), BoardCategoryActivity.class);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_right).toBundle();
+                startActivity(intent, bundle);
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -175,11 +199,11 @@ public class HomeFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size() -1 ) {
-                    GETBOARD("/board/show/전체/?page="+CurrentPage);
+                if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size()-1) {
+                    Log.d("Board", "1이상 이라 작동");
+                    GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
                     CurrentPage+=1;
                 }
-
             }
         });
         return view;

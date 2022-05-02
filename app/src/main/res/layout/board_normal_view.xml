@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/back_gray"
 
     >
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:background="@color/white"
         android:paddingVertical="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/boardrounded"
+        android:elevation="3dp"
         >
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/snsUserImage"
             android:layout_width="50dp"
@@ -34,6 +38,8 @@
             android:paddingBottom="4dp"
             android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
             android:textSize="18dp"
+            android:textStyle="bold"
+
             app:layout_constraintStart_toStartOf="@+id/snsUserImage"
             app:layout_constraintTop_toBottomOf="@+id/snsUserImage" />
 
@@ -52,42 +58,48 @@
             android:id="@+id/ButtonList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:rowCount="3"
             app:layout_constraintStart_toStartOf="@id/snsContent"
             app:layout_constraintTop_toBottomOf="@id/snsContent"
-            android:useDefaultMargins="true"
-            android:rowCount="3"
             >
             <Button
-                android:layout_width="wrap_content"
-                android:backgroundTint="@color/white"
+                android:layout_columnWeight="1"
                 android:text="좋아요"
                 android:textColor="@color/black"
-                android:layout_columnWeight="1"
-                />
-            <Button
                 android:backgroundTint="@color/white"
-                android:textColor="@color/black"
+                />
+
+            <Button
                 android:layout_columnWeight="1"
                 android:text="댓글"
-                />
-            <Button
-                android:backgroundTint="@color/white"
                 android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                />
+
+            <Button
                 android:layout_columnWeight="1"
-                android:text="번역" />
+                android:text="번역"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                />
         </GridLayout>
+
         <TextView
             android:id="@+id/snsComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
             android:text="댓글"
             android:textSize="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="20dp"
             app:layout_constraintStart_toStartOf="@+id/ButtonList"
-            app:layout_constraintTop_toBottomOf="@+id/ButtonList"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/ButtonList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

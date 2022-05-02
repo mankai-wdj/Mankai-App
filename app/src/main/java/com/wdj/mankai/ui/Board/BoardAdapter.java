@@ -58,7 +58,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 //        멀티 뷰타입 분리
         if(viewType == 0)
             view = inflater.inflate(R.layout.board_normal_view,parent,false);
-        else
+        else if(viewType ==1)
             view = inflater.inflate(R.layout.board_image_view,parent,false);
 
         BoardAdapter.ViewHolder vh = new BoardAdapter.ViewHolder(view);
@@ -80,7 +80,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                     .into(holder.snsUserImage);
 
             if(snsdata.getComments()!=null) {
-                Log.d("Board", position+"댓글 있다고 판단");
                 String ch ="";
                 for (int i = 0; i <  snsdata.getComments().size(); i++) {
                     ch +=  snsdata.getComments().get(i)+"\n"  ;
