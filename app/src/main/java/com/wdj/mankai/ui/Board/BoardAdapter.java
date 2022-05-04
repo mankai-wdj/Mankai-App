@@ -1,11 +1,15 @@
 package com.wdj.mankai.ui.Board;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +46,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsContent = itemView.findViewById(R.id.snsContent);
         ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
+        Button commentBtn = itemView.findViewById(R.id.commentBtn);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -85,16 +90,34 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                     ch +=  snsdata.getComments().get(i)+"\n"  ;
                 }
                 holder.snsComment.setText(ch);
-
             }
 
-//            사진 있을경우 1
+//           사진 있을경우 1
             if(snsdata.getViewType() == 1) {
                 Glide.with(holder.itemView.getContext())
                         .load(snsdata.getBoardImage())
                         .centerCrop()
                         .into(holder.snsMainImage);
             }
+
+            holder.commentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(),BoardCommentActivity.class);
+                    try {
+                        intent.putExtra("id",snsdata.getId());
+                        intent.putExtra("content",snsdata.getContent_text());
+                        intent.putExtra("name",snsdata.getName());
+                        intent.putExtra("profile",snsdata.getProfile());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right,R.anim.slide_wait).toBundle();
+                    view.getContext().startActivity(intent, bundle);
+                }
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }catch (Exception e){

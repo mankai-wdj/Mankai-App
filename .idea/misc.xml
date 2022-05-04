@@ -3,25 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/baseline_favorite_24.xml" value="0.1885" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_delete_24.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1235" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardbtn.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardrounded.xml" value="0.256" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/categorydesign.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/categorytopdesign.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_baseline_chat_bubble_outline_36.xml" value="0.2065" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_baseline_group_36.xml" value="0.1885" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_baseline_home_36.xml" value="0.1885" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_baseline_person_outline_36.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1235" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/nobgBtn.xml" value="0.2065" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/nobg_btn.xml" value="0.1885" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/rounded_corner.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling.xml" value="0.1875" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_main.xml" value="0.1875" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_session.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_category.xml" value="0.1" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_category.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_category_view.xml" value="0.264" />
-        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_comment.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_comment.xml" value="0.4" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_image_view.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_normal_view.xml" value="0.4" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_view.xml" value="0.264" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/comment_view.xml" value="0.536" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_my_memo_except_toolbar.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_my_memo_toolbar.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myfollowers.xml" value="0.36614583333333334" />

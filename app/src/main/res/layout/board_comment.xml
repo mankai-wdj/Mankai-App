@@ -1,15 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="adawda"
-        />
+        android:background="@color/back_gray"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/light_gray"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/mankai_logo"
+            android:text="게시글 상세보기"
+            >
+
+        </TextView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="3dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/snsCommentUserImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/snsCommentContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="4dp"
+                android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                app:layout_constraintStart_toStartOf="@+id/snsCommentUserImage"
+                app:layout_constraintTop_toBottomOf="@+id/snsCommentUserImage" />
+
+            <TextView
+                android:id="@+id/snsCommentName"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="장성규"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/snsCommentUserImage"
+                app:layout_constraintTop_toTopOf="@+id/snsCommentUserImage" />
 
 
+            <GridLayout
+                android:id="@+id/ButtonList"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:rowCount="3"
+                app:layout_constraintStart_toStartOf="@id/snsCommentContent"
+                app:layout_constraintTop_toBottomOf="@id/snsCommentContent"
+                >
+                <ImageView
+                    android:layout_height="40dp"
+                    android:layout_width="40dp"
+                    android:src="@drawable/baseline_favorite_24"
+                    app:tint="@color/light_gray"
+                    >
+                </ImageView>
+                <TextView
+                    android:id="@+id/likeBtn"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_columnWeight="1"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    />
+
+                <ImageView
+                    android:layout_height="40dp"
+                    android:layout_width="40dp"
+                    android:src="@drawable/ic_round_comment_24"
+                    app:tint="@color/light_gray"
+                    >
+                </ImageView>
+                <TextView
+                    android:id="@+id/commentBtn"
+                    android:textAlignment="center"
+                    android:layout_height="match_parent"
+                    android:layout_columnWeight="1"
+                    android:text="댓글이미지"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/tlsBtn"
+                    android:layout_height="match_parent"
+                    android:layout_columnWeight="1"
+                    android:textAlignment="center"
+                    android:text="번역이미지"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+
+                    />
+            </GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingVertical="3dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="댓글"
+            android:background="@color/white"
+
+            >
+        </TextView>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </com.google.android.material.divider.MaterialDivider>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentRecycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="@id/snsCommentContent"
+            app:layout_constraintTop_toBottomOf="@+id/snsCommentContent"
+            ></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

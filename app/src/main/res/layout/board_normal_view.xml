@@ -63,6 +63,7 @@
             app:layout_constraintTop_toBottomOf="@id/snsContent"
             >
             <Button
+                android:id="@+id/likeBtn"
                 android:layout_columnWeight="1"
                 android:text="좋아요"
                 android:textColor="@color/black"
@@ -70,6 +71,7 @@
                 />
 
             <Button
+                android:id="@+id/commentBtn"
                 android:layout_columnWeight="1"
                 android:text="댓글"
                 android:textColor="@color/black"
@@ -77,6 +79,7 @@
                 />
 
             <Button
+                android:id="@+id/tlsBtn"
                 android:layout_columnWeight="1"
                 android:text="번역"
                 android:textColor="@color/black"

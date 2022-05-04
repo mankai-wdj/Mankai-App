@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), BoardCategoryActivity.class);
-                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_right).toBundle();
+                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
                 startActivity(intent, bundle);
             }
         });

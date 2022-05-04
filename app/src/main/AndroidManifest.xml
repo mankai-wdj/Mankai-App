@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".ui.Board.BoardActivity"
+            android:name=".ui.Board.BoardCommentActivity"
             android:exported="true">
 
         </activity>

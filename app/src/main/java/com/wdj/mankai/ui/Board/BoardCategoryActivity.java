@@ -55,6 +55,7 @@ public class BoardCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                finish();
+               overridePendingTransition(R.anim.slide_wait,R.anim.slide_out_right);
             }
         });
     }
