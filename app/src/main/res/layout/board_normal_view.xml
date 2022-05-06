@@ -54,38 +54,71 @@
             app:layout_constraintStart_toEndOf="@+id/snsUserImage"
             app:layout_constraintTop_toTopOf="@+id/snsUserImage" />
 
-        <GridLayout
-            android:id="@+id/ButtonList"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/snsContent">
+
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="36dp"
+                android:padding="2dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_favorite_24"
+                app:tint="@color/dark_gray"/>
+
+            <TextView
+                android:id="@+id/likeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:padding="2dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="3"
+                android:textColor="@color/dark_gray"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/commentBtn"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:src="@drawable/ic_round_comment_24"
+                app:tint="@color/dark_gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="3"
+                android:textColor="@color/dark_gray"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:src="@drawable/ic_baseline_translate_24"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rowCount="3"
-            app:layout_constraintStart_toStartOf="@id/snsContent"
-            app:layout_constraintTop_toBottomOf="@id/snsContent"
-            >
-            <Button
-                android:id="@+id/likeBtn"
-                android:layout_columnWeight="1"
-                android:text="좋아요"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+            />
 
-            <Button
-                android:id="@+id/commentBtn"
-                android:layout_columnWeight="1"
-                android:text="댓글"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                />
-
-            <Button
-                android:id="@+id/tlsBtn"
-                android:layout_columnWeight="1"
-                android:text="번역"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                />
-        </GridLayout>
 
         <TextView
             android:id="@+id/snsComment"
@@ -95,8 +128,8 @@
             android:layout_marginTop="10dp"
             android:text="댓글"
             android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@+id/ButtonList"
-            app:layout_constraintTop_toBottomOf="@+id/ButtonList" />
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -44,7 +46,7 @@ public class BoardCategoryActivity extends AppCompatActivity {
         CategoryActivity = BoardCategoryActivity.this;
 
         setContentView(R.layout.board_category);
-        Button backBtn = findViewById(R.id.backBtn);
+        ImageView backBtn = findViewById(R.id.backBtn);
 
         RecyclerView recyclerView = findViewById(R.id.categoryRecycle);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));

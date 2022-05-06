@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsContent = itemView.findViewById(R.id.snsContent);
         ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
-        Button commentBtn = itemView.findViewById(R.id.commentBtn);
+        ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
