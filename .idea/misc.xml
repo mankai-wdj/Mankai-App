@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_top.xml" value="0.1" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_file_message.xml" value="0.3425925925925926" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_received_message.xml" value="0.3388888888888889" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_sent_message.xml" value="0.21388888888888888" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/chat_room_list_item.xml" value="0.32592592592592595" />
@@ -12,6 +13,8 @@
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/chat_tab_background_selected.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/chat_tab_background_unselected.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_back.xml" value="0.1" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_file.xml" value="0.378125" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/message_file_image_background.xml" value="0.3425925925925926" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/user_profile_image_background.xml" value="0.32592592592592595" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout-w936dp/activity_login.xml" value="0.17083333333333334" />
@@ -21,10 +24,18 @@
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_dm_list.xml" value="0.2695167286245353" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_group.xml" value="0.22777777777777777" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_group_list.xml" value="0.2833333333333333" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_list.xml" value="0.4" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_login.xml" value="0.29074074074074074" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_container_received_message.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_container_sent_message.xml" value="0.3558974358974359" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_container_sent_message.xml" value="0.264" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_room_list_item.xml" value="0.34814814814814815" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_chat.xml" value="0.28888888888888886" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_group.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_home.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/gridview_list_item.xml" value="0.3314814814814815" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/img_grid_view_list_images.xml" value="0.3314814814814815" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/multi_image_view.xml" value="0.16979166666666667" />
       </map>
     </option>
   </component>

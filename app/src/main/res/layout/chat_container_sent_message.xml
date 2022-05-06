@@ -5,18 +5,175 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="4dp">
 
-    <TextView
-        android:id="@+id/textMessage"
+    <LinearLayout
+        android:id="@+id/messageBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_sent_message"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        />
+        android:orientation="vertical"
+        app:layout_constraintWidth_percent="0.8">
+
+        <TextView
+            android:id="@+id/textMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_sent_message"
+            android:padding="12dp"
+            android:textColor="@color/white"
+            android:layout_gravity="right"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imageMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_sent_message"
+            android:padding="12dp"
+            android:textColor="@color/white"
+            android:layout_gravity="right"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/fileLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:background="@drawable/background_file_message"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:id="@+id/layoutSend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageFileIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/textFileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/layoutDownload"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageDownloadIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_download"
+                    app:tint="@color/primary"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/memoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:background="@drawable/background_file_message"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:id="@+id/layoutMemoIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageMemoIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/textMemoName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/layoutMemoDownload"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageMemoDownloadIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_download"
+                    app:tint="@color/primary"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+        </LinearLayout>
+<!--        <GridView-->
+<!--            android:id="@+id/gridView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:padding="6dp"-->
+<!--            android:visibility="gone"-->
+<!--            android:background="@drawable/background_sent_message"-->
+<!--            android:numColumns="3"/>-->
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="6dp"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:background="@drawable/background_sent_message"
+            android:columnCount="2">
+
+        </GridLayout>
+        <LinearLayout
+            android:id="@+id/videoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_gravity="right"
+            android:background="@drawable/background_sent_message"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textVideoMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textVideoLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="right"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textDateTime"
@@ -26,7 +183,7 @@
         android:textColor="@color/black"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMessage"
+        app:layout_constraintTop_toBottomOf="@id/messageBox"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

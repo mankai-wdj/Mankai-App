@@ -37,32 +37,11 @@ public class ChatActivity extends FragmentActivity {
         dmListFragment = new ChatDMListFragment();
         groupListFragment = new ChatGroupListFragment();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.chat_container, dmListFragment).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.chat_container, dmListFragment).commit();
 
         chat_room_tabs = findViewById(R.id.chat_room_tabs);
         chat_room_tabs.addTab(chat_room_tabs.newTab().setText("DM"));
         chat_room_tabs.addTab(chat_room_tabs.newTab().setText("GROUP"));
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    int statusCode = jsonObject.getInt("status");
-                    if(statusCode == 200) {
-                        System.out.println("로그인 성공");
-
-                    } else {
-                        Toast.makeText(ChatActivity.this,"서버하고 연결실패", Toast.LENGTH_SHORT).show();
-                    }
-                } catch(JSONException err) {
-                    err.printStackTrace();
-                }
-            }
-        };
-
-        ChatRoomListRequest loginRequest = new ChatRoomListRequest(8, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(ChatActivity.this);
-        queue.add(loginRequest);
 
 
 
@@ -76,7 +55,7 @@ public class ChatActivity extends FragmentActivity {
                 else if (position == 1)
                     selected = groupListFragment;
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.chat_container, selected).commit();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.chat_container, selected).commit();
             }
 
             @Override
@@ -106,7 +85,7 @@ public class ChatActivity extends FragmentActivity {
 
         for (int i = 0; i < 10; i++) {
             String str = i + "번째 아이템";
-            roomsAdapter.addRoom(new Room( str, "dd"));
+//            roomsAdapter.addRoom(new Room( str, "dd"));
         }
     }
 }
