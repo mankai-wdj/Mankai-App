@@ -79,7 +79,6 @@ public class BoardActivity extends AppCompatActivity {
                             JSONObject json = new JSONObject(response);
                             JSONArray BoardJsonArray = json.getJSONArray("data");
 
-
 //                          보드데이터 별로 하나씩 요청
                             for (int i = 0; i < BoardJsonArray.length(); i++) {
                                 JSONObject boardJson = BoardJsonArray.getJSONObject(i);
