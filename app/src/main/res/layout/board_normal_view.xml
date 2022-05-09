@@ -90,7 +90,9 @@
                 android:padding="2dp"
                 android:src="@drawable/ic_round_comment_24"
                 app:tint="@color/dark_gray" />
+
             <TextView
+                android:id="@+id/CommentCount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"

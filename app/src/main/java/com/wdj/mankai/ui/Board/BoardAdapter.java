@@ -12,17 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
@@ -45,9 +50,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsName = itemView.findViewById(R.id.snsName);
         ImageView snsUserImage = itemView.findViewById(R.id.snsUserImage);
         TextView snsContent = itemView.findViewById(R.id.snsContent);
-        ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
+        ViewPager2 viewPager2 = itemView.findViewById(R.id.snsMainImage);
+        CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
+//        ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
+        TextView commentCount = itemView.findViewById(R.id.CommentCount);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -77,9 +85,15 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     public void onBindViewHolder(BoardAdapter.ViewHolder holder, int position){
         BoardData snsdata = mData.get(position);
         try {
+            if (snsdata.getViewType()==1){
+                holder.viewPager2.setOffscreenPageLimit(1);
+                holder.viewPager2.setAdapter(new ImageSliderAdapter(snsdata.getBoardImage()));
+                holder.indicator.setViewPager(holder.viewPager2);
+                holder.indicator.createIndicators(snsdata.getBoardImage().size(),0);
+
+            }
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
-
             Glide.with(holder.itemView.getContext())
                     .load(snsdata.getProfile())
                     .override(100, 100)
@@ -94,12 +108,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             }
 
 //           사진 있을경우 1
-            if(snsdata.getViewType() == 1) {
-                Glide.with(holder.itemView.getContext())
-                        .load(snsdata.getBoardImage())
-                        .centerCrop()
-                        .into(holder.snsMainImage);
-            }
+//            if(snsdata.getViewType() == 1) {
+//                Glide.with(holder.itemView.getContext())
+//                        .load(snsdata.getBoardImage())
+//                        .centerCrop()
+//                        .into(holder.snsMainImage);
+//            }
 
             holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,6 +132,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                     view.getContext().startActivity(intent, bundle);
                 }
             });
+            holder.commentCount.setText(snsdata.getComment_length());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -129,5 +144,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     public int getItemCount() {
         return mData.size();
     }
+
+
 
 }

@@ -103,11 +103,29 @@ public class BoardData implements Serializable {
     public void setUpdated_at(String updated_at)throws JSONException  {
         this.jsonData.put("updated_at",updated_at);
     }
-    public String getBoardImage() throws JSONException {
-        return jsonData.getString("board_image");
+    public String getComment_length() throws JSONException {
+        return jsonData.getString("comment_length");
     }
-    public void setBoardImage(String board_image)throws JSONException  {
-        this.jsonData.put("board_image",board_image);
+    public void setComment_length(String comment_length)throws JSONException  {
+        this.jsonData.put("comment_length",comment_length);
+    }
+
+    public ArrayList<String> getBoardImage() throws JSONException {
+        ArrayList<String> cntString = new ArrayList<String>();
+        JSONArray images = jsonData.getJSONArray("board_image");
+        for(int i = 0 ; i< images.length() ; i++){
+            Log.d("Image", "getBoardImage: " +images.getString(i));
+            cntString.add(images.getString(i));
+        }
+        return cntString;
+    }
+    public void setBoardImage(ArrayList<String> board_image)throws JSONException  {
+        JSONArray jsonArray = new JSONArray();
+        for(int i = 0 ;i<board_image.size();i++){
+            jsonArray.put(board_image.get(i));
+            Log.d("Image", "setBoardImage:" + board_image.get(i));
+        }
+        this.jsonData.put("board_image",jsonArray);
     }
     public int getViewType() throws JSONException {
         return jsonData.getInt("viewType");

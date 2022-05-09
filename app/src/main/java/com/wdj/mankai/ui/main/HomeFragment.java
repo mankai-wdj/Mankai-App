@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -28,6 +29,7 @@ import com.wdj.mankai.ui.Board.BoardCategoryActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,6 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
 
     public static String category;
     public static ArrayList<BoardData> list = new ArrayList<BoardData>();
@@ -61,125 +62,27 @@ public class HomeFragment extends Fragment {
     }
 // 주기 우선
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
-            category = "전체";
 
-        this.GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
-        CurrentPage+=1;
     }
-    public static void GETBOARD(String subPoint) {
-//        1차 기본 보드 데이터
-
-        Log.d("Board", category);
-        StringRequest request = new StringRequest(Request.Method.POST, URL+subPoint,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONObject json = new JSONObject(response);
-                            JSONArray BoardJsonArray = json.getJSONArray("data");
-
-                            if(BoardJsonArray.length() ==0){
-                                Log.d("Board", "빈값임 ㅋㅋ");
-                                JSONObject ch = new JSONObject();
-                                ch.put("viewType",2);
-                            }
-
-//                          보드데이터 별로 하나씩 요청
-                            for (int i = 0; i < BoardJsonArray.length(); i++) {
-                                JSONObject boardJson = BoardJsonArray.getJSONObject(i);
-                                boardData = new BoardData(boardJson);
-//                               2차 데이터 처리
-                                int finalI = i;
-                                StringRequest subData = new StringRequest(Request.Method.GET,
-                                        URL + "/upload_image/" + boardJson.getString("id"),
-                                        new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-                                                try {
-
-                                                    JSONObject subJson = new JSONObject(response);
-
-//                                                  사진 데이터 정리
-                                                    JSONArray subArray = subJson.getJSONArray("images");
-                                                    if(subArray.length()==0){
-                                                        for(int i = list.size()-5 ;i<list.size();i++)
-                                                        {
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
-                                                                list.get(i).setViewType(0);
-                                                                Log.d("Board", "사진 없음 = " + i);
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    else{
-                                                        String  saveJson = subArray.getJSONObject(0).getString("url");
-                                                        for(int i = list.size()-5 ;i<list.size();i++)
-                                                        {
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
-                                                                list.get(i).setBoardImage(saveJson);
-                                                                list.get(i).setViewType(1);
-                                                                Log.d("Board", "사진 있음 = " + i);
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-
-//                                                   댓글 데이터 정리
-                                                    ArrayList<String> commentText = new ArrayList<String>();
-                                                    JSONArray CommentArray = subJson.getJSONArray("comments");
-//                                                  댓글 배열 추출
-                                                    if(CommentArray.length()>0){
-                                                        for(int i = 0 ;i<CommentArray.length();i++){
-                                                            JSONObject comment = CommentArray.getJSONObject(i);
-                                                            commentText.add(comment.getString("user_name")+" : "+comment.getString("comment"));
-                                                        }
-    //                                                  추출한데이터 list에 넣고 adepter 호출
-                                                        for(int i = list.size()-5 ;i< list.size();i++){
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
-                                                                list.get(i).setComments(commentText);
-
-                                                            }
-                                                        }
-                                                    }
-                                                    adapter.notifyItemChanged(finalI);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }, null);
-                                AppHelper.requestQueue.add(subData);
-                                list.add(boardData);
-//                                adapter.notifyItemInserted(list.size());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },null);
-
-        request.setShouldCache(false);
-        AppHelper.requestQueue.add(request);
-    }
-
-
 
 // UI처리
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_board, container, false);
         Button categoryBtn = view.findViewById(R.id.category_btn);
-
-
         RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
+
         adapter = new BoardAdapter(list);
+        category = "전체";
         recyclerView.setAdapter(adapter);
 
+        this.GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
+        CurrentPage+=1;
 
         categoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,13 +103,119 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size()-1) {
-                    Log.d("Board", "1이상 이라 작동");
                     GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
                     CurrentPage+=1;
                 }
             }
         });
         return view;
+    }
+
+    public static void GETBOARD(String subPoint) {
+//        1차 기본 보드 데이터
+
+        StringRequest request = new StringRequest(Request.Method.POST, URL+subPoint,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            JSONArray BoardJsonArray = json.getJSONArray("data");
+
+                            if(BoardJsonArray.length() ==0){
+                                Log.d("Board", "빈값임 ㅋㅋ");
+                                JSONObject ch = new JSONObject();
+                                ch.put("viewType",2);
+                            }
+//                          보드데이터 별로 하나씩 요청
+                            for (int i = 0; i < BoardJsonArray.length(); i++) {
+                                JSONObject boardJson = BoardJsonArray.getJSONObject(i);
+                                boardData = new BoardData(boardJson);
+//                               2차 데이터 처리
+                                int finalI = i;
+                                StringRequest subData = new StringRequest(Request.Method.GET,
+                                        URL + "/upload_image/" + boardJson.getString("id"),
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                ArrayList<String> cntString = new ArrayList<String>();
+                                                try {
+                                                    Log.d("Board",response );
+                                                    JSONObject subJson = new JSONObject(response);
+
+//                                                  사진 데이터 정리
+                                                    JSONArray subArray = subJson.getJSONArray("images");
+                                                    if(subArray.length()==0){
+                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        {
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setViewType(0);
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    else{
+                                                        for(int i = 0 ; i< subArray.length();i++){
+                                                            cntString.add(subArray.getJSONObject(i).getString("url"));
+                                                            Log.d("Image 갯수", boardJson.getString("id")+" = "+cntString.get(i));
+                                                        }
+                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        {
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setBoardImage(cntString);
+                                                                list.get(i).setViewType(1);
+
+                                                                Log.d("Image", "get " + list.get(i).getBoardImage());
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
+//                                                  댓글 데이터 정리
+                                                    ArrayList<String> commentText = new ArrayList<String>();
+                                                    JSONArray CommentArray = subJson.getJSONArray("comments");
+
+//                                                  댓글 1개 이상
+                                                    if(CommentArray.length()>0){
+                                                        for(int i = 0 ;i<CommentArray.length();i++){
+                                                            JSONObject comment = CommentArray.getJSONObject(i);
+                                                            commentText.add(comment.getString("user_name")+" : "+comment.getString("comment"));
+                                                        }
+                                                        //추출한데이터 list에 넣고 adepter 호출
+                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setComments(commentText);
+                                                                list.get(i).setComment_length(subJson.getString("comment_length"));
+                                                            }
+                                                        }
+                                                    }
+//                                                    댓글 0개일떄else
+                                                    {
+                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setComment_length("0");
+                                                            }
+                                                        }
+
+                                                    }
+                                                    adapter.notifyItemChanged(finalI);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, null);
+                                AppHelper.requestQueue.add(subData);
+                                list.add(boardData);
+//                              adapter.notifyItemInserted(list.size());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },null);
+
+        request.setShouldCache(false);
+        AppHelper.requestQueue.add(request);
     }
 
 }
