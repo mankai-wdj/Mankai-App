@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/snsName"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
@@ -100,7 +100,7 @@
                 app:tint="@color/dark_gray"/>
 
             <TextView
-                android:id="@+id/likeBtn"
+                android:id="@+id/likeCnt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
@@ -130,6 +130,7 @@
                 android:textSize="24dp" />
 
             <ImageView
+                android:id="@+id/translate_btn"
                 android:layout_width="36dp"
                 android:layout_height="match_parent"
                 android:padding="2dp"

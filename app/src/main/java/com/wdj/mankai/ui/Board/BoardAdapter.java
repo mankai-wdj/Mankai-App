@@ -4,6 +4,7 @@ package com.wdj.mankai.ui.Board;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -52,10 +53,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsContent = itemView.findViewById(R.id.snsContent);
         ViewPager2 viewPager2 = itemView.findViewById(R.id.snsMainImage);
         CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
+        TextView likeCount = itemView.findViewById(R.id.likeCnt);
 //        ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
+        ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -90,7 +93,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 holder.viewPager2.setAdapter(new ImageSliderAdapter(snsdata.getBoardImage()));
                 holder.indicator.setViewPager(holder.viewPager2);
                 holder.indicator.createIndicators(snsdata.getBoardImage().size(),0);
-
             }
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
@@ -115,6 +117,19 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 //                        .into(holder.snsMainImage);
 //            }
 
+
+
+            holder.likeCount.setText(snsdata.getLike_length());
+
+
+            holder.translateBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String translate = PapagoTranslate.getTranslation("테스트합니다","ko","ja");
+                    Log.d("Board", "translate = "+translate);
+                }
+            });
+
             holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,6 +139,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                         intent.putExtra("content",snsdata.getContent_text());
                         intent.putExtra("name",snsdata.getName());
                         intent.putExtra("profile",snsdata.getProfile());
+                        intent.putExtra("like_count",snsdata.getLike_length());
 
                     } catch (JSONException e) {
                         e.printStackTrace();

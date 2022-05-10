@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     public static int CurrentPage = 1;
     private static BoardData boardData;
     private static String URL = "https://api.mankai.shop/api";
-
+    public static TextView category_text;
     private View view;
     private ListView CommentList;
 
@@ -74,11 +74,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_board, container, false);
         Button categoryBtn = view.findViewById(R.id.category_btn);
+        category_text = view.findViewById(R.id.category_text);
         RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
 
         adapter = new BoardAdapter(list);
         category = "전체";
+        category_text.setText(category);
         recyclerView.setAdapter(adapter);
 
         this.GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
@@ -119,6 +121,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            adapter.notifyDataSetChanged();
                             JSONObject json = new JSONObject(response);
                             JSONArray BoardJsonArray = json.getJSONArray("data");
 
@@ -189,12 +192,26 @@ public class HomeFragment extends Fragment {
                                                             }
                                                         }
                                                     }
-//                                                    댓글 0개일떄else
-                                                    {
+//                                                    댓글 0개일떄
+                                                    else {
                                                         for(int i = list.size()-5 ;i< list.size();i++){
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setComment_length("0");
                                                             }
+                                                        }
+
+                                                    }
+//                                                  좋아요 데이터 처리
+                                                    JSONArray likeArray = subJson.getJSONArray("likes");
+                                                    if(likeArray.length()>0){
+                                                        for (int i = list.size()-5 ;i < list.size();i++){
+                                                                if(list.get(i).getId() == boardJson.getString("id")){
+                                                                    list.get(i).setLike_length(likeArray.length()+"");
+                                                                    for(int j = 0; j < likeArray.length() ; j++) {
+                                                                        Log.d("like", list.get(i).getId() + likeArray.getString(j));
+                                                                    }
+                                                                    break;
+                                                                }
                                                         }
 
                                                     }

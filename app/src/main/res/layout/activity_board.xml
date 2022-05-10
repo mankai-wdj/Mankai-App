@@ -14,15 +14,30 @@
         android:elevation="4dp">
 
         <TextView
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginLeft="5dp"
+            android:gravity="center"
             android:text="MANKAI"
             android:textColor="@color/mankai_logo"
             android:textSize="32dp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:paddingBottom="3dp"
+            android:gravity="bottom"
+            android:text="카테고리"
+            android:textColor="@color/dark_gray"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/logo"
+            app:layout_constraintTop_toTopOf="@+id/logo" />
 
         <android.widget.Button
             android:id="@+id/category_btn"

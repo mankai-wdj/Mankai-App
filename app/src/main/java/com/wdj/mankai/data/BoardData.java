@@ -27,6 +27,9 @@ public class BoardData implements Serializable {
         this.jsonData = jsonData;
         try {
             this.jsonData.put("viewType",0);
+            this.jsonData.put("comment_length","0");
+            this.jsonData.put("like_length","0");
+
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("comments","댓글이 없습니다.");
@@ -109,6 +112,12 @@ public class BoardData implements Serializable {
     public void setComment_length(String comment_length)throws JSONException  {
         this.jsonData.put("comment_length",comment_length);
     }
+    public String getLike_length() throws JSONException {
+        return jsonData.getString("like_length");
+    }
+    public void setLike_length(String like_length)throws JSONException  {
+        this.jsonData.put("like_length",like_length);
+    }
 
     public ArrayList<String> getBoardImage() throws JSONException {
         ArrayList<String> cntString = new ArrayList<String>();
@@ -154,4 +163,6 @@ public class BoardData implements Serializable {
 
         this.jsonData.put("comments",jsonArray);
     }
+
+
 }

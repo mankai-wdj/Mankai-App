@@ -45,6 +45,7 @@ public class BoardCommentActivity extends AppCompatActivity {
     private ImageView back_image;
     private TextView comment_count;
     private TextView comment_btn_count;
+    private TextView like_count;
     private int CurrentPage=1;
     private  ArrayList<CommentData> list = new ArrayList<CommentData>();
 
@@ -64,11 +65,16 @@ public class BoardCommentActivity extends AppCompatActivity {
         back_image=findViewById(R.id.backImage);
         comment_count=findViewById(R.id.CommentCount);
         comment_btn_count=findViewById(R.id.commentBtn);
+        like_count=findViewById(R.id.likeCnt);
+
         board_id = getIntent().getStringExtra("id");
         content_text = getIntent().getStringExtra("content");
         user_name = getIntent().getStringExtra("name");
         user_profile = getIntent().getStringExtra("profile");
+
         Log.d("Board", content_text);
+
+        like_count.setText(getIntent().getStringExtra("like_count"));
         sns_text.setText(content_text);
         sns_name.setText(user_name);
         Glide.with(this)

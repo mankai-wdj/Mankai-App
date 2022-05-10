@@ -50,8 +50,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 HomeFragment.category = holder.categoryName.getText().toString();
+                HomeFragment.category_text.setText(HomeFragment.category);
                 HomeFragment.list.clear();
-                HomeFragment.adapter.notifyDataSetChanged();
                 HomeFragment.GETBOARD("/board/show/"+HomeFragment.category+"/?page=1");
                 HomeFragment.CurrentPage = 2;
                 BoardCategoryActivity.CategoryActivity.finish();
