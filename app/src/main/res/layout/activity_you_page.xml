@@ -23,6 +23,16 @@
             android:backgroundTint="#ffffff"
             android:theme="@style/AppTheme.AppBarOverlay">
 
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleTextAppearance="@android:color/transparent"
+                app:toolbarId="@+id/toolbar">
+            <!--            Toolbar를 열었을 때의 크기 = match_parent-->
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:gravity="center|top"
@@ -57,7 +67,17 @@
 
                 </LinearLayout>
 
+            <androidx.appcompat.widget.Toolbar
+                android:layout_marginTop="13dp"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+            </androidx.appcompat.widget.Toolbar>
+            <!--            수축했을 때의 Toolbar 아예 없애기-->
 
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <include layout="@layout/activity_content_scrolling_you" />

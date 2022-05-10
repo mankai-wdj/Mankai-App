@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.mypage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,12 +33,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class YouPage extends AppCompatActivity {
 
-    private ViewPagerAdapter viewPagerAdapter;
     String userName;
     String userDescription;
     String userProfile;
     String userId;
-    boolean first = true;
     String url;
 
 
@@ -57,13 +56,34 @@ public class YouPage extends AppCompatActivity {
         userId = intent.getStringExtra("youURL");
 
         url = "https://api.mankai.shop/api/follow/";
+        Fragment fragment = null;
 
+//        Bundle bundle = new Bundle();
+//        bundle.putString("userId", userId);
+//        FragYouFollowers fragYouFollowers = new FragYouFollowers();
+//        fragYouFollowers.setArguments(bundle);
+//        fragment = fragYouFollowers;
+//        getSupportFragmentManager().beginTransaction().replace(R.id.viewPager,fragment).commit();
+//
+//        Log.d("bundle", String.valueOf(bundle));
 
+        SharedPreferences sharedPreferences= getSharedPreferences("userId", MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putString("userId",userId);
+        editor.commit();
 
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(this);
 
        Response();
+
+        ViewPager pager = findViewById(R.id.viewPager);
+        YouViewPagerAdapter adapter = new YouViewPagerAdapter(getSupportFragmentManager(), 1);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
+
 
 
     }

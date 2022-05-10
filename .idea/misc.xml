@@ -8,14 +8,20 @@
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.14266304347826086" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling_you.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_main.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_you_page.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_normal_view.xml" value="0.1" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/followers_item.xml" value="0.24479166666666666" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_my_memo_except_toolbar.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_my_memo_toolbar.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myfollowers.xml" value="0.21748400852878466" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myfollowings.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_mymemos.xml" value="0.24003623188405798" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myposts.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_frag_you_followers.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_frag_you_followings.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_frag_you_groups.xml" value="0.2390625" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_frag_you_posts.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_you_page.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/memo_item.xml" value="0.24479166666666666" />
