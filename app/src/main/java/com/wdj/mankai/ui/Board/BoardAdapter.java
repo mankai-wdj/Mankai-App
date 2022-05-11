@@ -118,15 +118,17 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 //            }
 
 
-
             holder.likeCount.setText(snsdata.getLike_length());
-
-
             holder.translateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String translate = PapagoTranslate.getTranslation("테스트합니다","ko","ja");
-                    Log.d("Board", "translate = "+translate);
+                    String translate = null;
+                    try {
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko","ja");
+                        Log.d("Board", "translate = "+PapagoTranslate.cnt);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
