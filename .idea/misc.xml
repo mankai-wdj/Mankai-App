@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_delete_24.xml" value="0.147" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardrounded.xml" value="0.1885" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/group_back.xml" value="0.1315" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/grouplist_icon1.xml" value="0.1315" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.14266304347826086" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling_you.xml" value="0.23489583333333333" />
@@ -16,6 +18,7 @@
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_my_memo_toolbar.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myfollowers.xml" value="0.21748400852878466" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myfollowings.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_mygroups.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_mymemos.xml" value="0.24003623188405798" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/frag_myposts.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_frag_you_followers.xml" value="0.25364583333333335" />
@@ -25,6 +28,7 @@
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_you_page.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/memo_item.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/my_group_list.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/my_row.xml" value="0.24003623188405798" />
         <entry key="..\:/Users/sosoe/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/peer_video.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/woduf/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />

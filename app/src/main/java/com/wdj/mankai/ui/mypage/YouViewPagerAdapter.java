@@ -42,9 +42,9 @@ public class YouViewPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return "Followings";
             case 2:
-                return "MyPosts";
+                return "Posts";
             case 3:
-                return "MyGroups";
+                return "Groups";
             default:
                 return null;
         }
