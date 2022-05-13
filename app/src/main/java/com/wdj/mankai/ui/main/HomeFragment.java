@@ -213,8 +213,9 @@ public class HomeFragment extends Fragment {
                                                                     break;
                                                                 }
                                                         }
-
                                                     }
+
+                                                    Log.d("Board", "filalI?"+finalI);
                                                     adapter.notifyItemChanged(finalI);
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -229,6 +230,7 @@ public class HomeFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
+
                 },null);
 
         request.setShouldCache(false);

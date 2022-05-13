@@ -29,6 +29,7 @@ public class BoardData implements Serializable {
             this.jsonData.put("viewType",0);
             this.jsonData.put("comment_length","0");
             this.jsonData.put("like_length","0");
+            this.jsonData.put("translate_text","");
 
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
@@ -48,6 +49,12 @@ public class BoardData implements Serializable {
 
     public void setId(String id) throws JSONException {
         this.jsonData.put("id",id);
+    }
+    public String getTranslateText() throws JSONException {
+        return jsonData.getString("translate_text");
+    }
+    public void setTranslateText(String translate_text) throws JSONException {
+        this.jsonData.put("translate_text",translate_text);
     }
 
     public String getUser_id() throws JSONException {

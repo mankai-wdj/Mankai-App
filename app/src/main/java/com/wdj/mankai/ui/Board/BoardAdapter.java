@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.Board;
 
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
+import com.wdj.mankai.ui.main.HomeFragment;
 
 import org.json.JSONException;
 import org.w3c.dom.Text;
@@ -33,6 +35,8 @@ import me.relex.circleindicator.CircleIndicator3;
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private ArrayList<BoardData> mData=null;
+    private String TransData;
+    private String TransId;
 
     @Override
     public int getItemViewType(int position) {
@@ -59,6 +63,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
         ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
+        TextView translateText = itemView.findViewById(R.id.translate_text);
+        ImageView likeBtn = itemView.findViewById(R.id.like_btn);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -85,8 +91,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     //    position에 해당하는 데이터를 뷰홀더 아이템에 표시
     @Override
-    public void onBindViewHolder(BoardAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(BoardAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position){
         BoardData snsdata = mData.get(position);
+
         try {
             if (snsdata.getViewType()==1){
                 holder.viewPager2.setOffscreenPageLimit(1);
@@ -109,29 +116,45 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 holder.snsComment.setText(ch);
             }
 
-//           사진 있을경우 1
-//            if(snsdata.getViewType() == 1) {
-//                Glide.with(holder.itemView.getContext())
-//                        .load(snsdata.getBoardImage())
-//                        .centerCrop()
-//                        .into(holder.snsMainImage);
-//            }
-
-
             holder.likeCount.setText(snsdata.getLike_length());
+
+            if(snsdata.getTranslateText().equals("")){
+                holder.translateText.setText("");
+                holder.translateText.setTextSize(0);
+            }
+            else {
+                holder.translateText.setText(snsdata.getTranslateText());
+                holder.translateText.setTextSize(18);
+            }
             holder.translateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String translate = null;
                     try {
-                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko","ja");
-                        Log.d("Board", "translate = "+PapagoTranslate.cnt);
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko");
+
+                        Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
+
+                        HomeFragment.list.get(position).setTranslateText(translate);
+                        holder.translateText.setTextSize(18);
+                        holder.translateText.setText(HomeFragment.list.get(position).getTranslateText());
+                        Log.d("Board", "translate = "+translate);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
 
+            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Log.d("Board", "Changed"+position+"?"+HomeFragment.list.get(position).getTranslateText());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
