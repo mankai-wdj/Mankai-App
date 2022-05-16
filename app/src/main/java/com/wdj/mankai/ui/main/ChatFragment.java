@@ -1,5 +1,6 @@
 package com.wdj.mankai.ui.main;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -24,6 +26,8 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.ChatViewPagerAdapter;
 import com.wdj.mankai.adapter.RoomsAdapter;
 import com.wdj.mankai.data.model.Room;
+import com.wdj.mankai.ui.chat.ChatContainerActivity;
+import com.wdj.mankai.ui.chat.ChatCreateActivity;
 import com.wdj.mankai.ui.chat.ChatDMListFragment;
 import com.wdj.mankai.ui.chat.ChatGroupListFragment;
 import com.wdj.mankai.ui.chat.ChatRoomListRequest;
@@ -38,6 +42,7 @@ public class ChatFragment extends Fragment {
     private ViewPager2 viewPager2;
 
     private AppBarLayout appBarLayout;
+    ImageView imageCreateChat;
 
 
     @Override
@@ -55,6 +60,19 @@ public class ChatFragment extends Fragment {
         appBarLayout = rootView.findViewById(R.id.appBarLayout);
 
         viewPager2 = rootView.findViewById(R.id.viewPager2);
+        imageCreateChat = rootView.findViewById(R.id.imageCreateChat);
+
+        imageCreateChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("클릭됨");
+                Intent intent = new Intent(view.getContext(), ChatCreateActivity.class);
+                startActivity(intent);
+
+
+            }
+        });
+
 
         ChatViewPagerAdapter adapter = new ChatViewPagerAdapter(getActivity());
         viewPager2.setAdapter(adapter);

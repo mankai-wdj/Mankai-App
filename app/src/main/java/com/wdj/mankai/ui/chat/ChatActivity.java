@@ -29,6 +29,7 @@ public class ChatActivity extends FragmentActivity {
     ChatDMListFragment dmListFragment;
     ChatGroupListFragment groupListFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +83,5 @@ public class ChatActivity extends FragmentActivity {
         roomsAdapter = new RoomsAdapter(rootView.getContext());
         roomList_list.setAdapter(roomsAdapter);
 
-
-        for (int i = 0; i < 10; i++) {
-            String str = i + "번째 아이템";
-//            roomsAdapter.addRoom(new Room( str, "dd"));
-        }
     }
 }

@@ -1,25 +1,41 @@
 package com.wdj.mankai.ui.chat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
-import com.wdj.mankai.adapter.RoomsAdapter;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
+import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
+import com.wdj.mankai.ui.chat.ui.ChatInviteActivity;
 import com.wdj.mankai.ui.main.UserRequest;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,13 +46,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChatContainerActivity extends AppCompatActivity {
+public class ChatContainerActivity extends AppCompatActivity implements ChatBottomSheetDialog.BottomSheetListener {
     Room room;
     RecyclerView chat_message_list;
     MessagesAdapter messagesAdapter;
     ProgressBar progressBar;
     TextView textName;
+    Button btLeave, btInvite;
+    FrameLayout layoutSend;
+    ImageView imageBack, fileSend;
+    EditText inputMessage;
     private JSONObject currentUser;
+    private DrawerLayout drawerLayout;
+    private View drawerView;
+    String res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +68,44 @@ public class ChatContainerActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         textName = findViewById(R.id.textName);
         room = (Room) getIntent().getSerializableExtra("room");
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerView = (View)findViewById(R.id.drawer2);
+        btLeave = findViewById(R.id.btLeave);
+        inputMessage = findViewById(R.id.inputMessage);
+        layoutSend = findViewById(R.id.layoutSend);
+        fileSend = findViewById(R.id.fileSend);
+        btInvite = findViewById(R.id.btInvite);
+        imageBack = findViewById(R.id.imageBack);
+
+
+
+        fileSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatBottomSheetDialog chatBottomSheetDialog = new ChatBottomSheetDialog(room);
+                chatBottomSheetDialog.show(getSupportFragmentManager(), "chatBottomSheet");
+            }
+        });
+
+
+        layoutSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(inputMessage.getText().length() != 0) {
+                    sendMessage(String.valueOf(inputMessage.getText()), "message");
+                }
+
+            }
+        });
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
         String token = sharedPreferences.getString("login_token","");
@@ -54,9 +115,96 @@ public class ChatContainerActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatContainerActivity.this, LinearLayoutManager.VERTICAL, false);
         chat_message_list.setLayoutManager(layoutManager);
 
+        drawerLayout.addDrawerListener(listener);
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        // 방나가기
+        btLeave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                leaveRoom();
+            }
+        });
+
+        btInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatContainerActivity.this, ChatInviteActivity.class);
+                intent.putExtra("room", room);
+                startActivity(intent);
+            }
+        });
+
+
+//        URI uri = URI.create("ws://api.mankai.shop:6001");
+//        WebSocketUtil webSocketUtil = new WebSocketUtil(uri, new Draft_6455());
+//
+//        //웹소켓 커넥팅
+//        try {
+//            webSocketUtil.connectBlocking();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JSONObject obj = new JSONObject();
+//
+//        try {
+//            obj.put("message", "Hello World");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        String message = obj.toString();
+//        JSONObject result = null;
+////        //웹소켓 메세지 보내기
+//        if(webSocketUtil.isOpen()) {
+//            webSocketUtil.send("{\"message\" : \"안녕\"}");
+//             result = webSocketUtil.getResult();
+//            webSocketUtil.close();
+//        }
+//
+//
+//        System.out.println("ddddddddddd" + result);
+
 
     }
 
+
+    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+        @Override
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            //슬라이드 했을때
+        }
+
+        @Override
+        public void onDrawerOpened(@NonNull View drawerView) {
+            //Drawer가 오픈된 상황일때 호출
+        }
+
+        @Override
+        public void onDrawerClosed(@NonNull View drawerView) {
+            // 닫힌 상황일 때 호출
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            // 특정상태가 변결될 때 호출
+        }
+    };
+
+
+    // 사이드 바 열기
+    public void btnOnclick(View view) {
+        switch (view.getId()){
+            case R.id.imageInfo:
+                drawerLayout.openDrawer(drawerView);
+        }
+    }
+
+    // 유저 이름
     private String userName(String users, String roomType) throws JSONException {
         JSONArray users2 = new JSONArray(users);
         ArrayList<JSONObject> roomUsers = new ArrayList<>();
@@ -87,6 +235,209 @@ public class ChatContainerActivity extends AppCompatActivity {
 
     }
 
+    // 번역
+    private String translation (String message) {
+
+        if(message.equals("")) {
+            return "";
+        }else {
+            JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+            try {
+                reqJsonObject.put("text", message);
+                reqJsonObject.put("country", currentUser.getString("country"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println(reqJsonObject);
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    "https://api.mankai.shop/api/translate/text",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("TAG", "성공");
+                            System.out.println(response);
+                            res = response;
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //통신 ERROR
+                            System.out.println(error);
+                        }
+                    }
+            ) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return reqJsonObject.toString().getBytes();
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json";
+                }
+            };
+            Volley.newRequestQueue(ChatContainerActivity.this).add(stringRequest);
+
+        }
+        return res;
+    }
+
+    // 메세지 보내기
+    private void sendMessage(String message, String type) {
+        JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+        JSONArray toUsers = null;
+        JSONArray toUsers2 = new JSONArray();
+        try {
+            toUsers = new JSONArray(room.users);
+            for(int i = 0; i < toUsers.length(); i++) {
+                toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            if(type.equals("video")) {
+
+                reqJsonObject.put("message", currentUser.getString("name") + translation(" 님이 화상채팅에 초대했습니다"));
+                reqJsonObject.put("room_id", room.id);
+                reqJsonObject.put("to_users", toUsers2);
+                reqJsonObject.put("user_id", currentUser.getString("id"));
+                reqJsonObject.put("type", type);
+            }else {
+                reqJsonObject.put("message", message);
+                reqJsonObject.put("room_id", room.id);
+                reqJsonObject.put("to_users", toUsers2);
+                reqJsonObject.put("user_id", currentUser.getString("id"));
+                reqJsonObject.put("type", type);
+            }
+
+        } catch (JSONException e) {
+            //JSON error
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://api.mankai.shop/api/message/send",
+                reqJsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("TAG", "성공");
+
+                        if(type.equals("message")) {
+                            try {
+                                transBotChat(currentUser.getString("name"), message);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //통신 ERROR
+                    }
+                }
+        );
+        Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+        inputMessage.setText("");
+    }
+
+    // 채팅 봇 채팅
+    private void transBotChat(String name, String message) throws JSONException {
+        System.out.println(name);
+        JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+        JSONArray toUsers = new JSONArray(room.users);
+        JSONArray toUsers2 = new JSONArray();
+        for(int i = 0; i < toUsers.length(); i++) {
+            toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
+        }
+        for(int i=0; i< toUsers.length(); i++) {
+            if(toUsers.getJSONObject(i).getString("position").equals("official")) {
+                System.out.println("official 있음");
+                System.out.println(inputMessage.getText());
+                try {
+                    reqJsonObject.put("id", room.id);
+                    reqJsonObject.put("message", message);
+                    reqJsonObject.put("room_id", room.id);
+                    reqJsonObject.put("to_users", toUsers2);
+                    reqJsonObject.put("user_id", toUsers.getJSONObject(i).getString("user_id"));
+                    reqJsonObject.put("type", "message");
+                    reqJsonObject.put("name", name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    "https://api.mankai.shop/api/messageBot/send",
+                    reqJsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("TAG", "성공 봇");
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //통신 ERROR
+                        }
+                    }
+                );
+                Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+            }
+        }
+    }
+
+    // 방 나가기
+    private void leaveRoom() {
+        JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", room.id);
+            json.put("title", room.title);
+            json.put("last_message", room.last_message);
+            json.put("type", room.type);
+            json.put("users", room.users);
+            json.put("updated_at", room.updated_at);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            reqJsonObject.put("room", json); //각종 데이터 입력
+            reqJsonObject.put("user_id", currentUser.getString("id"));
+        } catch (JSONException e) {
+            //JSON error
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://api.mankai.shop/api/room/check",
+                reqJsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("TAG", "성공");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //통신 ERROR
+                    }
+                }
+        );
+        Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+    }
+
+    // message 셋팅
     private void setMessages(JSONObject messages, String userId) throws JSONException, ParseException {
         try {
             textName.setText(userName(room.users, room.type));
@@ -94,8 +445,9 @@ public class ChatContainerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         JSONArray jsonArray = messages.getJSONArray("data");
-        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, userId, room.roomId);
+        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, userId, room.id);
         chat_message_list.setAdapter(messagesAdapter);
+
         for (int i = 0; i< jsonArray.length(); i++) {
             JSONObject message = jsonArray.getJSONObject(i);
             SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
@@ -104,10 +456,12 @@ public class ChatContainerActivity extends AppCompatActivity {
             messagesAdapter.addMessage(new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user")));
             messagesAdapter.notifyDataSetChanged();
         }
+        chat_message_list.scrollToPosition(messagesAdapter.getItemCount() - 1);  // recyclerview 스크롤 최하단으로
 
         loading(false);
     }
 
+    // message 가져오기
     private void getMessages(String token, String roomId, String userId) {
         loading(true);
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -126,6 +480,7 @@ public class ChatContainerActivity extends AppCompatActivity {
         queue.add(chatRoomMessageRequest);
     }
 
+    // loading
     private void loading(Boolean isLoading) {
         if(isLoading) {
             progressBar.setVisibility(View.VISIBLE);
@@ -150,7 +505,7 @@ public class ChatContainerActivity extends AppCompatActivity {
                     if(userName != null) {
                         System.out.println("유저 정보 받아옴");
                         currentUser = jsonObject;
-                        getMessages(token, room.roomId, jsonObject.getString("id"));
+                        getMessages(token, room.id, jsonObject.getString("id"));
 
                     } else{
                         Toast.makeText(ChatContainerActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
@@ -163,5 +518,10 @@ public class ChatContainerActivity extends AppCompatActivity {
         UserRequest userRequest = new UserRequest(token,responseListener);
         RequestQueue queue = Volley.newRequestQueue(ChatContainerActivity.this);
         queue.add(userRequest);
+    }
+
+    @Override
+    public void onButtonClicked(String text) {
+
     }
 }

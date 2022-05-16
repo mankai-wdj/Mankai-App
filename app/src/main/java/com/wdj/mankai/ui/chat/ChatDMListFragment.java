@@ -39,6 +39,8 @@ public class ChatDMListFragment extends Fragment {
     private JSONObject currentUser;
     ProgressBar progressBar;
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,8 +62,10 @@ public class ChatDMListFragment extends Fragment {
     private void setRooms(JSONArray jsonArray) throws JSONException {
         Date nowDate = new Date();
         String formatDate = null;
+
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject room = jsonArray.getJSONObject(i);
+
             String title = room.getString("title");
             String lastMessage = room.getString("last_message");
             if(title.equals("null")) {
@@ -108,13 +112,14 @@ public class ChatDMListFragment extends Fragment {
             }
         }
 
-        return roomUsers.get(0).getString("user_name");
-
+        if(roomUsers.size() != 0) {
+            return roomUsers.get(0).getString("user_name");
+        }
+        return "";
     }
 
     private void getRooms(String token, int userId) {
         loading(true);
-        System.out.println(userId);
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -147,7 +152,6 @@ public class ChatDMListFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    System.out.println(jsonObject.getInt("id"));
                     String userName = jsonObject.getString("name");
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_info",getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();

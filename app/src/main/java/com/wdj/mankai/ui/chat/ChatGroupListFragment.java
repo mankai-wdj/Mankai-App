@@ -36,6 +36,8 @@ public class ChatGroupListFragment extends Fragment {
     RoomsAdapter roomsAdapter;
     private JSONObject currentUser;
     ProgressBar progressBar;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,9 +102,9 @@ public class ChatGroupListFragment extends Fragment {
         ArrayList<JSONObject> roomUsers = new ArrayList<>();
         if(users2.length() > 0) {
             for(int i = 0; i< users2.length(); i++) {
-                if(!currentUser.getString("id").equals(users2.getJSONObject(i).getString("user_id"))) {
+//                if(!currentUser.getString("id").equals(users2.getJSONObject(i).getString("user_id"))) {
                     roomUsers.add(users2.getJSONObject(i));
-                }
+//                }
             }
         }
         String title = "";

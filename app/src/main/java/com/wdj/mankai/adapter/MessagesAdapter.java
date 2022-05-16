@@ -56,7 +56,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void addMessage(Message message) {
-        messages.add(message);
+        messages.add(0, message);
     }
 
     @NonNull
@@ -366,13 +366,20 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     videoLayout.setVisibility(View.GONE);
 //                    imageGridViewAdapter.addItem("ddd");
 //                    imageGridViewAdapter.addItem("ddd");
-                    LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    LinearLayout imageView = (LinearLayout) inflater.inflate(R.layout.gridview_list_item, null);
+
 //                    imageView.setImageResource(R.drawable.ic_back);
-                    ImageView image = imageView.findViewById(R.id.iv_image);
-                    image.setImageResource(R.drawable.memo_icon);
-                    gridLayout.removeView(itemView);
-                    gridLayout.addView(imageView);
+                    JSONArray jsonArray = new JSONArray(message.message);
+//                    gridLayout.removeView(itemView);
+                    for (int i = 0; i<jsonArray.length(); i++) {
+
+                        LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        LinearLayout imageView = (LinearLayout) inflater.inflate(R.layout.gridview_list_item, null);
+
+                        Glide.with(imageView).load(jsonArray.getString(i)).override(360, 360).centerCrop().into((ImageView) imageView.findViewById(R.id.iv_image));
+
+                        gridLayout.addView(imageView);
+
+                    }
 
 
 
