@@ -165,6 +165,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                         intent.putExtra("name",snsdata.getName());
                         intent.putExtra("profile",snsdata.getProfile());
                         intent.putExtra("like_count",snsdata.getLike_length());
+                        intent.putExtra("board_count",position);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
