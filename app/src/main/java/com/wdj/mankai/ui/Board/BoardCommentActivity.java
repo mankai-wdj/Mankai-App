@@ -58,8 +58,6 @@ public class BoardCommentActivity extends AppCompatActivity {
     private EditText comment_edit;
     private  ArrayList<CommentData> list = new ArrayList<CommentData>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +181,6 @@ public class BoardCommentActivity extends AppCompatActivity {
                             String listString = HomeFragment.list.get(board_count).getComment_length();
                             int cnt = Integer.parseInt(listString)+1;
                             listString = Integer.toString(cnt);
-
                             HomeFragment.list.get(board_count).setComment_length(listString);
                             HomeFragment.adapter.notifyItemChanged(board_count);
                         } catch (JSONException e) {

@@ -25,6 +25,7 @@ import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.Board.BoardAdapter;
 import com.wdj.mankai.ui.Board.BoardCategoryActivity;
+import com.wdj.mankai.ui.Board.BoardCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment {
     private static String URL = "https://api.mankai.shop/api";
     public static TextView category_text;
     private View view;
+    private Button writeBtn;
     private ListView CommentList;
 
 
@@ -75,6 +77,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.activity_board, container, false);
         Button categoryBtn = view.findViewById(R.id.category_btn);
         category_text = view.findViewById(R.id.category_text);
+        writeBtn = view.findViewById(R.id.BoardWriteBtn);
         RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false));
 
@@ -85,6 +88,16 @@ public class HomeFragment extends Fragment {
 
         this.GETBOARD("/board/show/"+category+"/?page="+CurrentPage);
         CurrentPage+=1;
+
+        writeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Write", "Click Write");
+                Intent intent = new Intent(getContext(), BoardCreateActivity.class);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
+                startActivity(intent, bundle);
+            }
+        });
 
         categoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
