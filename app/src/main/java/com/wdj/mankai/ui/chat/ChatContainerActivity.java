@@ -56,7 +56,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     FrameLayout layoutSend;
     ImageView imageBack, fileSend;
     EditText inputMessage;
-    private JSONObject currentUser;
+    JSONObject currentUser;
     private DrawerLayout drawerLayout;
     private View drawerView;
     String res;
@@ -82,7 +82,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         fileSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatBottomSheetDialog chatBottomSheetDialog = new ChatBottomSheetDialog(room);
+                ChatBottomSheetDialog chatBottomSheetDialog = new ChatBottomSheetDialog(room, currentUser);
                 chatBottomSheetDialog.show(getSupportFragmentManager(), "chatBottomSheet");
             }
         });

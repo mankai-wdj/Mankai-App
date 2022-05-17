@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_bottom_sheet.xml" value="0.378125" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_top.xml" value="0.1" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_file_message.xml" value="0.3425925925925926" />
@@ -20,22 +21,36 @@
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout-w936dp/activity_login.xml" value="0.17083333333333334" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat.xml" value="0.22777777777777777" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_container.xml" value="0.264" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_create.xml" value="0.264" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_dm.xml" value="0.22777777777777777" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_dm_list.xml" value="0.2695167286245353" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_group.xml" value="0.22777777777777777" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_group_list.xml" value="0.2833333333333333" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_invite.xml" value="0.24814814814814815" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_list.xml" value="0.4" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_chat_set.xml" value="0.30462962962962964" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_login.xml" value="0.29074074074074074" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_main.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/app_bar_chat_set.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_bottom_sheet_layout.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_bottom_sheet_stt_layout.xml" value="0.264" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_container_received_message.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_container_sent_message.xml" value="0.264" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/chat_room_list_item.xml" value="0.34814814814814815" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/content_chat_set.xml" value="0.30462962962962964" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/following_list_item.xml" value="0.2453125" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_chat.xml" value="0.28888888888888886" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_group.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_home.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/fragment_my_page.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/grid_layout_stt.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/gridview_list_item.xml" value="0.3314814814814815" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/img_grid_view_list_images.xml" value="0.3314814814814815" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/multi_image_view.xml" value="0.16979166666666667" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/nav_header_chat_set.xml" value="0.24814814814814815" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/navbar.xml" value="0.2851851851851852" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/menu/activity_main_drawer.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/menu/chat_set.xml" value="0.19114583333333332" />
       </map>
     </option>
   </component>
