@@ -103,10 +103,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             }
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
-            Glide.with(holder.itemView.getContext())
-                    .load(snsdata.getProfile())
-                    .override(100, 100)
-                    .into(holder.snsUserImage);
+
 
             if(snsdata.getComments()!=null) {
                 String ch ="";
