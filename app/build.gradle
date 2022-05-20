@@ -59,6 +59,8 @@ dependencies {
     implementation 'com.neovisionaries:nv-websocket-client:2.9'
     implementation 'org.webrtc:google-webrtc:1.0.32006'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+    implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
+
 }
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wdj.mankai">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +9,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -18,7 +21,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Mankai.NoActionBar">
+        android:theme="@style/Theme.Mankai.NoActionBar"
+        android:usesCleartextTraffic="true"
+        >
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -44,6 +49,14 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
+        <activity
+            android:name=".ui.mypage.RecyclerView.BoardEditMemo"
+            />
+
+        <activity
+            android:name=".ui.mypage.RecyclerView.SNSEditMemo"
+            />
+
     </application>
 
 </manifest>

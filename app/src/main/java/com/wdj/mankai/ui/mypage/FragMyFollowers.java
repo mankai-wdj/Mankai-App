@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabItem;
 import com.wdj.mankai.R;
 
-public class FragMyFollowers extends Fragment implements ViewPagerData{
+public class FragMyFollowers extends Fragment{
     private View view;
     private String myFollowersData;
 
@@ -32,8 +32,5 @@ public class FragMyFollowers extends Fragment implements ViewPagerData{
         return view;
     }
 
-    @Override
-    public void memoResponse(String response) {
-        Log.i("responseInFollowers",response);
-    }
+
 }

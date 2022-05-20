@@ -64,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("My App", "Could not parse malformed JSON: \"" + user_info + "\"");
         }
 
-
-
-
-
-
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new HomeFragment()).commit();
 

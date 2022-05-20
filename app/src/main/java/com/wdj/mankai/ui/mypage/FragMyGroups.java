@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.wdj.mankai.R;
 
-public class FragMyGroups extends Fragment implements ViewPagerData{
+public class FragMyGroups extends Fragment{
     private View view;
 
     public static FragMyGroups newInstance(){
@@ -29,8 +29,4 @@ public class FragMyGroups extends Fragment implements ViewPagerData{
         return view;
     }
 
-    @Override
-    public void memoResponse(String response) {
-        Log.i("responseInGroups",response);
-    }
 }

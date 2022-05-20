@@ -59,6 +59,7 @@ public class MyPageFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_my_page,container,false);
 
+
         url = "https://api.mankai.shop/api/";
         AppHelper.requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
@@ -109,18 +110,18 @@ public class MyPageFragment extends Fragment {
 //            onPageScrolled는 페이지를 잡고 드래그 할 때 조그마한 움직임이라도 있으면 계속 호출한다.
 
 
-
+            /*오직 상태바 변경을 위해서*/
             @Override
             public void onPageSelected(int position) {
                 if(position == 0||position == 1||position == 2||position ==3){
                     FragMyMemoExceptToolbar fragMyMemoExceptToolbar = new FragMyMemoExceptToolbar();
-                    getParentFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoExceptToolbar).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoExceptToolbar).commit();
                 }else{
                     FragMyMemoToolbar fragMyMemoToolbar = new FragMyMemoToolbar();
-                    getParentFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoToolbar).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.my_page_head,fragMyMemoToolbar).commit();
                 }
             }
-            /*오직 상태바 변경을 위해서*/
+
 
             @Override
             public void onPageScrollStateChanged(int state) {
