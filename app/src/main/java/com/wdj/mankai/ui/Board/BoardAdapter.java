@@ -129,7 +129,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                     String translate = null;
                     try {
                         translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko");
-
                         Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
 
                         HomeFragment.list.get(position).setTranslateText(translate);
