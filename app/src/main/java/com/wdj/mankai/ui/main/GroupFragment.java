@@ -52,10 +52,12 @@ public class GroupFragment extends Fragment {
     private String LoginUserId;
     private GridLayoutManager testmanager;
 
-    private GroupAdapter adapter;
+    private GroupAdapter adapter, adapter2;
     private ArrayList<GroupData> list = new ArrayList<>();
-    private GroupData groupData;
+    private ArrayList<GroupData> list2 = new ArrayList<>();
+    private GroupData groupData, groupData2;
     private String URL = "https://api.mankai.shop/api";
+    private String URL2 = "https://api.mankai.shop/api";
 
     String userId;
 
@@ -75,23 +77,14 @@ public class GroupFragment extends Fragment {
             }
         });
 
-//        recyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(getActivity());
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.scrollToPosition(0);
-//        adapter = new GroupAdapter(getContext(),list);
-//        recyclerView.setAdapter(adapter);
-
-
-        recyclerView2 = (RecyclerView) view.findViewById(R.id.group_recycler_view2);
-        recyclerView2.setHasFixedSize(true);
-        testmanager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerView2.setLayoutManager(testmanager);
-        recyclerView2.scrollToPosition(0);
+        recyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.scrollToPosition(0);
         adapter = new GroupAdapter(getContext(),list);
-        recyclerView2.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         if (AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
@@ -120,6 +113,43 @@ public class GroupFragment extends Fragment {
                     }
                 },null);
         AppHelper.requestQueue.add(request);
+
+
+
+        recyclerView2 = (RecyclerView) view.findViewById(R.id.group_recycler_view2);
+        recyclerView2.setHasFixedSize(true);
+        testmanager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        recyclerView2.setLayoutManager(testmanager);
+        recyclerView2.scrollToPosition(0);
+        adapter2 = new GroupAdapter(getContext(),list2);
+        recyclerView2.setAdapter(adapter2);
+
+        if (AppHelper.requestQueue == null)
+            AppHelper.requestQueue = Volley.newRequestQueue(getContext());
+
+
+        StringRequest request2 = new StringRequest(Request.Method.GET,
+                URL + "/show/group/NULLDATA",
+                //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Log.d("Group", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject groupJson = jsonArray.getJSONObject(i);
+                                groupData2 = new GroupData(groupJson);
+                                list2.add(groupData2);
+                            }
+                            adapter2.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },null);
+        AppHelper.requestQueue.add(request2);
+
 
 
         return view;
