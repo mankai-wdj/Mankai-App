@@ -47,8 +47,16 @@
         <activity
             android:name=".ui.Board.BoardCategoryActivity"
             android:exported="true">
-
         </activity>
+
+        <activity
+            android:name=".ui.Group.Groupinfor"
+            android:exported="true">
+        </activity>
+
+        <activity android:name=".ui.Group.GroupMake"/>
+        <activity android:name=".ui.Group.GroupActivity"/>
+        <activity android:name=".ui.Group.GroupMake2"/>
 
             <activity
             android:name=".ui.main.SessionActivity"

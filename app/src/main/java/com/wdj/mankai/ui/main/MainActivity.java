@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     String userDescription = null;
     String userProfile = null;
     public static String userId = null;
-
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         try {
            JSONObject obj = new JSONObject(user_info);
-           userId = obj.getString("id");
+
            userName = obj.getString("name");
            userDescription = obj.getString("description");
            userProfile = obj.getString("profile");
+           userId = obj.getString("id");
 
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + user_info + "\"");

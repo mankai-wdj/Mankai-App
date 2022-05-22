@@ -1,66 +1,127 @@
 package com.wdj.mankai.ui.main;
 
+import static org.webrtc.ContextUtils.getApplicationContext;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.GroupData;
+import com.wdj.mankai.data.model.AppHelper;
+import com.wdj.mankai.ui.Group.GroupAdapter;
+import com.wdj.mankai.ui.Group.GroupMake2;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GroupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class GroupFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View view;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Button btn1, btn2, btn3;
+    TextView groupmake;
 
-    public GroupFragment() {
-        // Required empty public constructor
-    }
+    //리사이클1 : 로그인 한 ID의 가입 그룹 리스트
+    //리사이클2 : 전체 그룹 리스트
+    private RecyclerView recyclerView, recyclerView2;
+    private LinearLayoutManager layoutManager, layoutManager2;
+    private String LoginUserId;
+    private GridLayoutManager testmanager;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GroupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GroupFragment newInstance(String param1, String param2) {
-        GroupFragment fragment = new GroupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private GroupAdapter adapter;
+    private ArrayList<GroupData> list = new ArrayList<>();
+    private GroupData groupData;
+    private String URL = "https://api.mankai.shop/api";
 
+    String userId;
+
+
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_group, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group, container, false);
+        // 그룹 생성 페이지 이동
+        groupmake = (TextView) view.findViewById(R.id.groupmake);
+        groupmake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), GroupMake2.class);
+                startActivity(intent);
+            }
+        });
+
+//        recyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(getActivity());
+//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.scrollToPosition(0);
+//        adapter = new GroupAdapter(getContext(),list);
+//        recyclerView.setAdapter(adapter);
+
+
+        recyclerView2 = (RecyclerView) view.findViewById(R.id.group_recycler_view2);
+        recyclerView2.setHasFixedSize(true);
+        testmanager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        recyclerView2.setLayoutManager(testmanager);
+        recyclerView2.scrollToPosition(0);
+        adapter = new GroupAdapter(getContext(),list);
+        recyclerView2.setAdapter(adapter);
+
+        if (AppHelper.requestQueue == null)
+            AppHelper.requestQueue = Volley.newRequestQueue(getContext());
+
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId","");
+
+        StringRequest request = new StringRequest(Request.Method.GET,
+                URL + "/show/mygroup/"+MainActivity.userId,
+                //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Group", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject groupJson = jsonArray.getJSONObject(i);
+                                groupData = new GroupData(groupJson);
+                                list.add(groupData);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },null);
+        AppHelper.requestQueue.add(request);
+
+
+        return view;
     }
 }
