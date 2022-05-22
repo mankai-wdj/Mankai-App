@@ -37,11 +37,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="450dp"
         android:gravity="center"
         android:orientation="vertical">
 
     <EditText
+        android:id="@+id/MakeGroupname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="그룹 이름을 생각해주세요"
@@ -91,7 +92,7 @@
             android:textColor="#A9A9A9"/>
 
         <EditText
-            android:id="@+id/testcate"
+            android:id="@+id/grouponelineintro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="그룹에 대한 소개를 적어주세요"
@@ -113,7 +114,9 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
 
 
 
@@ -143,6 +146,15 @@
 
             </LinearLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>
 
