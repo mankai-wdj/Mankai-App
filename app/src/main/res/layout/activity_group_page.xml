@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/testimage"
+            android:scaleType="centerCrop"/>
+
+        <ImageButton
+            android:id="@+id/groupback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/arrow"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="그룹탈퇴"
+            android:textColor="@color/black"
+            android:background="@drawable/group_page_btn"
+            android:layout_marginTop="145dp"
+            android:layout_marginLeft="15dp"/>
+
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

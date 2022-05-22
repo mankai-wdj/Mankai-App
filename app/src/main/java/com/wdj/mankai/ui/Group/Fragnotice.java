@@ -20,8 +20,6 @@ public class Fragnotice extends Fragment {
         return  fragnotice;
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

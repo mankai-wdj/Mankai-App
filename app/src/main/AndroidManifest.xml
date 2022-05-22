@@ -35,6 +35,9 @@
         <activity
             android:name=".ui.Board.BoardActivity"
             android:exported="false" />
+        <activity android:name=".ui.Group.GroupMake"/>
+        <activity android:name=".ui.Group.GroupActivity"/>
+        <activity android:name=".ui.Group.GroupMake2"/>
 
         <activity
             android:name=".ui.main.SessionActivity"
