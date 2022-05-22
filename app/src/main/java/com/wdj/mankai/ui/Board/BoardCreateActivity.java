@@ -139,12 +139,6 @@ public class BoardCreateActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                     }
-                },null){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", MainActivity.userId);
-                return params;
-            };
+                },null);
     }
 }
