@@ -58,7 +58,7 @@ public class Fragboard extends Fragment {
         adapter = new BoardAdapter(list);
         recyclerView.setAdapter(adapter);
 
-        AppHelper.requestQueue.add(request);
+        GetBoard();
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -70,13 +70,11 @@ public class Fragboard extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size()-1) {
-                    Log.d("Group", "onScrolled: "+currentPage);
-                    AppHelper.requestQueue.add(request);
 
+                    GetBoard();
                 }
             }
         });
-
         return view;
     }
 
@@ -85,122 +83,126 @@ public class Fragboard extends Fragment {
         super.onCreate(savedInstanceState);
         category_id = getArguments().getString("category_id");
 
+    }
+
+    public void GetBoard(){
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         request = new StringRequest(Request.Method.POST,
-                  "https://api.mankai.shop/api/show/groupboard/"+Groupinfor.group_id+"?page="+currentPage,
+                "https://api.mankai.shop/api/show/groupboard/"+Groupinfor.group_id+"?page="+currentPage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         currentPage+=1;
+                        Log.d("Group", "onResponse: " + currentPage);
                         try {
-                        adapter.notifyDataSetChanged();
-                        JSONObject json = new JSONObject(response);
-                        JSONArray BoardJsonArray = json.getJSONArray("data");
+                            JSONObject json = new JSONObject(response);
+                            JSONArray BoardJsonArray = json.getJSONArray("data");
 
-                        if(BoardJsonArray.length() ==0){
-                            Log.d("Board", "빈값임 ㅋㅋ");
-                            JSONObject ch = new JSONObject();
-                            ch.put("viewType",2);
-                        }
+                            if(BoardJsonArray.length() ==0){
+                                Log.d("Board", "빈값임 ㅋㅋ");
+                                JSONObject ch = new JSONObject();
+                                ch.put("viewType",2);
+                            }
 //                          보드데이터 별로 하나씩 요청
-                        for (int i = 0; i < BoardJsonArray.length(); i++) {
-                            JSONObject boardJson = BoardJsonArray.getJSONObject(i);
-                            boardData = new BoardData(boardJson);
+                            for (int i = 0; i < BoardJsonArray.length(); i++) {
+                                JSONObject boardJson = BoardJsonArray.getJSONObject(i);
+                                boardData = new BoardData(boardJson);
 //                               2차 데이터 처리
-                            int finalI = i;
-                            StringRequest subData = new StringRequest(Request.Method.GET,
-                                     "https://api.mankai.shop/api/show/groupdata/" + boardJson.getString("id"),
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            ArrayList<String> cntString = new ArrayList<String>();
-                                            try {
-                                                Log.d("Board",response );
-                                                JSONObject subJson = new JSONObject(response);
+                                int finalI = i;
+
+                                StringRequest subData = new StringRequest(Request.Method.GET,
+                                        "https://api.mankai.shop/api/show/groupdata/" + boardJson.getString("id"),
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                ArrayList<String> cntString = new ArrayList<String>();
+                                                try {
+                                                    Log.d("Board",response );
+                                                    JSONObject subJson = new JSONObject(response);
 
 //                                                  사진 데이터 정리
-                                                JSONArray subArray = subJson.getJSONArray("images");
-                                                if(subArray.length()==0){
-                                                    for(int i = list.size()-5 ;i<list.size();i++)
-                                                    {
-                                                        if(list.get(i).getId() == boardJson.getString("id")){
-                                                            list.get(i).setViewType(0);
-                                                            break;
+                                                    JSONArray subArray = subJson.getJSONArray("images");
+                                                    if(subArray.length()==0){
+                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        {
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setViewType(0);
+                                                                break;
+                                                            }
                                                         }
                                                     }
-                                                }
-                                                else{
-                                                    for(int i = 0 ; i< subArray.length();i++){
-                                                        cntString.add(subArray.getJSONObject(i).getString("url"));
-                                                        Log.d("Image 갯수", boardJson.getString("id")+" = "+cntString.get(i));
-                                                    }
-                                                    for(int i = list.size()-5 ;i<list.size();i++)
-                                                    {
-                                                        if(list.get(i).getId() == boardJson.getString("id")){
-                                                            list.get(i).setBoardImage(cntString);
-                                                            list.get(i).setViewType(1);
+                                                    else{
+                                                        for(int i = 0 ; i< subArray.length();i++){
+                                                            cntString.add(subArray.getJSONObject(i).getString("url"));
+                                                            Log.d("Image 갯수", boardJson.getString("id")+" = "+cntString.get(i));
+                                                        }
+                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        {
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setBoardImage(cntString);
+                                                                list.get(i).setViewType(1);
 
-                                                            Log.d("Image", "get " + list.get(i).getBoardImage());
-                                                            break;
+                                                                Log.d("Image", "get " + list.get(i).getBoardImage());
+                                                                break;
+                                                            }
                                                         }
                                                     }
-                                                }
 //                                                  댓글 데이터 정리
-                                                ArrayList<String> commentText = new ArrayList<String>();
-                                                JSONArray CommentArray = subJson.getJSONArray("comments");
+                                                    ArrayList<String> commentText = new ArrayList<String>();
+                                                    JSONArray CommentArray = subJson.getJSONArray("comments");
 
 //                                                  댓글 1개 이상
-                                                if(CommentArray.length()>0){
-                                                    for(int i = 0 ;i<CommentArray.length();i++){
-                                                        JSONObject comment = CommentArray.getJSONObject(i);
-                                                        commentText.add(comment.getString("user_name")+" : "+comment.getString("comment"));
-                                                    }
-                                                    //추출한데이터 list에 넣고 adepter 호출
-                                                    for(int i = list.size()-5 ;i< list.size();i++){
-                                                        if(list.get(i).getId() == boardJson.getString("id")){
-                                                            list.get(i).setComments(commentText);
-                                                            list.get(i).setComment_length(subJson.getString("comment_length"));
+                                                    if(CommentArray.length()>0){
+                                                        for(int i = 0 ;i<CommentArray.length();i++){
+                                                            JSONObject comment = CommentArray.getJSONObject(i);
+                                                            commentText.add(comment.getString("user_name")+" : "+comment.getString("comment"));
                                                         }
-                                                    }
-                                                }
-//                                                    댓글 0개일떄
-                                                else {
-                                                    for(int i = list.size()-5 ;i< list.size();i++){
-                                                        if(list.get(i).getId() == boardJson.getString("id")){
-                                                            list.get(i).setComment_length("0");
-                                                        }
-                                                    }
-
-                                                }
-//                                                  좋아요 데이터 처리
-                                                JSONArray likeArray = subJson.getJSONArray("likes");
-                                                if(likeArray.length()>0){
-                                                    for (int i = list.size()-5 ;i < list.size();i++){
-                                                        if(list.get(i).getId() == boardJson.getString("id")){
-                                                            list.get(i).setLike_length(likeArray.length()+"");
-                                                            for(int j = 0; j < likeArray.length() ; j++) {
-                                                                Log.d("like", list.get(i).getId() + likeArray.getString(j));
+                                                        //추출한데이터 list에 넣고 adepter 호출
+                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setComments(commentText);
+                                                                list.get(i).setComment_length(subJson.getString("comment_length"));
                                                             }
-                                                            break;
                                                         }
                                                     }
-                                                }
-                                                Log.d("Board", "filalI?"+finalI);
-                                                adapter.notifyItemChanged(finalI);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }, null);
-                            AppHelper.requestQueue.add(subData);
-                            list.add(boardData);
+//                                                    댓글 0개일떄
+                                                    else {
+                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setComment_length("0");
+                                                            }
+                                                        }
 
+                                                    }
+//                                                  좋아요 데이터 처리
+                                                    JSONArray likeArray = subJson.getJSONArray("likes");
+                                                    if(likeArray.length()>0){
+                                                        for (int i = list.size()-5 ;i < list.size();i++){
+                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setLike_length(likeArray.length()+"");
+                                                                for(int j = 0; j < likeArray.length() ; j++) {
+                                                                    Log.d("like", list.get(i).getId() + likeArray.getString(j));
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    Log.d("Board", "filalI?"+finalI);
+                                                    adapter.notifyItemChanged(finalI);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, null);
+                                AppHelper.requestQueue.add(subData);
+                                list.add(boardData);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     }
                 },null){
             @Override
@@ -210,6 +212,6 @@ public class Fragboard extends Fragment {
                 return params;
             }
         };
-
+        AppHelper.requestQueue.add(request);
     }
 }
