@@ -129,6 +129,7 @@ public class Fragboard extends Fragment {
                                                         {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setViewType(0);
+                                                                list.get(i).setIsGroup("Group");
                                                                 break;
                                                             }
                                                         }
@@ -143,7 +144,7 @@ public class Fragboard extends Fragment {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setBoardImage(cntString);
                                                                 list.get(i).setViewType(1);
-
+                                                                list.get(i).setIsGroup("Group");
                                                                 Log.d("Image", "get " + list.get(i).getBoardImage());
                                                                 break;
                                                             }

@@ -58,7 +58,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ViewPager2 viewPager2 = itemView.findViewById(R.id.snsMainImage);
         CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
         TextView likeCount = itemView.findViewById(R.id.likeCnt);
-//        ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
+//      ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
@@ -162,7 +162,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                         intent.putExtra("profile",snsdata.getProfile());
                         intent.putExtra("like_count",snsdata.getLike_length());
                         intent.putExtra("board_count",position);
-
+                        intent.putExtra("isGroup",snsdata.getIsGroup());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

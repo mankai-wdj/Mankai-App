@@ -165,6 +165,7 @@ public class HomeFragment extends Fragment {
                                                         for(int i = list.size()-5 ;i<list.size();i++)
                                                         {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setIsGroup("SNS");
                                                                 list.get(i).setViewType(0);
                                                                 break;
                                                             }
@@ -180,7 +181,7 @@ public class HomeFragment extends Fragment {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setBoardImage(cntString);
                                                                 list.get(i).setViewType(1);
-
+                                                                list.get(i).setIsGroup("SNS");
                                                                 Log.d("Image", "get " + list.get(i).getBoardImage());
                                                                 break;
                                                             }

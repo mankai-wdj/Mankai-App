@@ -55,6 +55,9 @@ public class BoardCommentActivity extends AppCompatActivity {
     private int CurrentPage=1;
     private int board_count;
     private ImageView comment_image;
+    private String isGroup;
+    private String sub;
+    private int type;
     private EditText comment_edit;
     private  ArrayList<CommentData> list = new ArrayList<CommentData>();
 
@@ -79,11 +82,13 @@ public class BoardCommentActivity extends AppCompatActivity {
         comment_edit = findViewById(R.id.commentText);
 //      Extra로 값 넘겨 받아서 보여줌
         board_id = getIntent().getStringExtra("id");
+        isGroup = getIntent().getStringExtra("isGroup");
         content_text = getIntent().getStringExtra("content");
         user_name = getIntent().getStringExtra("name");
         user_profile = getIntent().getStringExtra("profile");
         like_count.setText(getIntent().getStringExtra("like_count"));
         board_count = getIntent().getIntExtra("board_count",0);
+        isGroup = getIntent().getStringExtra("isGroup");
 
         sns_text.setText(content_text);
         sns_name.setText(user_name);
@@ -92,6 +97,14 @@ public class BoardCommentActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(sns_profile);
 
+        if(isGroup.equals("SNS")){
+            sub = "comment";
+            type = Request.Method.POST;
+        }
+        else {
+            sub = "groupcomment";
+            type = Request.Method.GET;
+        }
 
 //        댓글 리스트
         RecyclerView recyclerView = findViewById(R.id.commentRecycle);
@@ -140,7 +153,7 @@ public class BoardCommentActivity extends AppCompatActivity {
 
     }
     public void GETCOMMENT(){
-        StringRequest request = new StringRequest(Request.Method.POST, "https://api.mankai.shop/api/show/comment/"+board_id+"/?page="+CurrentPage,
+        StringRequest request = new StringRequest(type, "https://api.mankai.shop/api/show/"+sub+"/"+board_id+"?page="+CurrentPage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -169,7 +182,7 @@ public class BoardCommentActivity extends AppCompatActivity {
         CurrentPage+=1;
     }
     public void SendComment(String Text){
-        StringRequest request = new StringRequest(Request.Method.POST, "https://api.mankai.shop/api/post/comment/",
+        StringRequest request = new StringRequest(Request.Method.POST, "https://api.mankai.shop/api/post/"+sub,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
