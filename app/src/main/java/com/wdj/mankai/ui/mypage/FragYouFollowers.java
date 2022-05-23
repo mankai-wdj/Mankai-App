@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,12 +24,15 @@ import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.FollowerData;
 import com.wdj.mankai.data.model.AppHelper;
+import com.wdj.mankai.ui.main.MyPageFragment;
 import com.wdj.mankai.ui.mypage.RecyclerView.FollowersAdapter;
+import com.wdj.mankai.ui.mypage.toolbar.FragMyMemoExceptToolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 
 public class FragYouFollowers extends Fragment {
@@ -41,6 +45,14 @@ public class FragYouFollowers extends Fragment {
 
     String url;
     String userId;
+    String LoginUserId;
+    static final String PASS = "pass";
+
+    public interface OnInputListener {
+        void sendInput(String input);
+    }
+
+    public OnInputListener mOnInputListener;
 
     @NonNull
     public static FragYouFollowers newInstance(String param1, String param2) {
@@ -78,24 +90,48 @@ public class FragYouFollowers extends Fragment {
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
 
-//        if(getArguments() != null) {
-//            userId = getArguments().getString("userId");
-//            Log.i("ho", userId);
-//        }
-
+        // 상대방 페이지 유저 ID
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
+        Log.d("userId",userId);
+
+        // 로그인한 유저 ID
+        SharedPreferences sharedPreferencesMy = getActivity().getSharedPreferences("user_info",Context.MODE_PRIVATE);
+        String user_info = sharedPreferencesMy.getString("user_info", "");
+
+
+        try {
+            JSONObject object = new JSONObject(user_info);
+            LoginUserId = object.getString("id");
+            Log.d("LoginUserId", LoginUserId);
+        } catch (Throwable t) {
+
+        }
 
         memoResponse(userId);
 
+
         return view;
     }
-
+    @Override public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        try {
+            mOnInputListener
+                    = (OnInputListener)getActivity();
+        }
+        catch (ClassCastException e) {
+            Log.e("TAG", "onAttach: ClassCastException: "
+                    + e.getMessage());
+        }
+    }
     public void memoResponse(String userId ) {
 
-        StringRequest myPageStringRequest = new StringRequest(
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("followCheck", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor= sharedPreferences.edit();
+//        YouPage youpage = new YouPage();
 
-                //userID만 activity에서 받아오면 됨
+        StringRequest myPageStringRequest = new StringRequest(
                 Request.Method.GET, url+userId,
 
                 new Response.Listener<String>() {
@@ -109,7 +145,28 @@ public class FragYouFollowers extends Fragment {
                                 followerData = new FollowerData(jsonObject.getString("name"), jsonObject.getString("profile"), jsonObject.getString("id"));
                                 list.add(followerData);
                                 Log.d("good", list.get(i).getId());
+
+                                // 만약 상대 페이지 팔로우 id에 로그인한 유저 id가 있을 경우
+                                if (list.get(i).getId().equals(LoginUserId)){
+                                    // YouPage에 팔로우 되있는 상태라는 걸 알려줘야함
+                                    Log.d("check", userId+"팔로우듕");
+
+                                    mOnInputListener.sendInput(PASS);
+
+//                                    editor.putString("followCheck",PASS);
+//                                    editor.commit();
+
+//                                    Log.d("check", String.valueOf(sharedPreferences));
+                                    break;
+                                }else{
+                                    Log.d("이거아님", "이거아님");
+//                                    editor.clear();
+//                                    editor.commit();
+//
+//                                    youpage.followChekck();
+                                }
                             }
+
                             Log.d("sdf", list.toString());
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {

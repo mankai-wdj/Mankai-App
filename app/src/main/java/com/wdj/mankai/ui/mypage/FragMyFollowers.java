@@ -115,6 +115,7 @@ public class FragMyFollowers extends Fragment implements ViewPagerData {
                                 list.add(followerData);
                                 Log.d("TEXT", list.get(i).getId());
                             }
+
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
