@@ -30,7 +30,7 @@ import org.w3c.dom.Text;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import me.relex.circleindicator.CircleIndicator3;
+//import me.relex.circleindicator.CircleIndicator3;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
@@ -56,7 +56,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ImageView snsUserImage = itemView.findViewById(R.id.snsUserImage);
         TextView snsContent = itemView.findViewById(R.id.snsContent);
         ViewPager2 viewPager2 = itemView.findViewById(R.id.snsMainImage);
-        CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
+        //CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
         TextView likeCount = itemView.findViewById(R.id.likeCnt);
 //      ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
@@ -98,8 +98,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             if (snsdata.getViewType()==1){
                 holder.viewPager2.setOffscreenPageLimit(1);
                 holder.viewPager2.setAdapter(new ImageSliderAdapter(snsdata.getBoardImage()));
-                holder.indicator.setViewPager(holder.viewPager2);
-                holder.indicator.createIndicators(snsdata.getBoardImage().size(),0);
+                //holder.indicator.setViewPager(holder.viewPager2);
+                //holder.indicator.createIndicators(snsdata.getBoardImage().size(),0);
             }
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/group_linearLayout"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/group_back">

@@ -134,7 +134,7 @@ public class GroupFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //Log.d("Group", response);
+                        Log.d("Group", response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {

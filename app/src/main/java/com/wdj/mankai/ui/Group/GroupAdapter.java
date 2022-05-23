@@ -44,7 +44,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         TextView groupName = itemView.findViewById(R.id.Groupname);
         TextView groupOneline = itemView.findViewById(R.id.Grouponeline);
         TextView groupCate = itemView.findViewById(R.id.Groupcategory);
-        LinearLayout layout = itemView.findViewById(R.id.linearLayout);
+        LinearLayout layout = itemView.findViewById(R.id.group_linearLayout);
     }
 
     GroupAdapter(ArrayList<GroupData> list) {gData = list;}
