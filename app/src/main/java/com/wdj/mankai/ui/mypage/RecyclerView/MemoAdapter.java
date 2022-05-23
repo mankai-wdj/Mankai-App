@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -111,6 +112,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((SNSViewHolder) holder).forContext.startActivity(intent);
                 }
             });
+
 
         }
         else if(holder instanceof BOARDViewHolder)
@@ -280,7 +282,6 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     notifyItemChanged(getAdapterPosition());
                 }
             });
-
 
 
             deleteButton.setOnClickListener(new View.OnClickListener() {

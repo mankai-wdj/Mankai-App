@@ -77,7 +77,6 @@ public class MyPageFragment extends Fragment {
             userNameView.setText(userName);
             userDescriptionView.setText(userDescription);
             Glide.with(this).load(userProfile).placeholder(R.drawable.ic_launcher_foreground).dontAnimate().into(userProfileView);
-//    ?! 이거 사진 관련해서 오류뜨는데 내일 확인해보기 바람.
         }
 
 

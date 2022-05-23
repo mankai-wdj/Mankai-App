@@ -20,15 +20,29 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.AppHelper;
+import com.wdj.mankai.ui.login.LoginActivity;
+import com.wdj.mankai.ui.login.LoginRequest;
 import com.wdj.mankai.ui.main.MainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
 
 public class SNSEditMemo extends Activity {
 
@@ -38,6 +52,8 @@ public class SNSEditMemo extends Activity {
 
     EditText memoTitleEt;
     EditText memoContentTextEt;
+    String memoTitle;
+    String memoContentText;
     Button editButton;
     Button deleteButton;
 
@@ -61,8 +77,11 @@ public class SNSEditMemo extends Activity {
 
         Log.i("memoTitle",intent.getStringExtra("memoTitle"));
 
-        memoTitleEt.setText(intent.getStringExtra("memoTitle"));
-        memoContentTextEt.setText(intent.getStringExtra("memoContentText"));
+        memoTitle = intent.getStringExtra("memoTitle");
+        memoContentText = intent.getStringExtra("memoContentText");
+
+        memoTitleEt.setText(memoTitle);
+        memoContentTextEt.setText(memoContentText);
 
         recyclerView = findViewById(R.id.recyclerview_gallery_images);
         pick = findViewById(R.id.pick_image);
@@ -70,6 +89,8 @@ public class SNSEditMemo extends Activity {
         adapter = new SNSImageAdapter(uri);
         recyclerView.setLayoutManager(new GridLayoutManager(SNSEditMemo.this,3));
         recyclerView.setAdapter(adapter);
+
+        getImageFromDB(memoId);
 
         /*gallery에 접근할 때 권한허용요청 Dialog*/
         if(ContextCompat.checkSelfPermission(SNSEditMemo.this, Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
@@ -81,9 +102,13 @@ public class SNSEditMemo extends Activity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("일단보류","");
+                Log.i("uri",""+uri);
+//                EditMemoDataRequest loginRequest = new EditMemoDataRequest(1,"https://api.mankai.shop/api/updatememo",snsEditMemoData,null,memoId,memoTitle,memoContentText,uri);
+//                AppHelper.requestQueue.add(loginRequest);
             }
         });
+
+
 
         /*삭제버튼*/
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +133,13 @@ public class SNSEditMemo extends Activity {
         });
 
     }
+
+    Response.Listener<NetworkResponse> snsEditMemoData = new Response.Listener<NetworkResponse>() {
+        @Override
+        public void onResponse(NetworkResponse response) {
+            Log.i("SNSMemoEdit성공","");
+        }
+    };
 
     /*갤러리에서 사진 선택후 데이터를 Intent data에서 uri를 받는다.*/
     @Override
@@ -155,5 +187,45 @@ public class SNSEditMemo extends Activity {
         );
         SNSDeleteRequest.setShouldCache(false);
         AppHelper.requestQueue.add(SNSDeleteRequest);
+    }
+
+
+
+
+
+
+    public void getImageFromDB(int memoId){
+
+        StringRequest getImageRequest = new StringRequest(
+                Request.Method.GET,
+                "https://api.mankai.shop/api/getmemoimages/" + memoId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("사진url",response);
+                        JSONArray jsonArray = null;
+                        try {
+                            jsonArray = new JSONArray(response);
+                            for(int i = 0 ; i < jsonArray.length(); i++){
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String jsonObjectURL = jsonObject.getString("url");
+                                uri.add(Uri.parse(jsonObjectURL));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("사진을 못 받아옴","");
+                    }
+                }
+        );
+
+        getImageRequest.setShouldCache(false);
+        AppHelper.requestQueue.add(getImageRequest);
     }
 }
