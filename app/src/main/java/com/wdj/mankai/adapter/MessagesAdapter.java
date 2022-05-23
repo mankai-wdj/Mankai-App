@@ -6,7 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -22,9 +25,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.Message;
+import com.wdj.mankai.data.model.User;
+import com.wdj.mankai.ui.chat.ChatContainerActivity;
 import com.wdj.mankai.ui.chat.LoadImage;
 
 import org.json.JSONArray;
@@ -40,18 +51,21 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     Context mContext;
     ArrayList<Message> messages = new ArrayList<>();
     ImageView imageProfile, imageMessage;
-    TextView textMessage, textFileName, textDateTime, textReceivedName, textMemoName, textVideoMessage, textVideoLink;
-    String currentUserId, roomId;
+    private TextView textMessage, textFileName, textDateTime, textReceivedName, textMemoName, textVideoMessage, textVideoLink, textTransMessage;
+    String roomId;
+    String res;
+    JSONObject currentUser;
+    private View transLine;
     AppCompatImageView imageFileIcon, imageMemoIcon;
-    LinearLayout fileLayout, memoLayout, videoLayout,messageBox;
+    LinearLayout fileLayout, memoLayout, videoLayout,messageBox, textMessageLayout;
     GridLayout gridLayout;
 //    ImageGridViewAdapter imageGridViewAdapter;
     public static final Boolean VIEW_TYPE_SENT = true;
     public static final Boolean VIEW_TYPE_RECIEVED = false;
 
-    public MessagesAdapter(Context mContext, String currentUserId, String roomId) {
+    public MessagesAdapter(Context mContext, JSONObject currentUser, String roomId) {
         this.mContext = mContext;
-        this.currentUserId = currentUserId;
+        this.currentUser = currentUser;
         this.roomId = roomId;
     }
 
@@ -63,14 +77,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if(messages.get(viewType).userId.equals(currentUserId) == VIEW_TYPE_SENT) {
-            return new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
-        }else {
-            return new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
+        Boolean bool = null;
+            try {
+                 bool = messages.get(viewType).userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-
+        if(bool) {
+                return new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
+            }else {
+                return new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
+            }
     }
 
     @Override
@@ -78,20 +95,24 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Message message = messages.get(position);
 //        imageGridViewAdapter = new ImageGridViewAdapter();
 
-        if(message.userId.equals(currentUserId) == VIEW_TYPE_SENT) {
-            try {
-                ((SentMessageViewHolder) holder).setItem(message);
-//                ((SentMessageViewHolder) holder).gridView.setAdapter(imageGridViewAdapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        try {
+            if(message.userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT) {
+                try {
+                    ((SentMessageViewHolder) holder).setItem(message);
+    //                ((SentMessageViewHolder) holder).gridView.setAdapter(imageGridViewAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        }else {
-            try {
-                ((ReceivedMessageViewHolder) holder).setItem(message);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else {
+                try {
+                    ((ReceivedMessageViewHolder) holder).setItem(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
 
@@ -125,9 +146,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             messageBox = (LinearLayout) itemView.findViewById(R.id.messageBox);
 
 //            imageProfile = itemView.findViewById(R.id.imageProfile);
+            textMessageLayout = itemView.findViewById(R.id.textMessageLayout);
             textMessage = (TextView) itemView.findViewById(R.id.textMessage);
             textDateTime = (TextView) itemView.findViewById(R.id.textDateTime);
             imageMessage = (ImageView) itemView.findViewById(R.id.imageMessage);
+            textTransMessage = (TextView) itemView.findViewById(R.id.textTransMessage);
+            transLine = itemView.findViewById(R.id.transLine);
 
             // file layout
             fileLayout = (LinearLayout) itemView.findViewById(R.id.fileLayout);
@@ -172,6 +196,38 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                        Toast.makeText(itemView.getContext(), "long press", Toast.LENGTH_SHORT).show();
+                        super.onLongPress(e);
+                    }
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        int pos = getAdapterPosition();
+                        if(messages.get(pos).messageType.equals("message")) {
+                            Toast.makeText(itemView.getContext(), String.valueOf(pos), Toast.LENGTH_SHORT).show();
+                            transLine.setVisibility(View.VISIBLE);
+                            try {
+                                translation(messages.get(pos).message, currentUser.getString("country"), itemView);
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+
+                        }
+                        return super.onDoubleTap(e);
+                    }
+                });
+
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    gestureDetector.onTouchEvent(motionEvent);
+                    return false;
+                }
+            });
+
         }
 
         public void setItem(Message message) throws JSONException {  //어떻게 보여줄지 설정
@@ -179,7 +235,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if(message.message.startsWith("[{")) { // file 형식
                     fileLayout.setVisibility(View.VISIBLE);
                     imageMessage.setVisibility(View.GONE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
 //                    gridView.setVisibility(View.GONE);
                     gridLayout.setVisibility(View.GONE);
@@ -202,7 +258,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                    gridView.setVisibility(View.VISIBLE);
                     gridLayout.setVisibility(View.VISIBLE);
                     imageMessage.setVisibility(View.GONE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     fileLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
                     videoLayout.setVisibility(View.GONE);
@@ -228,7 +284,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }else { // 일반 사진 1장
                     Glide.with(itemView).load(message.message).into((ImageView) itemView.findViewById(R.id.imageMessage));
                     imageMessage.setVisibility(View.VISIBLE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     fileLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
 //                    gridView.setVisibility(View.GONE);
@@ -240,7 +296,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 memoLayout.setVisibility(View.VISIBLE);
                 fileLayout.setVisibility(View.GONE);
                 imageMessage.setVisibility(View.GONE);
-                textMessage.setVisibility(View.GONE);
+                textMessageLayout.setVisibility(View.GONE);
 //                gridView.setVisibility(View.GONE);
                 gridLayout.setVisibility(View.GONE);
                 videoLayout.setVisibility(View.GONE);
@@ -249,8 +305,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 imageMemoIcon.setImageResource(R.drawable.memo_icon);
 
             }else if(message.messageType.equals("message")){  // message
+                textMessageLayout.setVisibility(View.VISIBLE);
                 textMessage.setText(message.message);
-                textMessage.setVisibility(View.VISIBLE);
                 imageMessage.setVisibility(View.GONE);
                 fileLayout.setVisibility(View.GONE);
                 memoLayout.setVisibility(View.GONE);
@@ -260,7 +316,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }else if(message.messageType.equals("video")){ // video
                 textMessage.setText(message.message);
                 videoLayout.setVisibility(View.VISIBLE);
-                textMessage.setVisibility(View.GONE);
+                textMessageLayout.setVisibility(View.GONE);
                 imageMessage.setVisibility(View.GONE);
                 fileLayout.setVisibility(View.GONE);
                 memoLayout.setVisibility(View.GONE);
@@ -280,10 +336,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public ReceivedMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageProfile = itemView.findViewById(R.id.imageProfile);
+            textMessageLayout = itemView.findViewById(R.id.textMessageLayout);
             textMessage = (TextView) itemView.findViewById(R.id.textMessage);
             textDateTime = (TextView) itemView.findViewById(R.id.textDateTime);
             textReceivedName = (TextView) itemView.findViewById(R.id.text_received_name);
             imageMessage = (ImageView) itemView.findViewById(R.id.imageMessage);
+            textTransMessage = (TextView) itemView.findViewById(R.id.textTransMessage);
+            transLine = itemView.findViewById(R.id.transLine);
 
             // file layout
             fileLayout = (LinearLayout) itemView.findViewById(R.id.fileLayout);
@@ -329,6 +388,37 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 }
             });
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                GestureDetector gestureDetector = new GestureDetector(itemView.getContext(), new GestureDetector.SimpleOnGestureListener(){
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                        Toast.makeText(itemView.getContext(), "long press", Toast.LENGTH_SHORT).show();
+                        super.onLongPress(e);
+                    }
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        int pos = getAdapterPosition();
+                        if(messages.get(pos).messageType.equals("message")) {
+                            Toast.makeText(itemView.getContext(), String.valueOf(pos), Toast.LENGTH_SHORT).show();
+                            transLine.setVisibility(View.VISIBLE);
+                            try {
+                                translation(messages.get(pos).message, currentUser.getString("country"), itemView);
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+
+                        }
+                        return super.onDoubleTap(e);
+                    }
+                });
+
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    gestureDetector.onTouchEvent(motionEvent);
+                    return false;
+                }
+            });
 
         }
 
@@ -337,7 +427,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if(message.message.startsWith("[{")) { // file 형식
                     fileLayout.setVisibility(View.VISIBLE);
                     imageMessage.setVisibility(View.GONE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
 //                    gridView.setVisibility(View.GONE);
                     gridLayout.setVisibility(View.GONE);
@@ -360,7 +450,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                    gridView.setVisibility(View.VISIBLE);
                     gridLayout.setVisibility(View.VISIBLE);
                     imageMessage.setVisibility(View.GONE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     fileLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
                     videoLayout.setVisibility(View.GONE);
@@ -386,7 +476,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }else { // 일반 사진 1장
                     Glide.with(itemView).load(message.message).into((ImageView) itemView.findViewById(R.id.imageMessage));
                     imageMessage.setVisibility(View.VISIBLE);
-                    textMessage.setVisibility(View.GONE);
+                    textMessageLayout.setVisibility(View.GONE);
                     fileLayout.setVisibility(View.GONE);
                     memoLayout.setVisibility(View.GONE);
 //                    gridView.setVisibility(View.GONE);
@@ -398,7 +488,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 memoLayout.setVisibility(View.VISIBLE);
                 fileLayout.setVisibility(View.GONE);
                 imageMessage.setVisibility(View.GONE);
-                textMessage.setVisibility(View.GONE);
+                textMessageLayout.setVisibility(View.GONE);
 //                gridView.setVisibility(View.GONE);
                 gridLayout.setVisibility(View.GONE);
                 videoLayout.setVisibility(View.GONE);
@@ -408,7 +498,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }else if(message.messageType.equals("message")){  // message
                 textMessage.setText(message.message);
-                textMessage.setVisibility(View.VISIBLE);
+                textMessageLayout.setVisibility(View.VISIBLE);
                 imageMessage.setVisibility(View.GONE);
                 fileLayout.setVisibility(View.GONE);
                 memoLayout.setVisibility(View.GONE);
@@ -418,7 +508,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }else if(message.messageType.equals("video")){ // video
                 textMessage.setText(message.message);
                 videoLayout.setVisibility(View.VISIBLE);
-                textMessage.setVisibility(View.GONE);
+                textMessageLayout.setVisibility(View.GONE);
                 imageMessage.setVisibility(View.GONE);
                 fileLayout.setVisibility(View.GONE);
                 memoLayout.setVisibility(View.GONE);
@@ -433,6 +523,54 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
     }
+    private String translation (String message, String country, View itemView) {
 
+        if(message.equals("")) {
+            return "";
+        }else {
+            JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+            try {
+                reqJsonObject.put("text", message);
+                reqJsonObject.put("country", country);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println(reqJsonObject);
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    "https://api.mankai.shop/api/translate/text",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("TAG", "성공");
+                            System.out.println(response);
+                            textTransMessage.setVisibility(View.VISIBLE);
+                            textTransMessage.setText(response);
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //통신 ERROR
+                            System.out.println(error);
+                        }
+                    }
+            ) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return reqJsonObject.toString().getBytes();
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json";
+                }
+            };
+            Volley.newRequestQueue(itemView.getContext()).add(stringRequest);
+
+        }
+        return res;
+    }
 
 }

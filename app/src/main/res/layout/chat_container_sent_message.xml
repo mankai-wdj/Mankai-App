@@ -14,16 +14,39 @@
         android:orientation="vertical"
         app:layout_constraintWidth_percent="0.8">
 
-        <TextView
-            android:id="@+id/textMessage"
+        <LinearLayout
+            android:id="@+id/textMessageLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_sent_message"
-            android:padding="12dp"
-            android:textColor="@color/white"
             android:layout_gravity="right"
-            android:textSize="13sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:padding="12dp"
+            >
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/transLine"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/white"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/textTransMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageMessage"

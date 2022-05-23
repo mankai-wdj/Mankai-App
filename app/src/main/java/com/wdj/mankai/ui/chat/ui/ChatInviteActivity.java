@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.chat.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +41,7 @@ public class ChatInviteActivity extends AppCompatActivity {
     public static Button bt_invite;
     User currentUser;
     Room room;
+
     public static ArrayList<Integer> existUser = new ArrayList<>();
     @Override
     protected void onStop() {
@@ -59,9 +61,6 @@ public class ChatInviteActivity extends AppCompatActivity {
         getUser(token); // 유저 정보 받아오기
 
         room = (Room) getIntent().getSerializableExtra("room");
-
-        System.out.println(room.id);
-
         invite_room_recyclerview = (RecyclerView) findViewById(R.id.invite_room_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatInviteActivity.this, LinearLayoutManager.VERTICAL, false);
         invite_room_recyclerview.setLayoutManager(layoutManager);
@@ -139,7 +138,6 @@ public class ChatInviteActivity extends AppCompatActivity {
                                 try {
                                     System.out.println("rooo23123123" + new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
                                     intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
-//                                    intent.putExtra("room", new Room(response.getString("id"), "",response.getString("last_message"), response.getString("type"), response.getString("users"), response.getString("updated_at")));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

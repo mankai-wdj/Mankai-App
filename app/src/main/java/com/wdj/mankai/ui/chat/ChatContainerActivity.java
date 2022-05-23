@@ -3,6 +3,8 @@ package com.wdj.mankai.ui.chat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +34,11 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
+import com.wdj.mankai.data.model.User;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
 import com.wdj.mankai.ui.chat.ui.ChatInviteActivity;
+import com.wdj.mankai.ui.main.ChatFragment;
+import com.wdj.mankai.ui.main.MainActivity;
 import com.wdj.mankai.ui.main.UserRequest;
 
 
@@ -52,7 +57,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     MessagesAdapter messagesAdapter;
     ProgressBar progressBar;
     TextView textName;
-    Button btLeave, btInvite;
+    Button btLeave, btInvite, btMyMemo;
     FrameLayout layoutSend;
     ImageView imageBack, fileSend;
     EditText inputMessage;
@@ -60,7 +65,21 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     private DrawerLayout drawerLayout;
     private View drawerView;
     String res;
+    private ChatFragment chatFragment = new ChatFragment();
 
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//
+//        Toast.makeText(ChatContainerActivity.this, "room list로 보내기", Toast.LENGTH_SHORT).show();   //토스트 메시지
+////        FragmentManager fragmentManager = getSupportFragmentManager();
+////        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+////        fragmentTransaction.replace(R.id.main_container, chatFragment);
+////        fragmentTransaction.commit();
+//        Intent intent = new Intent(ChatContainerActivity.this, MainActivity.class);
+//        startActivity(intent);
+//
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +95,16 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         fileSend = findViewById(R.id.fileSend);
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
+        btMyMemo = findViewById(R.id.btMyMemo);
 
 
+        btMyMemo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ChatContainerActivity.this, "메모 모달 띄우기", Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(drawerView);
+            }
+        });
 
         fileSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +163,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 Intent intent = new Intent(ChatContainerActivity.this, ChatInviteActivity.class);
                 intent.putExtra("room", room);
                 startActivity(intent);
+                drawerLayout.closeDrawer(drawerView);
             }
         });
 
@@ -236,7 +264,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     }
 
     // 번역
-    private String translation (String message) {
+    private String translation (String message, String country) {
 
         if(message.equals("")) {
             return "";
@@ -244,7 +272,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
             try {
                 reqJsonObject.put("text", message);
-                reqJsonObject.put("country", currentUser.getString("country"));
+                reqJsonObject.put("country", country);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -303,7 +331,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         try {
             if(type.equals("video")) {
 
-                reqJsonObject.put("message", currentUser.getString("name") + translation(" 님이 화상채팅에 초대했습니다"));
+                reqJsonObject.put("message", currentUser.getString("name") + translation(" 님이 화상채팅에 초대했습니다", currentUser.getString("country")));
                 reqJsonObject.put("room_id", room.id);
                 reqJsonObject.put("to_users", toUsers2);
                 reqJsonObject.put("user_id", currentUser.getString("id"));
@@ -360,8 +388,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         }
         for(int i=0; i< toUsers.length(); i++) {
             if(toUsers.getJSONObject(i).getString("position").equals("official")) {
-                System.out.println("official 있음");
-                System.out.println(inputMessage.getText());
                 try {
                     reqJsonObject.put("id", room.id);
                     reqJsonObject.put("message", message);
@@ -425,6 +451,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("TAG", "성공");
+                        // 방 리스트로 가야 됨 *********************************************
                     }
                 },
                 new Response.ErrorListener() {
@@ -445,7 +472,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             e.printStackTrace();
         }
         JSONArray jsonArray = messages.getJSONArray("data");
-        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, userId, room.id);
+        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id);
         chat_message_list.setAdapter(messagesAdapter);
 
         for (int i = 0; i< jsonArray.length(); i++) {

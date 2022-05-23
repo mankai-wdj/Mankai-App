@@ -1,15 +1,14 @@
 package com.wdj.mankai.ui.chat.ui;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +23,16 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.Room;
-import com.wdj.mankai.ui.chat.ChatContainerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +52,7 @@ public class ChatBottomSheetDialog extends BottomSheetDialogFragment{
     SpeechRecognizer speechRecognizer;
     final int PERMISSION = 1;	//permission 변수
     boolean recording = false;  //현재 녹음중인지 여부
-    String sttContents;
+    String sttContents = "";
 
     public ChatBottomSheetDialog(Room room, JSONObject user) {
         this.room = room;
@@ -69,13 +74,16 @@ public class ChatBottomSheetDialog extends BottomSheetDialogFragment{
         //RecognizerIntent 객체 생성
         intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getActivity().getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");   //한국어
+        try {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,user.getString("country"));   //한국어
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         try {
             JSONArray jsonArray = new JSONArray(room.users);
-            System.out.println(jsonArray.length());
             for(int i = 0; i< jsonArray.length(); i++) {
-                if(!jsonArray.getJSONObject(i).getString("user_id").equals(user.getString("id"))) {
+                if(!jsonArray.getJSONObject(i).getString("user_id").equals(user.getString("id")) && !jsonArray.getJSONObject(i).getString("country").equals("null")) {
                     LayoutInflater inflater2 = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     LinearLayout gridView = (LinearLayout) inflater2.inflate(R.layout.grid_layout_stt, null);
                     Button country = gridView.findViewById(R.id.btCountry);
@@ -85,15 +93,14 @@ public class ChatBottomSheetDialog extends BottomSheetDialogFragment{
                         @Override
                         public void onClick(View view) {
 
-                            System.out.println(currentCountry);
                             if(!recording) {
                                 StartRecord();
                                 country.setText("STOP");
                                 Toast.makeText(getContext(), "음성인식중", Toast.LENGTH_SHORT).show();
                             }else {
                                 country.setText(currentCountry);
-                                StopRecord();
-                                System.out.println(sttContents);
+                                StopRecord(currentCountry);
+
                             }
 
                         }
@@ -132,28 +139,30 @@ public class ChatBottomSheetDialog extends BottomSheetDialogFragment{
     //녹음 시작
     void StartRecord() {
         recording = true;
-        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getContext());
+        sttContents = "";
+        speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getActivity());
         speechRecognizer.setRecognitionListener(listener);
         speechRecognizer.startListening(intent);
     }
 
     //녹음 중지
-    void StopRecord() {
+    void StopRecord(String currentCountry) {
         recording = false;
 
         speechRecognizer.stopListening();   //녹음 중지
+        System.out.println(sttContents);
+        System.out.println(currentCountry);
+        translation(sttContents, currentCountry);
     }
     //퍼미션 체크
     void CheckPermission() {
         //안드로이드 버전이 6.0 이상
+        System.out.println(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.INTERNET) );
         if ( Build.VERSION.SDK_INT >= 23 ){
             //인터넷이나 녹음 권한이 없으면 권한 요청
-            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED
-                    || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED ) {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.INTERNET,
                                 Manifest.permission.RECORD_AUDIO},PERMISSION);
-            }
         }
     }
 
@@ -257,4 +266,152 @@ public class ChatBottomSheetDialog extends BottomSheetDialogFragment{
 
         }
     };
+
+    private void translation (String message, String country) {
+
+        if(message.equals("")) {
+        }else {
+            JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+            try {
+                reqJsonObject.put("text", message);
+                reqJsonObject.put("country", country);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println(reqJsonObject);
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    "https://api.mankai.shop/api/translate/text",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("TAG", "성공");
+                            System.out.println(response);
+                            sendMessage(response, "message");
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //통신 ERROR
+                            System.out.println(error);
+                        }
+                    }
+            ) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return reqJsonObject.toString().getBytes();
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json";
+                }
+            };
+            Volley.newRequestQueue(getActivity()).add(stringRequest);
+
+        }
+    }
+
+    // 메세지 보내기
+    private void sendMessage(String message, String type) {
+        JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+        JSONArray toUsers = null;
+        JSONArray toUsers2 = new JSONArray();
+        try {
+            toUsers = new JSONArray(room.users);
+            for(int i = 0; i < toUsers.length(); i++) {
+                toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            reqJsonObject.put("message", message);
+            reqJsonObject.put("room_id", room.id);
+            reqJsonObject.put("to_users", toUsers2);
+            reqJsonObject.put("user_id", user.getString("id"));
+            reqJsonObject.put("type", type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://api.mankai.shop/api/message/send",
+                reqJsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("TAG", "성공");
+
+                        if(type.equals("message")) {
+                            try {
+                                transBotChat(user.getString("name"), message);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //통신 ERROR
+                    }
+                }
+        );
+        Volley.newRequestQueue(getActivity()).add(jsonObjectRequest);
+
+    }
+
+    // 채팅 봇 채팅
+    private void transBotChat(String name, String message) throws JSONException {
+        System.out.println(name);
+        JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+        JSONArray toUsers = new JSONArray(room.users);
+        JSONArray toUsers2 = new JSONArray();
+        for(int i = 0; i < toUsers.length(); i++) {
+            toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
+        }
+        for(int i=0; i< toUsers.length(); i++) {
+            if(toUsers.getJSONObject(i).getString("position").equals("official")) {
+                System.out.println("official 있음");
+                try {
+                    reqJsonObject.put("id", room.id);
+                    reqJsonObject.put("message", message);
+                    reqJsonObject.put("room_id", room.id);
+                    reqJsonObject.put("to_users", toUsers2);
+                    reqJsonObject.put("user_id", toUsers.getJSONObject(i).getString("user_id"));
+                    reqJsonObject.put("type", "message");
+                    reqJsonObject.put("name", name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        "https://api.mankai.shop/api/messageBot/send",
+                        reqJsonObject,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("TAG", "성공 봇");
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //통신 ERROR
+                            }
+                        }
+                );
+                Volley.newRequestQueue(getActivity()).add(jsonObjectRequest);
+            }
+        }
+    }
 }
