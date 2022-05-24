@@ -2,6 +2,7 @@ package com.wdj.mankai.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,6 +37,7 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.User;
 import com.wdj.mankai.ui.chat.ChatContainerActivity;
+import com.wdj.mankai.ui.chat.ChatMemoReadActivity;
 import com.wdj.mankai.ui.chat.LoadImage;
 
 import org.json.JSONArray;
@@ -43,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -191,7 +194,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         });
                         downDlg.show();
                     }else if (messages.get(pos).messageType.equals("memo")) {
-                        Toast.makeText(itemView.getContext(), "memo 보여주기", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(itemView.getContext(), ChatMemoReadActivity.class);
+                        intent.putExtra("memo", messages.get(pos).message);
+                        mContext.startActivity(intent);
                     }
                 }
             });
@@ -382,7 +387,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         });
                         downDlg.show();
                     }else if (messages.get(pos).messageType.equals("memo")) {
-                        Toast.makeText(itemView.getContext(), "memo 보여주기", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(itemView.getContext(), ChatMemoReadActivity.class);
+                        intent.putExtra("memo", messages.get(pos).message);
+                        mContext.startActivity(intent);
                     }
 
 

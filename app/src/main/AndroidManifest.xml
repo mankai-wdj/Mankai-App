@@ -3,7 +3,7 @@
     package="com.wdj.mankai">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mankai"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.chat.ChatMemoReadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chat.MemoListActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.chat.ui.ChatInviteActivity"
             android:exported="false" />
