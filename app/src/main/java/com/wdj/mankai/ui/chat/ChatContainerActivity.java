@@ -41,7 +41,6 @@ import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
 import com.wdj.mankai.ui.chat.ui.ChatInviteActivity;
 import com.wdj.mankai.ui.main.ChatFragment;
-import com.wdj.mankai.ui.main.EchoWebSocketListener;
 import com.wdj.mankai.ui.main.UserRequest;
 import com.pusher.client.Pusher;
 
