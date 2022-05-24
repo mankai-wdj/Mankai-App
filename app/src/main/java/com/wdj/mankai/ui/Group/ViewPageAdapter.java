@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.Group;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,8 +13,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 public class ViewPageAdapter extends FragmentPagerAdapter {
-
-
 
     private ArrayList<String> categoryList,categoryType,categoryId = new ArrayList<String>();
     public ViewPageAdapter(@NonNull FragmentManager fm ,ArrayList<String> categoryList, ArrayList<String> categoryType,ArrayList<String> categoryId) {

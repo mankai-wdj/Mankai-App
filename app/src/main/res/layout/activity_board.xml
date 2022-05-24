@@ -39,21 +39,26 @@
             app:layout_constraintStart_toEndOf="@+id/logo"
             app:layout_constraintTop_toTopOf="@+id/logo" />
 
-        <android.widget.Button
+        <ImageView
             android:id="@+id/category_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="42dp"
             android:layout_height="48dp"
             android:layout_columnWeight="1"
+            app:tint="@color/black"
+            android:src="@drawable/ic_baseline_settings_24"
             android:text="카테고리"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.widget.Button
+        <ImageView
             android:id="@+id/BoardWriteBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="42dp"
             android:layout_height="48dp"
             android:layout_columnWeight="1"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_post_add_24"
             android:text="글 쓰기"
+            app:tint="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/category_btn"
             app:layout_constraintTop_toTopOf="@+id/category_btn" />
 

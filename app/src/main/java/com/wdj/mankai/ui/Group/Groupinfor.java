@@ -7,6 +7,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +38,8 @@ public class Groupinfor extends AppCompatActivity {
     private ViewPager viewPager ;
     private FragmentPagerAdapter fragmentPagerAdapter;
     public static String group_id;
+    public static TextView group_top;
+    private ImageView back_btn;
     private ArrayList<String> categoryName = new ArrayList<String>();
     private ArrayList<String> categoryType = new ArrayList<String>();
     private ArrayList<String> categoryId = new ArrayList<String>();
@@ -45,7 +50,19 @@ public class Groupinfor extends AppCompatActivity {
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(this);
 
+        back_btn = findViewById(R.id.backImage);
+        group_top = findViewById(R.id.group_top_text);
         group_id = getIntent().getStringExtra("id");
+
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.slide_wait,R.anim.slide_out_right);
+            }
+        });
+
         //뷰페이저 세팅
             viewPager = findViewById(R.id.viewpg);
 

@@ -24,6 +24,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:src="@drawable/profileimage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-
+            android:textColor="@color/black"
             android:text="Text 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 TextText 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -59,6 +60,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="장성규"
+            android:textColor="@color/black"
             android:textSize="20dp"
             app:layout_constraintStart_toEndOf="@+id/snsUserImage"
             app:layout_constraintTop_toTopOf="@+id/snsUserImage" />
@@ -172,6 +174,7 @@
             android:layout_marginTop="10dp"
             android:text="댓글"
             android:textSize="16dp"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

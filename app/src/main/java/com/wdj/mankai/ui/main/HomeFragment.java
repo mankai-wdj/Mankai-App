@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.main;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     private static String URL = "https://api.mankai.shop/api";
     public static TextView category_text;
     private View view;
-    private Button writeBtn;
+    private ImageView writeBtn;
     private ListView CommentList;
 
 
@@ -75,7 +77,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_board, container, false);
-        Button categoryBtn = view.findViewById(R.id.category_btn);
+        ImageView categoryBtn = view.findViewById(R.id.category_btn);
         category_text = view.findViewById(R.id.category_text);
         writeBtn = view.findViewById(R.id.BoardWriteBtn);
         RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);

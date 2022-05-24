@@ -3,6 +3,7 @@ package com.wdj.mankai.ui.Board;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,6 +43,7 @@ public class BoardCreateActivity extends AppCompatActivity {
     private RecyclerView boardImage;
     private TextView write_btn;
     private EditText boardContent;
+    private ImageView back_image;
     public static ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
     public static BoardCreateAdapter adapter;
 
@@ -50,6 +52,7 @@ public class BoardCreateActivity extends AppCompatActivity {
         setContentView(R.layout.board_create);
 
         boardContent = findViewById(R.id.content_edit);
+        back_image = findViewById(R.id.backImage);
         image_btn = findViewById(R.id.inputImage);
         boardImage = findViewById(R.id.createRecycler);
         boardImage.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
@@ -78,8 +81,6 @@ public class BoardCreateActivity extends AppCompatActivity {
                    write_btn.setBackgroundColor(getColor(R.color.mankai_logo));
                    write_btn.setText("작성 완료!");
                }
-
-
             }
             @Override
             public void afterTextChanged(Editable editable) {
@@ -87,6 +88,13 @@ public class BoardCreateActivity extends AppCompatActivity {
             }
         });
 
+        back_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.slide_wait,R.anim.slide_out_right);
+            }
+        });
 
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override

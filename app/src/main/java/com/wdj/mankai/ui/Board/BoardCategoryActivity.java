@@ -38,8 +38,10 @@ public class BoardCategoryActivity extends AppCompatActivity {
     public static Activity CategoryActivity;
 
     private String[] CategoryList = {"전체","영화", "미술", "공연", "음악", "드라마", "연예인", "만화", "방송",
-            "패션", "일상", "육아", "동물", "요리", "인테리어", "할인","게임", "스포츠","자동차",
-            "취미","해외여행","국내여행","맛집","IT", "컴퓨터", "정치", "건강", "일본", "중국", "미국", "해외"};
+            "패션", "일상", "육아", "동물", "요리", "인테리어", "할인","게임", "스포츠","자동차","IT","일본"
+            ,"중국","미국","정치"};
+
+    private int[] logo_list = new int[CategoryList.length];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +49,15 @@ public class BoardCategoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.board_category);
         ImageView backBtn = findViewById(R.id.backBtn);
+        for(int i = 0 ; i <CategoryList.length;i++){
+            logo_list[i] = this.getResources().getIdentifier("drawable/"+"category_image"+i,null,getPackageName());
+        }
 
         RecyclerView recyclerView = findViewById(R.id.categoryRecycle);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new CategoryAdapter(CategoryList);
+        adapter = new CategoryAdapter(CategoryList,logo_list);
         recyclerView.setAdapter(adapter);
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
