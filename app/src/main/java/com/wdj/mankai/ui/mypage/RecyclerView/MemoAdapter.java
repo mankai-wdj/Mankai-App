@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.mypage.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -128,7 +130,26 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((BOARDViewHolder)holder).webView.getSettings().setJavaScriptEnabled(true);
             ((BOARDViewHolder)holder).webView.loadUrl("http://localhost:3000/boardmemo/"+memo.getMemo_id());
             ((BOARDViewHolder)holder).webView.setWebChromeClient(new WebChromeClient());
-            ((BOARDViewHolder)holder).webView.setWebViewClient(new WebViewClientClass());
+            ((BOARDViewHolder)holder).webView.setWebViewClient(new WebViewClient(){
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    Log.d("check URL",url);
+                    view.loadUrl(url);
+                    return true;
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    ((BOARDViewHolder)holder).webViewProgress.setVisibility(View.VISIBLE);
+                    super.onPageStarted(view, url, favicon);
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    ((BOARDViewHolder)holder).webViewProgress.setVisibility(View.GONE);
+                    super.onPageFinished(view, url);
+                }
+            });
 
 
 
@@ -150,7 +171,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
 
-            /*?!그리고 로딩 만들어야 됨*/
+
 
             /*BOARD게시판 수정*/
             ((BOARDViewHolder)holder).editButton.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +277,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView content_title;
         TextView content_text;
         WebView webView;
+        ProgressBar webViewProgress;
         FrameLayout memoContainer;
         ConstraintLayout expandedLayout;
         Button editButton;
@@ -266,6 +288,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public BOARDViewHolder(Context context,@NonNull View itemView) {
             super(itemView);
             forContext = context;
+            webViewProgress = itemView.findViewById(R.id.webview_progressbar);
             content_title = itemView.findViewById(R.id.board_memo_title);
             content_text = itemView.findViewById(R.id.board_memo_content_text_preview);
             webView = itemView.findViewById(R.id.board_memo_webview);
@@ -282,6 +305,8 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     notifyItemChanged(getAdapterPosition());
                 }
             });
+
+
 
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -324,13 +349,6 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    private class WebViewClientClass extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-           Log.d("check URL",url);
-           view.loadUrl(url);
-           return true;
-        }
-    }
+
 }
 

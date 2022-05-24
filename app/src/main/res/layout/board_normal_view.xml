@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/back_gray"
 
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:paddingVertical="3dp"
+        android:background="@color/white"
+        android:paddingVertical="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/boardrounded"
+        android:elevation="3dp"
         >
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/snsUserImage"
             android:layout_width="50dp"
@@ -29,17 +32,29 @@
         <TextView
             android:id="@+id/snsContent"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="4dp"
             android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
-            android:textSize="16dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+
             app:layout_constraintStart_toStartOf="@+id/snsUserImage"
             app:layout_constraintTop_toBottomOf="@+id/snsUserImage" />
 
         <TextView
+            android:id="@+id/translate_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:textSize="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/snsContent" />
+
+        <TextView
             android:id="@+id/snsName"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
@@ -48,15 +63,95 @@
             app:layout_constraintStart_toEndOf="@+id/snsUserImage"
             app:layout_constraintTop_toTopOf="@+id/snsUserImage" />
 
-        <ImageView
-            android:id="@+id/snsMainImage"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintStart_toStartOf="@+id/snsUserImage"
-            app:layout_constraintTop_toBottomOf="@+id/snsContent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        <LinearLayout
 
+            android:layout_marginTop="10dp"
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/translate_text">
+
+            <ImageView
+
+                android:id="@+id/like_btn"
+                android:layout_marginLeft="10dp"
+                android:layout_width="36dp"
+                android:padding="2dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_favorite_24"
+                app:tint="@color/dark_gray"/>
+
+            <TextView
+                android:id="@+id/likeCnt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:padding="2dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="3"
+                android:textColor="@color/dark_gray"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/commentBtn"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:src="@drawable/ic_round_comment_24"
+                app:tint="@color/dark_gray" />
+
+            <TextView
+                android:id="@+id/CommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:text="3"
+                android:textColor="@color/dark_gray"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/translate_btn"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:src="@drawable/ic_baseline_translate_24"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+            />
+
+
+        <TextView
+            android:id="@+id/snsComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:text="댓글"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

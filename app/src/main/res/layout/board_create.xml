@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/light_gray"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="32dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_outline_arrow_back_ios_24"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="글 작성하기"
+            android:textColor="@color/dark_gray"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/inputImage"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:text="이미지 넣기"></TextView>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/createRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_gray"
+        />
+
+    <EditText
+        android:id="@+id/content_edit"
+        android:gravity="top"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:textColor="@color/black"
+        android:hint="하고 싶은 말을 작성해주세요"
+        android:layout_marginBottom="48dp"
+        />
+
+    <TextView
+        android:id="@+id/WriteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="-48dp"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:text="하고 싶은 말을 써주세요"
+        android:textColor="@color/white"
+        android:background="@color/black"/>
+</LinearLayout>

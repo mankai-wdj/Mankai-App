@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="back_gray">#f1f3f5</color>
+    <color name="light_gray">#e2e2e2</color>
+    <color name="dark_gray">#808080</color>
+    <color name="mankai_logo">#4c2af3</color>
+
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF5252</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorsSecondaryText">#757575 </color>
+    <color name="colorDivider">#ECECEC</color>
 </resources>
