@@ -4,6 +4,8 @@ import static java.lang.Thread.*;
 
 import android.util.Log;
 
+import com.wdj.mankai.BuildConfig;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -18,8 +20,8 @@ public class PapagoTranslate{
         private static String langCode;
         public static String getTranslation(String word, String target) {
 
-            String clientId = "W67VxGiecQuxoWQaqZ02";//애플리케이션 클라이언트 아이디값";
-            String clientSecret = "BxA1eiUXuT";//애플리케이션 클라이언트 시크릿값";
+            String clientId = BuildConfig.Papago_api_key;//애플리케이션 클라이언트 아이디값";
+            String clientSecret = BuildConfig.Papago_secret_key;//애플리케이션 클라이언트 시크릿값";
 //           키 숨길것
             new Thread() {
                 public void run(){

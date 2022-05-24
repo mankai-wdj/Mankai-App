@@ -45,7 +45,7 @@ public class BoardCommentActivity extends AppCompatActivity {
     private String content_text;
     private String user_name;
     private String user_profile;
-    private TextView sns_text ;
+    private TextView sns_text,translate_text ;
     private TextView sns_name ;
     private ImageView sns_profile ;
     private ImageView back_image;
@@ -58,6 +58,7 @@ public class BoardCommentActivity extends AppCompatActivity {
     private String isGroup;
     private String sub;
     private int type;
+    private ImageView trans_image;
     private EditText comment_edit;
     private  ArrayList<CommentData> list = new ArrayList<CommentData>();
 
@@ -80,6 +81,9 @@ public class BoardCommentActivity extends AppCompatActivity {
         like_count=findViewById(R.id.likeCnt);
         comment_image = findViewById(R.id.comment_btn);
         comment_edit = findViewById(R.id.commentText);
+        trans_image = findViewById(R.id.translate_btn);
+        translate_text = findViewById(R.id.translate_text);
+
 //      Extra로 값 넘겨 받아서 보여줌
         board_id = getIntent().getStringExtra("id");
         isGroup = getIntent().getStringExtra("isGroup");
@@ -117,6 +121,15 @@ public class BoardCommentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SendComment(comment_edit.getText().toString());
                 Log.d("Comment", "Send Message " + comment_edit.getText());
+            }
+        });
+        trans_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String translate;
+                translate = PapagoTranslate.getTranslation(content_text,"ko");
+                translate_text.setText(translate);
+                translate_text.setVisibility(View.VISIBLE);
             }
         });
 

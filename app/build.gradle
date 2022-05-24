@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 32
 
@@ -12,8 +15,10 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "Papago_api_key", properties['Papago_api_key']
+        buildConfigField "String", "Papago_secret_key", properties['Papago_secret_key']
     }
 
     buildTypes {

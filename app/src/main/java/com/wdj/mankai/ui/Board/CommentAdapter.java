@@ -17,6 +17,7 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.data.CommentData;
 
 import org.w3c.dom.Comment;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,8 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
         TextView commentName = itemView.findViewById(R.id.snsCommentName);
         TextView commentComment = itemView.findViewById(R.id.snsCommentContent);
         ImageView commentProfile = itemView.findViewById(R.id.snsCommentUserImage);
-
+        ImageView trans_btn = itemView.findViewById(R.id.translate_btn);
+        TextView translate_text = itemView.findViewById(R.id.translate_text);
     }
     public CommentAdapter(ArrayList<CommentData> commentData)
     {
@@ -61,6 +63,17 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
         Glide.with(holder.itemView.getContext())
                 .load(data.getProfile())
                 .into(holder.commentProfile);
+
+        holder.trans_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String translate;
+                translate = PapagoTranslate.getTranslation(data.getComment(),"ko");
+                holder.translate_text.setText(translate);
+                holder.translate_text.setVisibility(View.VISIBLE);
+            }
+        });
+
 
     }
 
