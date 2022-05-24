@@ -3,25 +3,21 @@ package com.wdj.mankai.ui.mypage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.GridView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
-import com.wdj.mankai.data.FollowerData;
 import com.wdj.mankai.data.MyGroupData;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.mypage.RecyclerView.MyGroupAdapter;
@@ -32,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FragMyGroups extends Fragment{
+public class FragYouGroups extends Fragment {
     private View view;
     private ArrayList<MyGroupData> list = new ArrayList<MyGroupData>();
     private MyGroupData myGroupData;
@@ -42,16 +38,23 @@ public class FragMyGroups extends Fragment{
 
     String url;
     String userId;
-
-    public static FragMyGroups newInstance(){
-        FragMyGroups fragMyGroups = new FragMyGroups();
-
-        return fragMyGroups;
+    public FragYouGroups() {
+        // Required empty public constructor
     }
 
-    @Nullable
+    public static FragYouGroups newInstance() {
+        FragYouGroups fragYouGroups = new FragYouGroups();
+        return fragYouGroups;
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_mygroups,container,false);
         url = "https://api.mankai.shop/api/show/mygroup/";
 
@@ -62,20 +65,12 @@ public class FragMyGroups extends Fragment{
         adapter = new MyGroupAdapter(list);
         myGroup_recyclerview.setAdapter(adapter);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        String user_info = sharedPreferences.getString("user_info", "");
-
-
-        try {
-            JSONObject object = new JSONObject(user_info);
-            userId = object.getString("id");
-            Log.d("text", userId);
-        } catch (Throwable t) {
-
-        }
 
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
+
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId","");
 
         response();
         return view;
@@ -105,4 +100,5 @@ public class FragMyGroups extends Fragment{
         myPageStringRequest.setShouldCache(false);
         AppHelper.requestQueue.add(myPageStringRequest);
     }
+
 }

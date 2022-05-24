@@ -126,7 +126,7 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             settings.setDomStorageEnabled(true);
 
             ((BOARDViewHolder)holder).webView.getSettings().setJavaScriptEnabled(true);
-            ((BOARDViewHolder)holder).webView.loadUrl("https://mankai.shop/boardmemo/"+memo.getMemo_id());
+            ((BOARDViewHolder)holder).webView.loadUrl("http://localhost:3000/boardmemo/"+memo.getMemo_id());
             ((BOARDViewHolder)holder).webView.setWebChromeClient(new WebChromeClient());
             ((BOARDViewHolder)holder).webView.setWebViewClient(new WebViewClientClass());
 

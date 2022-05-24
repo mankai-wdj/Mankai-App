@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.wdj.mankai.R;
+import com.wdj.mankai.ui.mypage.FragMyFollowers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         MyPageFragment myPageFragment = new MyPageFragment();
                         myPageFragment.setArguments(bundle);
                         fragment = myPageFragment;
+
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();

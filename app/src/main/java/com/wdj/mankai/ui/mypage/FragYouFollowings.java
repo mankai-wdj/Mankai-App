@@ -4,26 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
-import com.wdj.mankai.data.FollowerData;
 import com.wdj.mankai.data.FollowingData;
 import com.wdj.mankai.data.model.AppHelper;
-import com.wdj.mankai.ui.mypage.RecyclerView.FollowersAdapter;
 import com.wdj.mankai.ui.mypage.RecyclerView.FollowingsAdapter;
 
 import org.json.JSONArray;
@@ -32,48 +29,45 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FragMyFollowings extends Fragment{
+public class FragYouFollowings extends Fragment {
     private View view;
 
     private ArrayList<FollowingData> list = new ArrayList<FollowingData>();
     private FollowingData followingData;
 
-    private RecyclerView myFollowings_recyclerview;
+    private RecyclerView youFollowings_recyclerview;
     private FollowingsAdapter followingsAdapter;
 
     String url;
     String userId;
 
-    public static FragMyFollowings newInstance(){
-        FragMyFollowings fragFollowings = new FragMyFollowings();
-
-        return fragFollowings;
+    public FragYouFollowings() {
+        // Required empty public constructor
     }
 
-    @Nullable
+    public static FragYouFollowings newInstance() {
+        FragYouFollowings fragYouFollowings = new FragYouFollowings();
+        return fragYouFollowings;
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myfollowings,container,false);
         url = "https://api.mankai.shop/api/follows/";
 
-        myFollowings_recyclerview = view.findViewById(R.id.myFollowings_recyclerview);
+        youFollowings_recyclerview = view.findViewById(R.id.myFollowings_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
-        myFollowings_recyclerview.setLayoutManager(layoutManager);
+        youFollowings_recyclerview.setLayoutManager(layoutManager);
 
         followingsAdapter = new FollowingsAdapter(list);
-        myFollowings_recyclerview.setAdapter(followingsAdapter);
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        String user_info = sharedPreferences.getString("user_info", "");
+        youFollowings_recyclerview.setAdapter(followingsAdapter);
 
 
-        try {
-            JSONObject object = new JSONObject(user_info);
-            userId = object.getString("id");
-            Log.d("text", userId);
-        } catch (Throwable t) {
-
-        }
 
         followingsAdapter.setOnItemClickListener(new FollowingsAdapter.OnItemClickListener() {
             @Override
@@ -89,11 +83,13 @@ public class FragMyFollowings extends Fragment{
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
 
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId","");
+
         memoResponse();
 
         return view;
     }
-
     private void memoResponse() {
         StringRequest myPageStringRequest = new StringRequest(
                 Request.Method.GET, url+userId,
