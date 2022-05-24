@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -110,8 +111,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btMyMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ChatContainerActivity.this, "메모 모달 띄우기", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChatContainerActivity.this, MemoListActivity.class);
+                intent.putExtra("room", room);
+                startActivity(intent);
                 drawerLayout.closeDrawer(drawerView);
+
             }
         });
 

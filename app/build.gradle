@@ -34,6 +34,7 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.1') {
         exclude group: 'org.json', module: 'json'
     }
+
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation group: 'org.json', name: 'json', version: '20160810'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -52,4 +53,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.pusher:pusher-java-client:2.2.1'
+    implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
 }

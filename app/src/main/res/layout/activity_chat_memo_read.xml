@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.chat.ChatMemoReadActivity">
+    <EditText
+        android:id="@+id/tvMemoTitle"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/snsMemoLayout">
+
+        <TextView
+            android:id="@+id/tvSnsMemoContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="15dp"
+            app:delay="0"
+            app:period="3000"
+            app:placeholder="@color/purple_500"
+            app:error_image="@color/black"
+            app:corner_radius="20"
+            android:id="@+id/snsMemoSlider"/>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginRight="30dp"
+        android:id="@+id/boardMemoLayout">
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/boardMemoWebview"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:id="@+id/buttonLayout"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="내 메모에 저장"
+            android:id="@+id/btSaveMemo"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:text="닫기"
+            android:id="@+id/btClose"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+    </LinearLayout>
+</LinearLayout>
