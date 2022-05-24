@@ -48,12 +48,13 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
     Button followingButton;
     Button MSGButton;
     static final String PASS = "pass";
-
+    String input;
     String LoginUserId;
 
     @Override
     public void sendInput(String input) {
         Log.d("popopo",input);
+        this.input = input;
         if (input == PASS) {
             Log.d("popopo1",input);
             followButton.setVisibility(View.GONE);
@@ -134,6 +135,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
             @Override
             public void onClick(View view) {
                 SendFollow();
+                sendInput(input);
             }
         });
 
@@ -141,6 +143,10 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
             @Override
             public void onClick(View view) {
                 SendFollow();
+                followButton.setVisibility(View.VISIBLE);
+                followingButton.setVisibility(View.GONE);
+                MSGButton.setVisibility(View.GONE);
+
             }
         });
 
@@ -180,9 +186,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         Response();
-
 
                     }
                 }, null) {
@@ -198,7 +202,6 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
         request.setShouldCache(false);
         AppHelper.requestQueue.add(request);
     }
-
 
 
     public void Setting(String userName,String userDescription,String userProfile){
