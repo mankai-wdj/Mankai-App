@@ -14,21 +14,30 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.RoomsAdapter;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.login.LoginActivity;
 import com.wdj.mankai.ui.login.LoginRequest;
+import com.wdj.mankai.ui.main.UserRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.WebSocket;
 
 public class ChatActivity extends FragmentActivity {
     TabLayout chat_room_tabs;
 
     ChatDMListFragment dmListFragment;
     ChatGroupListFragment groupListFragment;
-
+    JSONObject currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,9 @@ public class ChatActivity extends FragmentActivity {
         chat_room_tabs = findViewById(R.id.chat_room_tabs);
         chat_room_tabs.addTab(chat_room_tabs.newTab().setText("DM"));
         chat_room_tabs.addTab(chat_room_tabs.newTab().setText("GROUP"));
+
+
+
 
 
 
@@ -71,6 +83,10 @@ public class ChatActivity extends FragmentActivity {
         });
 
     }
+
+
+
+
 
     public static void setRoomList(ViewGroup rootView) {
         RecyclerView roomList_list;

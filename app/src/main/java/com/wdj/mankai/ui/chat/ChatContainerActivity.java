@@ -3,8 +3,6 @@ package com.wdj.mankai.ui.chat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,26 +28,37 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
-import com.wdj.mankai.data.model.User;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
 import com.wdj.mankai.ui.chat.ui.ChatInviteActivity;
 import com.wdj.mankai.ui.main.ChatFragment;
-import com.wdj.mankai.ui.main.MainActivity;
+import com.wdj.mankai.ui.main.EchoWebSocketListener;
 import com.wdj.mankai.ui.main.UserRequest;
+import com.pusher.client.Pusher;
 
-
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+
+import okhttp3.OkHttpClient;
+
 
 public class ChatContainerActivity extends AppCompatActivity implements ChatBottomSheetDialog.BottomSheetListener {
     Room room;
@@ -66,7 +75,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     private View drawerView;
     String res;
     private ChatFragment chatFragment = new ChatFragment();
-
 //    @Override
 //    public void onBackPressed() {
 //        super.onBackPressed();
@@ -96,6 +104,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
+
 
 
         btMyMemo.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +147,8 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         String token = sharedPreferences.getString("login_token","");
         getUser(token);
 
+
+
         chat_message_list = (RecyclerView) findViewById(R.id.chat_message_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatContainerActivity.this, LinearLayoutManager.VERTICAL, false);
         chat_message_list.setLayoutManager(layoutManager);
@@ -166,36 +177,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 drawerLayout.closeDrawer(drawerView);
             }
         });
-
-
-//        URI uri = URI.create("ws://api.mankai.shop:6001");
-//        WebSocketUtil webSocketUtil = new WebSocketUtil(uri, new Draft_6455());
-//
-//        //웹소켓 커넥팅
-//        try {
-//            webSocketUtil.connectBlocking();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JSONObject obj = new JSONObject();
-//
-//        try {
-//            obj.put("message", "Hello World");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        String message = obj.toString();
-//        JSONObject result = null;
-////        //웹소켓 메세지 보내기
-//        if(webSocketUtil.isOpen()) {
-//            webSocketUtil.send("{\"message\" : \"안녕\"}");
-//             result = webSocketUtil.getResult();
-//            webSocketUtil.close();
-//        }
-//
-//
-//        System.out.println("ddddddddddd" + result);
 
 
     }
@@ -517,7 +498,26 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             chat_message_list.setVisibility(View.VISIBLE);
         }
     }
+    private void channelSubscribe(String roomID) {
+        PusherOptions options = new PusherOptions() .setCluster("ap3");
+        Pusher pusher = new Pusher("04847be41be2cbe59308",options);
+        Channel channel = pusher.subscribe("room."+roomID); // 채널 연결
+        pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                System.out.println("State changed to " + change.getCurrentState() +
+                        " from " + change.getPreviousState());
+            }
 
+            @Override
+            public void onError(String message, String code, Exception e) {
+                System.out.println("There was a problem connecting!");
+                System.out.println(code);
+                System.out.println(message);
+            }
+        }, ConnectionState.ALL);
+
+    }
     private void getUser(String token) {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
@@ -533,7 +533,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                         System.out.println("유저 정보 받아옴");
                         currentUser = jsonObject;
                         getMessages(token, room.id, jsonObject.getString("id"));
-
+                        channelSubscribe(room.id);
                     } else{
                         Toast.makeText(ChatContainerActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
                     }
