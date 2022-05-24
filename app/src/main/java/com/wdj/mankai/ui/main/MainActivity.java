@@ -14,6 +14,12 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 
 import org.json.JSONException;
@@ -23,6 +29,7 @@ import java.security.acl.Group;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    JSONObject currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("user_info",response);
                     editor.commit();
                     if(userName != null) {
+                        currentUser = jsonObject;
                         System.out.println("유저 정보 받아옴");
                         Toast.makeText(MainActivity.this,response,Toast.LENGTH_SHORT).show();
+                        channelSubscribe(currentUser.getInt("id"));
                     } else{
                         Toast.makeText(MainActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
                         System.out.println(response);
@@ -88,5 +97,26 @@ public class MainActivity extends AppCompatActivity {
         UserRequest userRequest = new UserRequest(token,responseListener);
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         queue.add(userRequest);
+    }
+
+    private void channelSubscribe(int userID) {
+        PusherOptions options = new PusherOptions() .setCluster("ap3");
+        Pusher pusher = new Pusher("04847be41be2cbe59308",options);
+        Channel channel = pusher.subscribe("user."+userID); // 채널 연결
+        pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                System.out.println("State changed to " + change.getCurrentState() +
+                        " from " + change.getPreviousState());
+            }
+
+            @Override
+            public void onError(String message, String code, Exception e) {
+                System.out.println("There was a problem connecting!");
+                System.out.println(code);
+                System.out.println(message);
+            }
+        }, ConnectionState.ALL);
+
     }
 }
