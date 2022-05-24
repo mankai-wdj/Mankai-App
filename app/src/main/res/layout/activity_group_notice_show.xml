@@ -16,7 +16,7 @@
         android:background="@color/light_gray"
         >
         <ImageView
-            android:id="@+id/backImage"
+            android:id="@+id/backBtn"
             android:layout_width="32dp"
             android:layout_height="48dp"
             android:layout_marginLeft="5dp"

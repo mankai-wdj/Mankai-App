@@ -42,6 +42,8 @@
         android:layout_marginHorizontal="10dp"
         android:background="@color/light_gray"
         android:visibility="gone"
+        android:textSize="16dp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/snsCommentContent" />
 

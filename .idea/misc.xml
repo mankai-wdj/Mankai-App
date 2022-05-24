@@ -6,6 +6,8 @@
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/baseline_favorite_24.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_delete_24.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1235" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/icon_people.xml" value="0.269" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/board_top_style.xml" value="0.269" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardbtn.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardrounded.xml" value="0.256" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/categorydesign.xml" value="0.2065" />
@@ -24,12 +26,13 @@
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1235" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ic_round_comment_24.xml" value="0.1525" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/item_selector.xml" value="0.1525" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/layout_style.xml" value="0.269" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/nobgBtn.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/nobg_btn.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/rounded_corner.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/search_style.xml" value="0.269" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/sticker.xml" value="0.269" />
-        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.264" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.5275754422476587" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_board.xml" value="0.15462962962962962" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_cate.xml" value="0.15462962962962962" />

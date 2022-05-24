@@ -28,7 +28,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:text="글 작성하기"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/black"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -42,7 +42,10 @@
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="16dp"
-        android:text="이미지 넣기"></TextView>
+        android:text="이미지 넣기"
+        android:background="@color/light_gray"
+
+        ></TextView>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/materialDivider4"
@@ -70,7 +73,6 @@
         android:gravity="top"
         android:padding="10dp"
         android:textSize="20dp"
-        android:background="@color/light_gray"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:textColor="@color/black"
