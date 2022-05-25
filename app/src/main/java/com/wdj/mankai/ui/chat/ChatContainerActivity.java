@@ -77,22 +77,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     private String userID;
     private ChatFragment chatFragment = new ChatFragment();
     private Parcelable recyclerViewState;
+    private int chat_count = 0;
     Channel channel;
     PusherOptions options = new PusherOptions() .setCluster("ap3");
     Pusher pusher = new Pusher("04847be41be2cbe59308",options);
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//
-//        Toast.makeText(ChatContainerActivity.this, "room list로 보내기", Toast.LENGTH_SHORT).show();   //토스트 메시지
-////        FragmentManager fragmentManager = getSupportFragmentManager();
-////        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-////        fragmentTransaction.replace(R.id.main_container, chatFragment);
-////        fragmentTransaction.commit();
-//        Intent intent = new Intent(ChatContainerActivity.this, MainActivity.class);
-//        startActivity(intent);
-//
-//    }
+    LinearLayoutManager layoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,12 +110,13 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
                     SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                     Date formatDate2 = dtFormat.parse(jsonObject.getJSONObject("message").getString("created_at"));
-                    messagesAdapter.addEventMessage(new Message(jsonObject.getJSONObject("message").getString("id"), jsonObject.getJSONObject("message").getString("user_id"), jsonObject.getJSONObject("message").getString("room_id"), jsonObject.getJSONObject("message").getString("type"), jsonObject.getJSONObject("message").getString("message"), newDtFormat2.format(formatDate2), jsonObject.getJSONObject("message").getString("user")));
+                    messageList.add(new Message(jsonObject.getJSONObject("message").getString("id"), jsonObject.getJSONObject("message").getString("user_id"), jsonObject.getJSONObject("message").getString("room_id"), jsonObject.getJSONObject("message").getString("type"), jsonObject.getJSONObject("message").getString("message"), newDtFormat2.format(formatDate2), jsonObject.getJSONObject("message").getString("user")));
                     ChatContainerActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
                             messagesAdapter.notifyDataSetChanged();
+
                         }
                     });
 
@@ -134,10 +124,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
-
-//                messagesAdapter.addMessage(event.getData());
             }
         });
+
+
+
         btMyMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,11 +177,10 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
 
         chat_message_list = (RecyclerView) findViewById(R.id.chat_message_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(ChatContainerActivity.this, LinearLayoutManager.VERTICAL, false);
-        chat_message_list.setLayoutManager(layoutManager);
+        layoutManager = new LinearLayoutManager(ChatContainerActivity.this, LinearLayoutManager.VERTICAL, false);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        chat_message_list.setItemViewCacheSize(20);
+        chat_message_list.setLayoutManager(layoutManager);
 
         chat_message_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -202,10 +192,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 super.onScrolled(recyclerView, dx, dy);
 
 //
-                if (layoutManager != null && layoutManager.findLastVisibleItemPosition() == messagesAdapter.getItemCount() -1) {
+                if (layoutManager != null && layoutManager.findLastVisibleItemPosition() == messageList.size()-1) {
                     if(currentPage<last_page) {
                         currentPage+=1;
                         loadMore(token, room.id,userID,currentPage);
+
                         Log.e("TAG",String.valueOf(currentPage + "라스트")+last_page);
                     }
                 }
@@ -364,6 +355,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             for(int i = 0; i < toUsers.length(); i++) {
                 toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
             }
+            chat_message_list.scrollToPosition(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -441,21 +433,21 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     e.printStackTrace();
                 }
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    "https://api.mankai.shop/api/messageBot/send",
-                    reqJsonObject,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("TAG", "성공 봇");
+                        Request.Method.POST,
+                        "https://api.mankai.shop/api/messageBot/send",
+                        reqJsonObject,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("TAG", "성공 봇");
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //통신 ERROR
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            //통신 ERROR
-                        }
-                    }
                 );
                 Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
             }
@@ -504,7 +496,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         );
         Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
     }
-
     // message 셋팅
     private void setMessages(JSONObject messages, String userId) throws JSONException, ParseException {
         try {
@@ -513,25 +504,45 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             e.printStackTrace();
         }
         JSONArray jsonArray = messages.getJSONArray("data");
+
+        for (int i = 0; i< jsonArray.length(); i++) {
+            JSONObject message = jsonArray.getJSONObject(i);
+            SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
+            SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date formatDate2 = dtFormat.parse(message.getString("created_at"));
+            messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user")));
+            chat_count+=1;
+        }
+        messagesAdapter.notifyDataSetChanged();
+
+        loading(false);
+    }
+
+    // message 셋팅
+    private void endlessSet(JSONObject messages, String userId) throws JSONException, ParseException {
+        try {
+            textName.setText(userName(room.users, room.type));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray jsonArray = messages.getJSONArray("data");
         recyclerViewState = chat_message_list.getLayoutManager().onSaveInstanceState();
-        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id);
-        chat_message_list.setAdapter(messagesAdapter);
 
-            for (int i = 0; i< jsonArray.length(); i++) {
-                JSONObject message = jsonArray.getJSONObject(i);
-                SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
-                SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                Date formatDate2 = dtFormat.parse(message.getString("created_at"));
 
-                messageList.add(new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user")));
-            }
+        for (int i = 0; i< jsonArray.length(); i++) {
+            JSONObject message = jsonArray.getJSONObject(i);
+            SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
+            SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date formatDate2 = dtFormat.parse(message.getString("created_at"));
 
-            System.out.println(messageList);
-            messagesAdapter.addMessage(messageList);
+            messageList.add(new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+i, newDtFormat2.format(formatDate2), message.getString("user")));
+        }
 
-            chat_message_list.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        messagesAdapter.notifyDataSetChanged();
 
-            loading(false);
+        chat_message_list.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+
+        loading(false);
     }
 
 
@@ -543,8 +554,22 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
                     last_page = jsonObject.getInt("last_page");
-                    setMessages(jsonObject, userId);
+                    for (int i = 0; i< jsonArray.length(); i++) {
+                        JSONObject message = jsonArray.getJSONObject(i);
+                        SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
+                        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        Date formatDate2 = dtFormat.parse(message.getString("created_at"));
+
+                        messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user")));
+                        chat_count+=1;
+                    }
+                    loading(false);
+                    messagesAdapter.notifyDataSetChanged();
+
+                    Log.e("라스트", String.valueOf(messageList.size()-1));
                 } catch(JSONException | ParseException err) {
                     err.printStackTrace();
                 }
@@ -570,7 +595,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     setMessages(jsonObject, userId);
                     messagesAdapter.notifyDataSetChanged();
                     chat_message_list.scrollToPosition(0);
-                    Log.d("TAG", "위치 0");
                 } catch(JSONException | ParseException err) {
                     err.printStackTrace();
                 }
@@ -623,9 +647,12 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                         System.out.println("유저 정보 받아옴");
                         currentUser = jsonObject;
                         userID = jsonObject.getString("id");
+                        messageList = new ArrayList<>();
+                        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id,userID , messageList);
                         getMessages(token, room.id, jsonObject.getString("id"),currentPage);
                         channelSubscribe(room.id);
 
+                        chat_message_list.setAdapter(messagesAdapter);
                     } else{
                         Toast.makeText(ChatContainerActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
                     }

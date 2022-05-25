@@ -58,47 +58,51 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     String roomId;
     String res;
     JSONObject currentUser;
+    String currentUserID;
     private View transLine;
     AppCompatImageView imageFileIcon, imageMemoIcon;
     LinearLayout fileLayout, memoLayout, videoLayout,messageBox, textMessageLayout;
     GridLayout gridLayout;
-//    ImageGridViewAdapter imageGridViewAdapter;
+    //    ImageGridViewAdapter imageGridViewAdapter;
     public static final Boolean VIEW_TYPE_SENT = true;
     public static final Boolean VIEW_TYPE_RECIEVED = false;
 
-    public MessagesAdapter(Context mContext, JSONObject currentUser, String roomId) {
+    public MessagesAdapter(Context mContext, JSONObject currentUser, String roomId , String currentUserID , ArrayList messages) {
         this.mContext = mContext;
         this.currentUser = currentUser;
         this.roomId = roomId;
+        this.currentUserID = currentUserID;
+        this.messages =messages;
     }
+
+
 
     public void addEventMessage(Message message) {
-        messages.add(messages.size()-1, message);
+        messages.add(message);
     }
 
-    public void addMessage(ArrayList<Message> Arraymessages)  {
-
-        for(int i = 0 ;i<Arraymessages.size();i++){
-            messages.add(Arraymessages.get(i));
-        }
-
+    public void addMessage(Message message) {
+        messages.add(0, message);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Boolean bool = null;
-            try {
-                 bool = messages.get(viewType).userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT;
+        RecyclerView.ViewHolder vh = null;
+        try {
+            if(messages.get(viewType).userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT) {
+                vh = new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
+            } else {
+                vh = new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(bool) {
-                return new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
-            }else {
-                return new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
-            }
+
+
+        return vh;
     }
 
     @Override
@@ -107,22 +111,19 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //        imageGridViewAdapter = new ImageGridViewAdapter();
 
         try {
-            if(message.userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT) {
-                try {
-                    ((SentMessageViewHolder) holder).setItem(message);
-    //                ((SentMessageViewHolder) holder).gridView.setAdapter(imageGridViewAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }else {
-                try {
-                    ((ReceivedMessageViewHolder) holder).setItem(message);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            if (message.userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT) {
+                ((SentMessageViewHolder) holder).setItem(message);
+            } else{
+                ((ReceivedMessageViewHolder) holder).setItem(message);
             }
+
+
+
+
+
         } catch (JSONException e) {
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -134,14 +135,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return messages.size();
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        if(messages.get(position).userId.equals(currentUserId)) {
-//            return VIEW_TYPE_SENT;
-//        }else {
-//            return VIEW_TYPE_RECIEVED;
-//        }
-//    }
+
     @Override
     public int getItemViewType(int position) {
         return position;
