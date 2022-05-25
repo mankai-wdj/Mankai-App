@@ -1,12 +1,16 @@
 package com.wdj.mankai.ui.Board;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.CommentData;
 import com.wdj.mankai.ui.main.MainActivity;
+import com.wdj.mankai.ui.mypage.YouPage;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Text;
@@ -36,6 +41,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
         ImageView commentProfile = itemView.findViewById(R.id.snsCommentUserImage);
         ImageView trans_btn = itemView.findViewById(R.id.translate_btn);
         TextView translate_text = itemView.findViewById(R.id.translate_text);
+        LinearLayout layout = itemView.findViewById(R.id.linear);
     }
     public CommentAdapter(ArrayList<CommentData> commentData)
     {
@@ -48,7 +54,6 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
     @Override
     public CommentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.comment_view,parent,false);
@@ -74,6 +79,17 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
 
         holder.translate_text.setText("");
         holder.translate_text.setVisibility(View.GONE);
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), YouPage.class);
+                intent.putExtra("youURL",data.getUser_id());
+                Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
+                view.getContext().startActivity(intent, bundle);
+
+            }
+        });
 
         holder.trans_btn.setOnClickListener(new View.OnClickListener() {
             @Override

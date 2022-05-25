@@ -25,6 +25,7 @@ import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.ui.main.HomeFragment;
 import com.wdj.mankai.ui.main.MainActivity;
+import com.wdj.mankai.ui.mypage.YouPage;
 
 import org.json.JSONException;
 import org.w3c.dom.Text;
@@ -67,6 +68,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
         TextView translateText = itemView.findViewById(R.id.translate_text);
         ImageView likeBtn = itemView.findViewById(R.id.like_btn);
+        LinearLayout layout = itemView.findViewById(R.id.linear);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -119,6 +121,20 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
             }
 
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(view.getContext(), YouPage.class);
+                        intent.putExtra("youURL",snsdata.getUser_id());
+                        Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
+                        view.getContext().startActivity(intent, bundle);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             if(snsdata.getComments()!=null) {
                 String ch ="";
@@ -178,6 +194,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                         intent.putExtra("like_count",snsdata.getLike_length());
                         intent.putExtra("board_count",position);
                         intent.putExtra("isGroup",snsdata.getIsGroup());
+                        intent.putExtra("user_id",snsdata.getUser_id());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

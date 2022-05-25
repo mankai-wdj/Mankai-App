@@ -96,6 +96,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Log.d("Write", "Click Write");
                 Intent intent = new Intent(getContext(), BoardCreateActivity.class);
+
                 Bundle bundle = ActivityOptions.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
                 startActivity(intent, bundle);
             }

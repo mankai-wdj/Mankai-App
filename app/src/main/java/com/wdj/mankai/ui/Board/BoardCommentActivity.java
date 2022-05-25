@@ -1,12 +1,15 @@
 package com.wdj.mankai.ui.Board;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +30,7 @@ import com.wdj.mankai.data.CommentData;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.main.HomeFragment;
 import com.wdj.mankai.ui.main.MainActivity;
+import com.wdj.mankai.ui.mypage.YouPage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +61,9 @@ public class BoardCommentActivity extends AppCompatActivity {
     private ImageView comment_image;
     private String isGroup;
     private String sub;
+    private String user_id;
     private int type;
+    private LinearLayout layout;
     private ImageView trans_image;
     private EditText comment_edit;
     private  ArrayList<CommentData> list = new ArrayList<CommentData>();
@@ -83,6 +89,7 @@ public class BoardCommentActivity extends AppCompatActivity {
         comment_edit = findViewById(R.id.commentText);
         trans_image = findViewById(R.id.translate_btn);
         translate_text = findViewById(R.id.translate_text);
+        layout=findViewById(R.id.linear);
 
 //      Extra로 값 넘겨 받아서 보여줌
         board_id = getIntent().getStringExtra("id");
@@ -93,6 +100,20 @@ public class BoardCommentActivity extends AppCompatActivity {
         like_count.setText(getIntent().getStringExtra("like_count"));
         board_count = getIntent().getIntExtra("board_count",0);
         isGroup = getIntent().getStringExtra("isGroup");
+        user_id = getIntent().getStringExtra("user_id");
+
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), YouPage.class);
+                intent.putExtra("youURL",user_id);
+                Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
+                view.getContext().startActivity(intent, bundle);
+
+            }
+        });
+
 
         sns_text.setText(content_text);
         sns_name.setText(user_name);

@@ -39,6 +39,8 @@
 
         </LinearLayout>
 
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
@@ -48,27 +50,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/snsCommentUserImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/snsCommentUserImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+                <TextView
+                    android:id="@+id/snsCommentName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="장성규"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/snsCommentName"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="장성규"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/snsCommentUserImage"
-                app:layout_constraintTop_toTopOf="@+id/snsCommentUserImage" />
+
+            </LinearLayout>
+
+
 
 
             <TextView
@@ -82,8 +96,8 @@
                 android:textSize="18dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/snsCommentUserImage"
-                app:layout_constraintTop_toBottomOf="@+id/snsCommentUserImage" />
+                app:layout_constraintStart_toStartOf="@+id/linear"
+                app:layout_constraintTop_toBottomOf="@+id/linear" />
 
             <TextView
                 android:id="@+id/translate_text"

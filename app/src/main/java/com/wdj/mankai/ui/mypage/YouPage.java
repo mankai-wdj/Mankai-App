@@ -124,12 +124,11 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
         }
 
         // 다시 자기 페이지 눌렀을 경우 -> 수정 필요
-        if (userId.equals(LoginUserId)){
-            Log.d("나야", "나야");
+//         if (userId.equals(LoginUserId)){
+//            Log.d("나야", "나야");
 //            MyPageFragment myPageFragment = new MyPageFragment();
 //            getSupportFragmentManager().beginTransaction().replace(R.id.mypage,myPageFragment).commit();
-
-        }
+//        }
 
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override

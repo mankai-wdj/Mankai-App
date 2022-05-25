@@ -79,8 +79,6 @@ public class MyPageFragment extends Fragment {
             Glide.with(this).load(userProfile).placeholder(R.drawable.ic_launcher_foreground).dontAnimate().into(userProfileView);
         }
 
-
-
 //      뷰페이저 세팅
         ViewPager viewPager = view.findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(userId,getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

@@ -96,4 +96,20 @@ public class CommentData implements Serializable {
             e.printStackTrace();
         }
     }
+    public String getUser_id() {
+        try {
+            return jsonData.getString("user_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setUser_id(String user_id) {
+        try {
+            this.jsonData.put("user_id",user_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
