@@ -72,6 +72,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.roomId = roomId;
     }
 
+    public void addEventMessage(Message message) {
+        messages.add(messages.size()-1, message);
+    }
+
     public void addMessage(ArrayList<Message> Arraymessages)  {
 
         for(int i = 0 ;i<Arraymessages.size();i++){
