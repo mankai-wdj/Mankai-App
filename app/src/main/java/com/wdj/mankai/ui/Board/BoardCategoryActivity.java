@@ -53,6 +53,7 @@ public class BoardCategoryActivity extends AppCompatActivity {
             logo_list[i] = this.getResources().getIdentifier("drawable/"+"category_image"+i,null,getPackageName());
         }
 
+
         RecyclerView recyclerView = findViewById(R.id.categoryRecycle);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new CategoryAdapter(CategoryList,logo_list);

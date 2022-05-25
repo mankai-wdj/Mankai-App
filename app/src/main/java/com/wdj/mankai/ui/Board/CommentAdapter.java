@@ -63,6 +63,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
         Glide.with(holder.itemView.getContext())
                 .load(data.getProfile())
                 .into(holder.commentProfile);
+
         holder.translate_text.setText("");
         holder.translate_text.setVisibility(View.GONE);
 

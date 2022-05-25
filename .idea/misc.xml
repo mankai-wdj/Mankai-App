@@ -12,6 +12,7 @@
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/boardrounded.xml" value="0.256" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/categorydesign.xml" value="0.2065" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/categorytopdesign.xml" value="0.2065" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/group_back.xml" value="0.2495" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/group_bottom_sheet.xml" value="0.1435" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/group_info2.xml" value="0.269" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/group_make2_list.xml" value="0.1435" />
@@ -32,11 +33,12 @@
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/rounded_corner.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/search_style.xml" value="0.269" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/sticker.xml" value="0.269" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/ㄱㄷㅇsticker.xml" value="0.197" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_board.xml" value="0.5275754422476587" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_content_scrolling.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_board.xml" value="0.15462962962962962" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_cate.xml" value="0.15462962962962962" />
-        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_groupinfor.xml" value="0.264" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_groupinfor.xml" value="0.315377932232841" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_frg_notice.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_group.xml" value="0.15462962962962962" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_group_infor.xml" value="0.2" />
@@ -48,6 +50,7 @@
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_main.xml" value="0.1875" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_session.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/activity_video.xml" value="0.24375" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_category.xml" value="0.264" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_category_view.xml" value="0.4" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/layout/board_comment.xml" value="0.4013605442176871" />

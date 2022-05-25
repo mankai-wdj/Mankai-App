@@ -106,9 +106,15 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
             Log.d("profile", position+ "?" + snsdata.getProfile());
 
-            Glide.with(holder.itemView.getContext())
-                .load(snsdata.getProfile())
-                .into(holder.snsUserImage);
+            if(snsdata.getProfile().equals("null")){
+                holder.snsUserImage.setImageResource(R.drawable.icon_people);
+            }
+            else{
+                Glide.with(holder.itemView.getContext())
+                        .load(snsdata.getProfile())
+                        .into(holder.snsUserImage);
+
+            }
 
 
             if(snsdata.getComments()!=null) {
