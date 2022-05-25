@@ -31,6 +31,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PusherEvent;
+import com.pusher.client.channel.SubscriptionEventListener;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
@@ -74,7 +76,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     private DrawerLayout drawerLayout;
     private View drawerView;
     String res;
+    Channel channel;
     private ChatFragment chatFragment = new ChatFragment();
+    PusherOptions options = new PusherOptions() .setCluster("ap3");
+    Pusher pusher = new Pusher("04847be41be2cbe59308",options);
+
 //    @Override
 //    public void onBackPressed() {
 //        super.onBackPressed();
@@ -88,6 +94,8 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 //        startActivity(intent);
 //
 //    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,9 +112,37 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
+        channel = pusher.subscribe("room."+room.id); // 채널 연결
 
 
 
+        channel.bind("send-message", new SubscriptionEventListener() {
+            @Override
+            public void onEvent(PusherEvent event) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject(event.getData());
+                    System.out.println("event : " + jsonObject.getJSONObject("message"));
+                    SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
+                    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    Date formatDate2 = dtFormat.parse(jsonObject.getJSONObject("message").getString("created_at"));
+                    messagesAdapter.addEventMessage(new Message(jsonObject.getJSONObject("message").getString("id"), jsonObject.getJSONObject("message").getString("user_id"), jsonObject.getJSONObject("message").getString("room_id"), jsonObject.getJSONObject("message").getString("type"), jsonObject.getJSONObject("message").getString("message"), newDtFormat2.format(formatDate2), jsonObject.getJSONObject("message").getString("user")));
+                    ChatContainerActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            messagesAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+
+                } catch (JSONException | ParseException e) {
+                    e.printStackTrace();
+                }
+
+//                messagesAdapter.addMessage(event.getData());
+            }
+        });
         btMyMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -456,8 +492,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             e.printStackTrace();
         }
         JSONArray jsonArray = messages.getJSONArray("data");
-        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id);
-        chat_message_list.setAdapter(messagesAdapter);
 
         for (int i = 0; i< jsonArray.length(); i++) {
             JSONObject message = jsonArray.getJSONObject(i);
@@ -502,9 +536,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         }
     }
     private void channelSubscribe(String roomID) {
-        PusherOptions options = new PusherOptions() .setCluster("ap3");
-        Pusher pusher = new Pusher("04847be41be2cbe59308",options);
-        Channel channel = pusher.subscribe("room."+roomID); // 채널 연결
+
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
@@ -519,6 +551,8 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 System.out.println(message);
             }
         }, ConnectionState.ALL);
+
+
 
     }
     private void getUser(String token) {
@@ -537,6 +571,8 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                         currentUser = jsonObject;
                         getMessages(token, room.id, jsonObject.getString("id"));
                         channelSubscribe(room.id);
+                        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id);
+                        chat_message_list.setAdapter(messagesAdapter);
                     } else{
                         Toast.makeText(ChatContainerActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
                     }

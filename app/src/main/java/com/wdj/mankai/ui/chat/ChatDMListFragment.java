@@ -19,8 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PusherEvent;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.RoomsAdapter;
+import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.main.UserRequest;
 
@@ -38,7 +47,9 @@ public class ChatDMListFragment extends Fragment {
     RoomsAdapter roomsAdapter;
     private JSONObject currentUser;
     ProgressBar progressBar;
-
+    Channel channel;
+    PusherOptions options = new PusherOptions() .setCluster("ap3");
+    Pusher pusher = new Pusher("04847be41be2cbe59308",options);
 
 
     @Nullable
@@ -57,6 +68,24 @@ public class ChatDMListFragment extends Fragment {
         roomsAdapter = new RoomsAdapter(getActivity());
         roomList_list.setAdapter(roomsAdapter);
 
+//        try {
+//            channel = pusher.subscribe("user."+currentUser.getString("id")); // 채널 연결
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        channel.bind("invite-event", new SubscriptionEventListener() {
+//            @Override
+//            public void onEvent(PusherEvent event) {
+//                System.out.println("event : " + event);
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                });
+//
+//            }
+//        });
         return rootView;
     }
     private void setRooms(JSONArray jsonArray) throws JSONException {
@@ -99,6 +128,26 @@ public class ChatDMListFragment extends Fragment {
             roomsAdapter.notifyDataSetChanged();
         }
         loading(false);
+    }
+
+    private void channelSubscribe(int userID) {
+        pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                System.out.println("State changed to " + change.getCurrentState() +
+                        " from " + change.getPreviousState());
+            }
+
+            @Override
+            public void onError(String message, String code, Exception e) {
+                System.out.println("There was a problem connecting!");
+                System.out.println(code);
+                System.out.println(message);
+            }
+        }, ConnectionState.ALL);
+
+
+
     }
 
     private String userName(String users) throws JSONException {
@@ -161,6 +210,7 @@ public class ChatDMListFragment extends Fragment {
                         System.out.println("유저 정보 받아옴");
                         currentUser = jsonObject;
                         getRooms(token, jsonObject.getInt("id")); // room list 받아오기
+                        channelSubscribe(currentUser.getInt("id"));
 
                     } else{
                         Toast.makeText(getActivity(),"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
