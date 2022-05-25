@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.main;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     private static String URL = "https://api.mankai.shop/api";
     public static TextView category_text;
     private View view;
-    private Button writeBtn;
+    private ImageView writeBtn;
     private ListView CommentList;
 
 
@@ -75,7 +77,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_board, container, false);
-        Button categoryBtn = view.findViewById(R.id.category_btn);
+        ImageView categoryBtn = view.findViewById(R.id.category_btn);
         category_text = view.findViewById(R.id.category_text);
         writeBtn = view.findViewById(R.id.BoardWriteBtn);
         RecyclerView recyclerView = view.findViewById(R.id.BoardRecycle);
@@ -147,6 +149,7 @@ public class HomeFragment extends Fragment {
                             for (int i = 0; i < BoardJsonArray.length(); i++) {
                                 JSONObject boardJson = BoardJsonArray.getJSONObject(i);
                                 boardData = new BoardData(boardJson);
+
 //                               2차 데이터 처리
                                 int finalI = i;
                                 StringRequest subData = new StringRequest(Request.Method.GET,
@@ -154,6 +157,10 @@ public class HomeFragment extends Fragment {
                                         new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
+                                                int StartInt = 0;
+//                                                if(list.size()>5){
+//                                                    StartInt = list.size()-5;
+//                                                }
                                                 ArrayList<String> cntString = new ArrayList<String>();
                                                 try {
                                                     Log.d("Board",response );
@@ -162,25 +169,26 @@ public class HomeFragment extends Fragment {
 //                                                  사진 데이터 정리
                                                     JSONArray subArray = subJson.getJSONArray("images");
                                                     if(subArray.length()==0){
-                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        for(int i = StartInt ;i<list.size();i++)
                                                         {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
+                                                                list.get(i).setIsGroup("SNS");
                                                                 list.get(i).setViewType(0);
                                                                 break;
                                                             }
                                                         }
                                                     }
                                                     else{
-                                                        for(int i = 0 ; i< subArray.length();i++){
+                                                        for(int i = StartInt ; i< subArray.length();i++){
                                                             cntString.add(subArray.getJSONObject(i).getString("url"));
                                                             Log.d("Image 갯수", boardJson.getString("id")+" = "+cntString.get(i));
                                                         }
-                                                        for(int i = list.size()-5 ;i<list.size();i++)
+                                                        for(int i = StartInt;i<list.size();i++)
                                                         {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setBoardImage(cntString);
                                                                 list.get(i).setViewType(1);
-
+                                                                list.get(i).setIsGroup("SNS");
                                                                 Log.d("Image", "get " + list.get(i).getBoardImage());
                                                                 break;
                                                             }
@@ -193,12 +201,12 @@ public class HomeFragment extends Fragment {
 
 //                                                  댓글 1개 이상
                                                     if(CommentArray.length()>0){
-                                                        for(int i = 0 ;i<CommentArray.length();i++){
+                                                        for(int i = StartInt ;i<CommentArray.length();i++){
                                                             JSONObject comment = CommentArray.getJSONObject(i);
                                                             commentText.add(comment.getString("user_name")+" : "+comment.getString("comment"));
                                                         }
                                                         //추출한데이터 list에 넣고 adepter 호출
-                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                        for(int i = StartInt ;i< list.size();i++){
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setComments(commentText);
                                                                 list.get(i).setComment_length(subJson.getString("comment_length"));
@@ -207,7 +215,7 @@ public class HomeFragment extends Fragment {
                                                     }
 //                                                    댓글 0개일떄
                                                     else {
-                                                        for(int i = list.size()-5 ;i< list.size();i++){
+                                                        for(int i = StartInt ;i< list.size();i++){
                                                             if(list.get(i).getId() == boardJson.getString("id")){
                                                                 list.get(i).setComment_length("0");
                                                             }
@@ -217,7 +225,7 @@ public class HomeFragment extends Fragment {
 //                                                  좋아요 데이터 처리
                                                     JSONArray likeArray = subJson.getJSONArray("likes");
                                                     if(likeArray.length()>0){
-                                                        for (int i = list.size()-5 ;i < list.size();i++){
+                                                        for (int i = StartInt ;i < list.size();i++){
                                                                 if(list.get(i).getId() == boardJson.getString("id")){
                                                                     list.get(i).setLike_length(likeArray.length()+"");
                                                                     for(int j = 0; j < likeArray.length() ; j++) {
@@ -239,10 +247,13 @@ public class HomeFragment extends Fragment {
                                 list.add(boardData);
 //                              adapter.notifyItemInserted(list.size());
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
+
 
                 },null);
 

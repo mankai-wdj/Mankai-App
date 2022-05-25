@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Layout;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.ui.main.HomeFragment;
+import com.wdj.mankai.ui.main.MainActivity;
 
 import org.json.JSONException;
 import org.w3c.dom.Text;
@@ -58,7 +60,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ViewPager2 viewPager2 = itemView.findViewById(R.id.snsMainImage);
         CircleIndicator3 indicator = itemView.findViewById(R.id.indicator);
         TextView likeCount = itemView.findViewById(R.id.likeCnt);
-//        ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
+//      ImageView snsMainImage = itemView.findViewById(R.id.snsMainImage);
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
@@ -104,6 +106,19 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
 
+            Log.d("profile", position+ "?" + snsdata.getProfile());
+
+            if(snsdata.getProfile().equals("null")){
+                holder.snsUserImage.setImageResource(R.drawable.profileimage);
+
+            }
+            else{
+                Glide.with(holder.itemView.getContext())
+                        .load(snsdata.getProfile())
+                        .into(holder.snsUserImage);
+
+            }
+
 
             if(snsdata.getComments()!=null) {
                 String ch ="";
@@ -128,7 +143,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 public void onClick(View view) {
                     String translate = null;
                     try {
-                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko");
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.userCountry);
                         Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
 
                         HomeFragment.list.get(position).setTranslateText(translate);
@@ -162,7 +177,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                         intent.putExtra("profile",snsdata.getProfile());
                         intent.putExtra("like_count",snsdata.getLike_length());
                         intent.putExtra("board_count",position);
-
+                        intent.putExtra("isGroup",snsdata.getIsGroup());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

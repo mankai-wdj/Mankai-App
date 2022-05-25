@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.Group;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,9 +14,8 @@ import java.util.ArrayList;
 
 public class ViewPageAdapter extends FragmentPagerAdapter {
 
-
-
     private ArrayList<String> categoryList,categoryType,categoryId = new ArrayList<String>();
+    boolean GroupIn;
     public ViewPageAdapter(@NonNull FragmentManager fm ,ArrayList<String> categoryList, ArrayList<String> categoryType,ArrayList<String> categoryId) {
         super(fm);
         this.categoryList = categoryList;
@@ -26,9 +26,10 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-
-            if(position == 0)
-                return FragGroupinfor.newInstance();
+            if(position == 0){
+                FragGroupinfor fn = FragGroupinfor.newInstance();
+                return fn;
+            }
             else
             {
                 Bundle bundle = new Bundle();
@@ -44,7 +45,6 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
                     return fn;
                 }
             }
-
             return Fragcate.newInstance();
     }
 

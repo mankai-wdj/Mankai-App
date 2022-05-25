@@ -1,5 +1,6 @@
 package com.wdj.mankai.ui.Group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,21 +39,17 @@ public class GroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {    // 액티비티 시작시 처음으로 실행
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_group);
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
 
         RecyclerView recyclerView = findViewById(R.id.group_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         adapter = new GroupAdapter(list);
         recyclerView.setAdapter(adapter);
 
-
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        AppHelper.requestQueue.add(request);
+            AppHelper.requestQueue.add(request);
 
         }
-
         StringRequest request = new StringRequest(Request.Method.GET,
                 URL + "/show/group/NULLDATA",
             //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
@@ -77,4 +74,7 @@ public class GroupActivity extends AppCompatActivity {
 
 
 
+
+
 }
+

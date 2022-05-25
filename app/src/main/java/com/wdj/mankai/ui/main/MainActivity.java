@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     String userDescription = null;
     String userProfile = null;
     public static String userId = null;
+    public static String userCountry = null;
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
            userName = obj.getString("name");
            userDescription = obj.getString("description");
            userProfile = obj.getString("profile");
+           userCountry =obj.getString("country");
            userId = obj.getString("id");
 
         } catch (Throwable t) {

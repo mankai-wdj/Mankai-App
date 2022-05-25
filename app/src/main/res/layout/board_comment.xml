@@ -59,6 +59,19 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
+                android:id="@+id/snsCommentName"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="장성규"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/snsCommentUserImage"
+                app:layout_constraintTop_toTopOf="@+id/snsCommentUserImage" />
+
+
+            <TextView
                 android:id="@+id/snsCommentContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,27 +80,29 @@
                 android:paddingBottom="20dp"
                 android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
                 android:textSize="18dp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
-
                 app:layout_constraintStart_toStartOf="@+id/snsCommentUserImage"
                 app:layout_constraintTop_toBottomOf="@+id/snsCommentUserImage" />
 
             <TextView
-                android:id="@+id/snsCommentName"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="장성규"
-                android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/snsCommentUserImage"
-                app:layout_constraintTop_toTopOf="@+id/snsCommentUserImage" />
-
-
-            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/translate_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:visibility="gone"
+                android:textSize="16dp"
+                android:text="test"
+                android:textColor="@color/black"
+                android:paddingHorizontal="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/snsCommentContent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -96,9 +111,10 @@
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/snsCommentContent">
+                app:layout_constraintTop_toBottomOf="@+id/translate_text">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -136,6 +152,7 @@
                     android:textSize="24dp" />
 
                 <ImageView
+                    android:id="@+id/translate_btn"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_translate_24"
@@ -179,6 +196,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:paddingBottom="48dp"
+            app:stackFromEnd="true"
             app:layout_constraintStart_toStartOf="@id/snsCommentContent"
             app:layout_constraintTop_toBottomOf="@+id/snsCommentContent"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

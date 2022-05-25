@@ -109,6 +109,12 @@ public class BoardData implements Serializable {
     public String getUpdated_at() throws JSONException {
         return jsonData.getString("updated_at");
     }
+    public void setIsGroup(String isGroup) throws  JSONException{
+        this.jsonData.put("isGroup",isGroup);
+    }
+    public String getIsGroup() throws  JSONException{
+        return jsonData.getString("isGroup");
+    }
 
     public void setUpdated_at(String updated_at)throws JSONException  {
         this.jsonData.put("updated_at",updated_at);

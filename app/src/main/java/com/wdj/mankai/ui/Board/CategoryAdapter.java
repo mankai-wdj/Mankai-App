@@ -3,16 +3,19 @@ package com.wdj.mankai.ui.Board;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.divider.MaterialDivider;
 import com.wdj.mankai.R;
 import com.wdj.mankai.ui.main.HomeFragment;
 
@@ -20,6 +23,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
 
     private String[] CategoryList;
+    private int[] logo_list;
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ViewHolder(View itemView){
@@ -27,10 +32,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
         //    layout ID
         Button categoryName = itemView.findViewById(R.id.category_name);
+        MaterialDivider divider = itemView.findViewById(R.id.categorydivier);
+        ImageView category_logo = itemView.findViewById(R.id.category_logo);
 
     }
-    public CategoryAdapter(String[] list){
-        CategoryList = list;
+    public CategoryAdapter(String[] list,int[] logo_list){
+        this.logo_list = logo_list;
+        this.CategoryList = list;
     }
 
     @Override
@@ -46,6 +54,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String data = CategoryList[position];
         holder.categoryName.setText(data);
+
+        holder.category_logo.setImageResource(logo_list[position]);
+
+        if(position%2==1){
+            holder.divider.setVisibility(View.GONE);
+        }
         holder.categoryName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

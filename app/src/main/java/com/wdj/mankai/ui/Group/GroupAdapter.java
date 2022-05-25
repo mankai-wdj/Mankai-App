@@ -1,5 +1,8 @@
 package com.wdj.mankai.ui.Group;
 
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,12 +48,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         TextView groupName = itemView.findViewById(R.id.Groupname);
         TextView groupOneline = itemView.findViewById(R.id.Grouponeline);
         TextView groupCate = itemView.findViewById(R.id.Groupcategory);
-        LinearLayout layout = itemView.findViewById(R.id.linearLayout);
+        LinearLayout layout = itemView.findViewById(R.id.group_linearLayout);
     }
 
     GroupAdapter(ArrayList<GroupData> list) {gData = list;}
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,9 +60,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = null;
         view = inflater.inflate(R.layout.group_list_view,parent,false);
-
         GroupAdapter.ViewHolder gv = new GroupAdapter.ViewHolder(view);
-
         return gv;
     }
 
@@ -81,18 +81,24 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                     Intent intent = new Intent(view.getContext(),Groupinfor.class);
                     try {
                         intent.putExtra("id",groupData.getId());
+                        Activity origin = (Activity)mContext;
+                        Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right,R.anim.slide_wait).toBundle();
+                        origin.startActivity(intent,bundle);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right,R.anim.slide_wait).toBundle();
-                    view.getContext().startActivity(intent, bundle);
-
                 }
             });
+
+
         } catch (JSONException e){
             e.printStackTrace();
         }
+
+
     }
+
 
     @Override
     public int getItemCount() {

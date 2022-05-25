@@ -13,7 +13,6 @@
         android:id="@+id/imageView"
         android:layout_width="36dp"
         android:layout_height="0dp"
-
         app:layout_constraintBottom_toTopOf="@+id/webview"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"

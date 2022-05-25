@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    android:paddingHorizontal="3dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.widget.Button
         android:id="@+id/category_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/boardrounded"
-        android:padding="5dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/nobg_btn"
+        android:textColor="@color/black"
+        android:textAlignment="viewStart"
+        android:paddingLeft="70dp"
         android:text="카테고리들"
-        android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="22dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/category_logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_baseline_translate_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/category_name"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </ImageView>
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+
+        android:background="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/categorydivier"
+        android:layout_width="3dp"
+        android:layout_height="40dp"
+        android:background="@color/light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

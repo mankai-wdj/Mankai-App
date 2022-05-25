@@ -66,6 +66,12 @@
             android:exported="true">
         </activity>
 
+        <activity
+            android:name=".ui.Group.GroupNoticeShow"
+            android:exported="true">
+        </activity>
+
+
         <activity android:name=".ui.Group.GroupMake"/>
         <activity android:name=".ui.Group.GroupActivity"/>
         <activity android:name=".ui.Group.GroupMake2"/>
