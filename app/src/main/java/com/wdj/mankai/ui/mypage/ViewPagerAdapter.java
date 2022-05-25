@@ -1,16 +1,37 @@
 package com.wdj.mankai.ui.mypage;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.wdj.mankai.data.model.AppHelper;
+
+import org.json.JSONObject;
+
+
+
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+    String userId;
+    String url = "https://api.mankai.shop/api/";
 
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+
+    public ViewPagerAdapter(String userId,@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
+        this.userId = userId;
     }
 
     @NonNull
@@ -28,7 +49,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 4 :
                 return new FragMyMemos();
             default:
-                return new FragMyFollowers();
+                return null;
         }
     }
 
