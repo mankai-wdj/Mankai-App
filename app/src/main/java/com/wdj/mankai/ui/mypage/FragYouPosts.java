@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class FragYouPosts extends Fragment {
 
-    public static int currentPage = 0;
+    public static int currentPage = 1;
     private View view;
     public static String category;
     public static ArrayList<BoardData> list = new ArrayList<BoardData>();
@@ -89,6 +89,7 @@ public class FragYouPosts extends Fragment {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == list.size()-1) {
                     GETBOARD("/myposts/"+userId);
+                    currentPage+=1;
                 }
             }
         });
@@ -97,14 +98,15 @@ public class FragYouPosts extends Fragment {
     }
     public static void GETBOARD(String subPoint) {
 //        1차 기본 보드 데이터
-        currentPage+=1;
 
+        Log.i("subPoint",subPoint);
         Log.d("Board", "GETBOARD: "+ currentPage);
         StringRequest request = new StringRequest(Request.Method.GET, URL+subPoint+"?page="+currentPage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            Log.i("subPoint",subPoint);
                             Log.d("MYPOST", response);
                             adapter.notifyDataSetChanged();
                             JSONObject json = new JSONObject(response);
