@@ -61,7 +61,6 @@ public class GroupNoticeShow extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = new JSONArray(jsonObject).getString();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
