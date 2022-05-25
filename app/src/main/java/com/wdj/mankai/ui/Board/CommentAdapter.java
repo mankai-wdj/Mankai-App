@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.Board;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.CommentData;
+import com.wdj.mankai.ui.main.MainActivity;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Text;
@@ -60,9 +62,15 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
         Log.d("Board", "data바뀜");
         holder.commentComment.setText(data.getComment());
         holder.commentName.setText(data.getName());
+
+        if(data.getProfile().equals("null")){
+            holder.commentProfile.setImageResource(R.drawable.profileimage);
+        }
         Glide.with(holder.itemView.getContext())
                 .load(data.getProfile())
                 .into(holder.commentProfile);
+
+
 
         holder.translate_text.setText("");
         holder.translate_text.setVisibility(View.GONE);
@@ -71,7 +79,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
             @Override
             public void onClick(View view) {
                 String translate;
-                translate = PapagoTranslate.getTranslation(data.getComment(),"ko");
+                translate = PapagoTranslate.getTranslation(data.getComment(), MainActivity.userCountry);
                 holder.translate_text.setText(translate);
                 holder.translate_text.setVisibility(View.VISIBLE);
             }

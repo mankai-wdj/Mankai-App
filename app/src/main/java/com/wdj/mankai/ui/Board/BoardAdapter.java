@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Layout;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.ui.main.HomeFragment;
+import com.wdj.mankai.ui.main.MainActivity;
 
 import org.json.JSONException;
 import org.w3c.dom.Text;
@@ -107,7 +109,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             Log.d("profile", position+ "?" + snsdata.getProfile());
 
             if(snsdata.getProfile().equals("null")){
-                holder.snsUserImage.setImageResource(R.drawable.icon_people);
+                holder.snsUserImage.setImageResource(R.drawable.profileimage);
+
             }
             else{
                 Glide.with(holder.itemView.getContext())
@@ -140,7 +143,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 public void onClick(View view) {
                     String translate = null;
                     try {
-                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(),"ko");
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.userCountry);
                         Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
 
                         HomeFragment.list.get(position).setTranslateText(translate);

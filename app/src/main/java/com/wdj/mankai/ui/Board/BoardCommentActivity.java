@@ -201,6 +201,7 @@ public class BoardCommentActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         comment_edit.setText("");
                         list.clear();
+                        adapter.notifyDataSetChanged();
                         CurrentPage=1;
                         GETCOMMENT();
                         try {
