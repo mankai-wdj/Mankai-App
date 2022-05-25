@@ -13,10 +13,10 @@ public class YouViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public YouViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
-        items.add(new FragYouFollowers());
-        items.add(new FragYouFollowings());
-        items.add(new FragYouPosts());
-        items.add(new FragYouGroups());
+//        items.add(new FragYouFollowers());
+//        items.add(new FragYouFollowings());
+//        items.add(new FragYouPosts());
+//        items.add(new FragYouGroups());
     }
 
     public void addItem(Fragment item){
@@ -26,12 +26,23 @@ public class YouViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return items.get(position);
+        switch (position){
+            case 0 :
+                return new FragYouFollowers();
+            case 1 :
+                return new FragYouFollowings();
+            case 2 :
+                return new FragYouPosts();
+            case 3 :
+                return new FragYouGroups();
+            default:
+                return null;
+        }
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return 4;
     }
 
     @Override

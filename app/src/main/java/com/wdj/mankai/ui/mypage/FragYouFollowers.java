@@ -67,6 +67,8 @@ public class FragYouFollowers extends Fragment {
 
         url = "https://api.mankai.shop/api/followers/";
 
+        Log.d("123456789", String.valueOf(list));
+
         myFollowers_recyclerview = view.findViewById(R.id.you_Followers_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL,false);
         myFollowers_recyclerview.setLayoutManager(layoutManager);
@@ -139,6 +141,7 @@ public class FragYouFollowers extends Fragment {
                     public void onResponse(String response) {
                         Log.i("responseInFollowers", response);
                         try {
+                            Log.i("youFollowerData받기","");
                             JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);

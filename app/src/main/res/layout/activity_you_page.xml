@@ -76,6 +76,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginRight="10dp"
+                           android:drawableLeft="@drawable/follow"
                            android:text="팔로우"/>
 
                        <Button
@@ -83,12 +84,14 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginRight="10dp"
+                           android:drawableLeft="@drawable/check"
                            android:text="팔로잉"/>
 
                        <Button
                            android:id="@+id/MSGButton"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
+                           android:drawableLeft="@drawable/ic_baseline_send_24"
                            android:text="메세지"/>
 
                    </LinearLayout>

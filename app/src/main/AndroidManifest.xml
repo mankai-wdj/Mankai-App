@@ -48,9 +48,6 @@
         </activity>
 
         <activity
-            android:name=".ui.Board.BoardActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.Board.BoardCommentActivity"
             android:exported="true">
 
