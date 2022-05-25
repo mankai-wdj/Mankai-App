@@ -46,16 +46,11 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
         holder.onelineintro.setText(data.getOnelineintro());
         holder.category.setText(data.getCategory());
 
-        //        image 주소가 null 일 경우
-        if(data.getLogoImage() == null){
-            Glide.with(holder.itemView)
-                    .load(R.drawable.a)
-                    .into(holder.logoImage);
-        }
 //        image 주소가 있을 경우
         Glide.with(holder.itemView.getContext())
                 .load(data.getLogoImage())
                 .centerCrop()
+                .override(400,200)
                 .into(holder.logoImage);
 
     }

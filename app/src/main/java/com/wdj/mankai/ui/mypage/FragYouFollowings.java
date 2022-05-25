@@ -57,10 +57,10 @@ public class FragYouFollowings extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frag_myfollowings,container,false);
+        view = inflater.inflate(R.layout.fragment_frag_you_followers,container,false);
         url = "https://api.mankai.shop/api/follows/";
 
-        youFollowings_recyclerview = view.findViewById(R.id.myFollowings_recyclerview);
+        youFollowings_recyclerview = view.findViewById(R.id.you_Followers_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         youFollowings_recyclerview.setLayoutManager(layoutManager);
 

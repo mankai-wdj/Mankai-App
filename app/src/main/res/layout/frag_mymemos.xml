@@ -7,10 +7,9 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="0dp"
         android:layout_marginBottom="80dp"
         android:id="@+id/mymemo_recyclerview"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

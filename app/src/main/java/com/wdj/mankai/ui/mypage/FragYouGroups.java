@@ -55,10 +55,10 @@ public class FragYouGroups extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frag_mygroups,container,false);
+        view = inflater.inflate(R.layout.fragment_frag_you_groups,container,false);
         url = "https://api.mankai.shop/api/show/mygroup/";
 
-        myGroup_recyclerview = view.findViewById(R.id.myGroup_recyclerview);
+        myGroup_recyclerview = view.findViewById(R.id.youGroup_recyclerview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2, GridLayoutManager.VERTICAL, false);
         myGroup_recyclerview.setLayoutManager(gridLayoutManager);
 
