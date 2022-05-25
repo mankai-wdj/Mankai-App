@@ -13,13 +13,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,22 +49,20 @@ public class GroupFragment extends Fragment {
 
     private View view;
 
-    Button btn1, btn2, btn3;
     TextView groupmake;
+    ImageView groupsearch_btn;
+    EditText GroupSearch;
 
     //리사이클1 : 로그인 한 ID의 가입 그룹 리스트
     //리사이클2 : 전체 그룹 리스트
-    private RecyclerView recyclerView, recyclerView2;
-    private LinearLayoutManager layoutManager, layoutManager2;
-    private String LoginUserId;
-    private GridLayoutManager testmanager;
+    private RecyclerView recyclerView;
+    private String LoginUserId, GroupName;
+    private GridLayoutManager gridLayoutManager;
 
-    private GroupAdapter adapter, adapter2;
+    private GroupAdapter adapter;
     private ArrayList<GroupData> list = new ArrayList<>();
-    private ArrayList<GroupData> list2 = new ArrayList<>();
-    private GroupData groupData, groupData2;
+    private GroupData groupData;
     private String URL = "https://api.mankai.shop/api";
-    private String URL2 = "https://api.mankai.shop/api";
 
     String userId;
 
@@ -66,6 +71,10 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group, container, false);
+
+        GroupSearch = (EditText)view.findViewById(R.id.GroupSearch);
+
+
 
         // 그룹 생성 페이지 이동
         groupmake = (TextView) view.findViewById(R.id.groupmake);
@@ -79,9 +88,8 @@ public class GroupFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.group_recycler_view);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
+        gridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.scrollToPosition(0);
         adapter = new GroupAdapter(getContext(),list);
         recyclerView.setAdapter(adapter);
@@ -92,6 +100,49 @@ public class GroupFragment extends Fragment {
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
 
+        request1();
+        GroupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    String Test = GroupSearch.getText().toString();
+                    Log.d("Test", "onEditorAction: " + Test);
+                    request2(Test);
+                }
+                return true;
+            }
+        });
+
+        GroupSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(GroupSearch.getText().length()==0)
+                {
+                    request1();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+
+        return view;
+    }
+
+
+    public void request1() {
+        list.clear();
+        adapter.notifyDataSetChanged();
         StringRequest request = new StringRequest(Request.Method.GET,
                 URL + "/show/mygroup/"+MainActivity.userId,
                 //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
@@ -102,8 +153,8 @@ public class GroupFragment extends Fragment {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject groupJson = jsonArray.getJSONObject(i);
-                                groupData = new GroupData(groupJson);
+                                JSONObject groupJSON = jsonArray.getJSONObject(i);
+                                groupData = new GroupData(groupJSON);
                                 list.add(groupData);
                             }
                             adapter.notifyDataSetChanged();
@@ -113,23 +164,14 @@ public class GroupFragment extends Fragment {
                     }
                 },null);
         AppHelper.requestQueue.add(request);
+    }
 
-
-
-        recyclerView2 = (RecyclerView) view.findViewById(R.id.group_recycler_view2);
-        recyclerView2.setHasFixedSize(true);
-        testmanager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerView2.setLayoutManager(testmanager);
-        recyclerView2.scrollToPosition(0);
-        adapter2 = new GroupAdapter(getContext(),list2);
-        recyclerView2.setAdapter(adapter2);
-
-        if (AppHelper.requestQueue == null)
-            AppHelper.requestQueue = Volley.newRequestQueue(getContext());
-
-
-        StringRequest request2 = new StringRequest(Request.Method.GET,
-                URL + "/show/group/NULLDATA",
+    public void request2(String test) {
+        list.clear();
+        adapter.notifyDataSetChanged();
+        GroupName = GroupSearch.getText().toString();
+        StringRequest request = new StringRequest(Request.Method.GET,
+                URL + "/show/group/"+GroupName,
                 //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
                 new Response.Listener<String>() {
                     @Override
@@ -138,20 +180,17 @@ public class GroupFragment extends Fragment {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject groupJson = jsonArray.getJSONObject(i);
-                                groupData2 = new GroupData(groupJson);
-                                list2.add(groupData2);
+                                JSONObject groupJSON = jsonArray.getJSONObject(i);
+                                groupData = new GroupData(groupJSON);
+                                list.add(groupData);
                             }
-                            adapter2.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 },null);
-        AppHelper.requestQueue.add(request2);
-
-
-
-        return view;
+        AppHelper.requestQueue.add(request);
     }
 }
+
