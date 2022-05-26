@@ -73,7 +73,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             holder.groupCate.setText(groupData.getCategory());
             Glide.with(holder.itemView.getContext())
                     .load(groupData.getLogoImage())
-                    .override(380,180)
                     .into(holder.groupImg);
 
             holder.layout.setOnClickListener(new View.OnClickListener() {
