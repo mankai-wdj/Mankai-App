@@ -55,6 +55,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
     public CommentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.comment_view,parent,false);
         CommentAdapter.ViewHolder vh = new CommentAdapter.ViewHolder(view);
@@ -95,7 +96,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
             @Override
             public void onClick(View view) {
                 String translate;
-                translate = PapagoTranslate.getTranslation(data.getComment(), MainActivity.userCountry);
+                translate = PapagoTranslate.getTranslation(data.getComment(),"ko");
                 holder.translate_text.setText(translate);
                 holder.translate_text.setVisibility(View.VISIBLE);
             }

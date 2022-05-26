@@ -129,6 +129,12 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
 //            MyPageFragment myPageFragment = new MyPageFragment();
 //            getSupportFragmentManager().beginTransaction().replace(R.id.mypage,myPageFragment).commit();
 //        }
+        if (userId.equals(LoginUserId)){
+            Log.d("나야", "나야");
+//            MyPageFragment myPageFragment = new MyPageFragment();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.mypage,myPageFragment).commit();
+
+        }
 
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +142,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
                 SendFollow();
 
                 sendInput(PASS);
+                sendInput(input);
             }
         });
 
