@@ -82,7 +82,7 @@ dependencies {
     implementation 'org.webrtc:google-webrtc:1.0.32006'
     implementation 'com.google.android.material:material:1.2.-alpha02'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-
+    implementation 'com.github.blongho:worldCountryData:1.5.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
 

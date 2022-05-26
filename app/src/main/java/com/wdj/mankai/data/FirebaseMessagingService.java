@@ -16,14 +16,18 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.wdj.mankai.R;
-import com.wdj.mankai.ui.chat.ChatContainerActivity;
+import com.wdj.mankai.data.model.Room;
+import com.wdj.mankai.ui.chat.FCMChatContainer;
 import com.wdj.mankai.ui.main.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
-
+    String roomId;
+    String type;
+    String users;
+    String updated_at;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
@@ -32,9 +36,14 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         System.out.println("ddddddddddddddddddddd" + message);
         try {
             JSONObject jsonObject = new JSONObject(message.getData().get("room"));
+            roomId = jsonObject.getString("id");
+            System.out.println("Ddddddddddd"+roomId);
             System.out.println(!jsonObject.getString("id").equals(currentRoomId));
             if(!jsonObject.getString("id").equals(currentRoomId)) {
                 String msg = message.getNotification().getBody();
+                type = message.getData().get("type");
+                users = message.getData().get("users");
+                updated_at = message.getData().get("updated_at");
                 if(message.getData().get("type").equals("memo")) {
                     msg = "메모가 도착했습니다";
                 }else if(message.getData().get("type").equals("file")) {
@@ -67,7 +76,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     public void showNotification(String title, String message) {
         //팝업 터치시 이동할 액티비티를 지정합니다.
-        Intent intent = new Intent(this, ChatContainerActivity.class);
+        Intent intent = new Intent(this, FCMChatContainer.class);
+        intent.putExtra("room", new Room(roomId,"","", "","",""));
         //알림 채널 아이디 : 본인 하고싶으신대로...
         String channel_id = "CHN_ID";
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

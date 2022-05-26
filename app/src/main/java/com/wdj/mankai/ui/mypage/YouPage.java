@@ -14,17 +14,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.wdj.mankai.R;
+import com.wdj.mankai.adapter.FollowingsAdapter;
 import com.wdj.mankai.data.model.AppHelper;
+import com.wdj.mankai.data.model.Room;
+import com.wdj.mankai.ui.chat.ChatContainerActivity;
+import com.wdj.mankai.ui.chat.ChatCreateActivity;
+import com.wdj.mankai.ui.main.MainActivity;
 import com.wdj.mankai.ui.main.MyPageFragment;
+import com.wdj.mankai.ui.main.UserRequest;
 import com.wdj.mankai.ui.mypage.toolbar.FragMyMemoExceptToolbar;
 import com.wdj.mankai.ui.mypage.toolbar.FragMyMemoToolbar;
 
@@ -50,7 +60,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
     static final String PASS = "pass";
     String input;
     String LoginUserId;
-
+    JSONObject object , jsonObject ,currentUser;
     @Override
     public void sendInput(String input) {
         Log.d("popopo",input);
@@ -88,10 +98,9 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
         url = "https://api.mankai.shop/api/follow/";
 
 
-        SharedPreferences sharedPreferences= getSharedPreferences("userId", MODE_PRIVATE);
-        SharedPreferences.Editor editor= sharedPreferences.edit();
-        editor.putString("userId",userId);
-        editor.commit();
+        SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
+        String token = sharedPreferences.getString("login_token","");
+        getUser(token); // 유저 정보 받아오기
 
         if(AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(this);
@@ -116,7 +125,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
 
 
         try {
-            JSONObject object = new JSONObject(user_info);
+            object = new JSONObject(user_info);
             LoginUserId = object.getString("id");
             Log.d("LoginUserId", LoginUserId);
         } catch (Throwable t) {
@@ -157,6 +166,83 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
             }
         });
 
+        MSGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JSONObject reqJsonObject = new JSONObject(); //JSON 객체를 생성
+                JSONArray jsonArray = new JSONArray();
+
+
+
+                JSONObject json2 = new JSONObject();
+                try {
+                    json2.put("id", jsonObject.getInt("id"));
+                    json2.put("name", jsonObject.getString("name"));
+                    json2.put("email", jsonObject.getString("email"));
+                    json2.put("profile",jsonObject.getString("profile"));
+                    json2.put("country", jsonObject.getString("country"));
+                    json2.put("description", jsonObject.getString("description"));
+                    json2.put("position", jsonObject.getString("position"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("id", currentUser.getInt("id"));
+                    json.put("name", currentUser.getString("name"));
+                    json.put("email", currentUser.getString("email"));
+                    json.put("profile",currentUser.getString("profile"));
+                    json.put("country", currentUser.getString("country"));
+                    json.put("description", currentUser.getString("description"));
+                    json.put("position", currentUser.getString("position"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                jsonArray.put(json);
+                jsonArray.put(json2);
+
+
+                try {
+                    reqJsonObject.put("users", jsonArray); //각종 데이터 입력
+                } catch (JSONException e) {
+                    //JSON error
+                }
+
+                Log.e("room", String.valueOf(jsonArray));
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        "https://api.mankai.shop/api/room/create",
+                        reqJsonObject,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("TAG", "onResponse:"+response);
+                                Intent intent = new Intent(YouPage.this, ChatContainerActivity.class);
+                                Log.e("room", String.valueOf(jsonArray));
+                                try {
+                                    System.out.println("room id " + response.getString("id"));
+                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                startActivity(intent);
+
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //통신 ERROR
+                            }
+                        }
+                );
+                Volley.newRequestQueue(YouPage.this).add(jsonObjectRequest);
+            }
+        });
+
     }
 
 
@@ -170,7 +256,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
                     public void onResponse(String response) {
                         try {
                             Log.d("name", "onResponse:" +response);
-                            JSONObject jsonObject = new JSONObject(response);
+                            jsonObject = new JSONObject(response);
                             userName = jsonObject.getString("name");
                             userDescription = jsonObject.getString("description");
                             userProfile = jsonObject.getString("profile");
@@ -185,6 +271,34 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
         AppHelper.requestQueue.add(youPageStringRequest);
     }
 
+    private void getUser(String token) {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    System.out.println(response);
+                    String userName = jsonObject.getString("name");
+                    SharedPreferences sharedPreferences = getSharedPreferences("user_info",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user_info",response);
+                    editor.commit();
+                    if(userName != null) {
+                        currentUser = jsonObject;
+
+                    } else{
+                        Toast.makeText(YouPage.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
+                        System.out.println(response);
+                    }
+                } catch(JSONException err) {
+                    err.printStackTrace();
+                }
+            }
+        };
+        UserRequest userRequest = new UserRequest(token,responseListener);
+        RequestQueue queue = Volley.newRequestQueue(YouPage.this);
+        queue.add(userRequest);
+    }
     public void SendFollow(){
         // 팔로우, 팔로잉 버튼 눌렀을때 api에 요청보내기
         // 요청은 가는거 같은데 웹에서 변화없음 -> 요청이 안가는 건가?

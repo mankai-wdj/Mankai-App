@@ -58,7 +58,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class ChatContainerActivity extends AppCompatActivity implements ChatBottomSheetDialog.BottomSheetListener {
+public class FCMChatContainer extends AppCompatActivity implements ChatBottomSheetDialog.BottomSheetListener {
     Room room;
     RecyclerView chat_message_list;
     MessagesAdapter messagesAdapter;
@@ -75,7 +75,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     private ArrayList<Message> messageList = new ArrayList<Message>();
     String res;
     private int currentPage = 1;
-    private int last_page = 1;
+    private int roomId;
     private String userID;
     private ChatFragment chatFragment = new ChatFragment();
     private Parcelable recyclerViewState;
@@ -101,13 +101,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
 
-
-
-        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences1.edit();
-        editor.putString("current_room_id",room.id);
-        editor.commit();
-
         channel = pusher.subscribe("room."+room.id); // 채널 연결
 
         channel.bind("send-message", new SubscriptionEventListener() {
@@ -121,7 +114,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                     Date formatDate2 = dtFormat.parse(jsonObject.getJSONObject("message").getString("created_at"));
                     Message message = new Message(jsonObject.getJSONObject("message").getString("id"), jsonObject.getJSONObject("message").getString("user_id"), jsonObject.getJSONObject("message").getString("room_id"), jsonObject.getJSONObject("message").getString("type"), jsonObject.getJSONObject("message").getString("message"), newDtFormat2.format(formatDate2), jsonObject.getJSONObject("message").getString("user"),0);
-                    ChatContainerActivity.this.runOnUiThread(new Runnable() {
+                    FCMChatContainer.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             messagesAdapter.addEventMessage(message);
@@ -141,7 +134,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btMyMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatContainerActivity.this, MemoListActivity.class);
+                Intent intent = new Intent(FCMChatContainer.this, MemoListActivity.class);
                 intent.putExtra("room", room);
                 startActivity(intent);
                 drawerLayout.closeDrawer(drawerView);
@@ -184,7 +177,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
 
         chat_message_list = (RecyclerView) findViewById(R.id.chat_message_list);
-        layoutManager = new LinearLayoutManager(ChatContainerActivity.this, LinearLayoutManager.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(FCMChatContainer.this, LinearLayoutManager.VERTICAL, false);
         layoutManager.setReverseLayout(false);
         layoutManager.setStackFromEnd(true);
         chat_message_list.setLayoutManager(layoutManager);
@@ -229,7 +222,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatContainerActivity.this, ChatInviteActivity.class);
+                Intent intent = new Intent(FCMChatContainer.this, ChatInviteActivity.class);
                 intent.putExtra("room", room);
                 startActivity(intent);
                 drawerLayout.closeDrawer(drawerView);
@@ -346,7 +339,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     return "application/json";
                 }
             };
-            Volley.newRequestQueue(ChatContainerActivity.this).add(stringRequest);
+            Volley.newRequestQueue(FCMChatContainer.this).add(stringRequest);
 
         }
         return res;
@@ -412,7 +405,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     }
                 }
         );
-        Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+        Volley.newRequestQueue(FCMChatContainer.this).add(jsonObjectRequest);
         inputMessage.setText("");
     }
 
@@ -455,7 +448,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                             }
                         }
                 );
-                Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+                Volley.newRequestQueue(FCMChatContainer.this).add(jsonObjectRequest);
             }
         }
     }
@@ -500,7 +493,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                     }
                 }
         );
-        Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
+        Volley.newRequestQueue(FCMChatContainer.this).add(jsonObjectRequest);
     }
 
     // message 셋팅
@@ -519,9 +512,9 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date formatDate2 = dtFormat.parse(message.getString("created_at"));
             if(message.getInt("id") == Integer.parseInt(userID)) {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),0));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),0));
             } else {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),1));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),1));
             }
             messagesAdapter.notifyItemInserted(0);
             chat_count+=1;
@@ -534,43 +527,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
 
 
-    private void loadMore(String token, String roomId, String userId , int pageId) {
-        loading(true);
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    last_page = jsonObject.getInt("last_page");
-                    for (int i = 0; i< jsonArray.length(); i++) {
-                        JSONObject message = jsonArray.getJSONObject(i);
-                        SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
-                        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                        Date formatDate2 = dtFormat.parse(message.getString("created_at"));
-
-                        if(message.getInt("id") == Integer.parseInt(userID)) {
-                            messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),0));
-                        } else {
-                            messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),1));
-                        }
-
-                        chat_count+=1;
-                    }
-                    loading(false);
-                    messagesAdapter.notifyDataSetChanged();
-
-                    Log.e("라스트", String.valueOf(messageList.size()-1));
-                } catch(JSONException | ParseException err) {
-                    err.printStackTrace();
-                }
-            }
-        };
-        ChatRoomMessageRequest chatRoomMessageRequest = new ChatRoomMessageRequest(token, roomId, userId,pageId,responseListener);
-        RequestQueue queue = Volley.newRequestQueue(ChatContainerActivity.this);
-        queue.add(chatRoomMessageRequest);
-    }
 
 
 
@@ -582,7 +539,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    last_page = jsonObject.getInt("last_page");
+
                     currentPage = jsonObject.getInt("current_page");
                     setMessages(jsonObject, userId);
                     messagesAdapter.notifyDataSetChanged();
@@ -592,7 +549,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             }
         };
         ChatRoomMessageRequest chatRoomMessageRequest = new ChatRoomMessageRequest(token, roomId, userId,pageId,responseListener);
-        RequestQueue queue = Volley.newRequestQueue(ChatContainerActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(FCMChatContainer.this);
         queue.add(chatRoomMessageRequest);
     }
 
@@ -642,7 +599,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                         currentUser = jsonObject;
                         userID = jsonObject.getString("id");
                         messageList = new ArrayList<>();
-                        messagesAdapter = new MessagesAdapter(ChatContainerActivity.this, currentUser, room.id,userID , messageList);
+                        messagesAdapter = new MessagesAdapter(FCMChatContainer.this, currentUser, room.id,userID , messageList);
                         messagesAdapter.setHasStableIds(true);
                         getMessages(token, room.id, jsonObject.getString("id"),currentPage);
                         channelSubscribe(room.id);
@@ -650,7 +607,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                         chat_message_list.setAdapter(messagesAdapter);
 
                     } else{
-                        Toast.makeText(ChatContainerActivity.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FCMChatContainer.this,"토큰 만료 다시 로그인", Toast.LENGTH_SHORT).show();
                     }
                 } catch(JSONException err) {
                     err.printStackTrace();
@@ -658,7 +615,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             }
         };
         UserRequest userRequest = new UserRequest(token,responseListener);
-        RequestQueue queue = Volley.newRequestQueue(ChatContainerActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(FCMChatContainer.this);
         queue.add(userRequest);
     }
 

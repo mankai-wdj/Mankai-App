@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blongho.country_data.World;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.wdj.mankai.R;
@@ -70,6 +71,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView translateText = itemView.findViewById(R.id.translate_text);
         ImageView likeBtn = itemView.findViewById(R.id.like_btn);
         LinearLayout layout = itemView.findViewById(R.id.linear);
+        ImageView flag = itemView.findViewById(R.id.flag);
     }
 
     public BoardAdapter(ArrayList<BoardData> list){
@@ -81,6 +83,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();
+        World.init(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = null;
 //        멀티 뷰타입 분리
@@ -108,7 +111,19 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             }
             holder.snsContent.setText(snsdata.getContent_text());
             holder.snsName.setText(snsdata.getName());
-
+            if(snsdata.getCountry().equals("ko")) {
+                holder.flag.setImageResource(World.getFlagOf("KOR"));
+            } else if(snsdata.getCountry().equals("en")){
+                holder.flag.setImageResource(World.getFlagOf("usa"));
+            } else if(snsdata.getCountry().equals("ja")){
+                holder.flag.setImageResource(World.getFlagOf("JAPAN"));
+            } else if(snsdata.getCountry().equals("ch-TW") || snsdata.getCountry().equals("zh-TW")){
+                holder.flag.setImageResource(World.getFlagOf("TW"));
+            } else if(snsdata.getCountry().equals("zh-CN") || snsdata.getCountry().equals("zh-CN")){
+                holder.flag.setImageResource(World.getFlagOf("china"));
+            } else {
+                holder.flag.setImageResource(World.getFlagOf(snsdata.getCountry()));
+            }
             Log.d("profile", position+ "?" + snsdata.getProfile());
 
             if(snsdata.getProfile().equals("null")){

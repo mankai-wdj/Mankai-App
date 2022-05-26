@@ -116,6 +116,9 @@ public class BoardData implements Serializable {
         return jsonData.getString("isGroup");
     }
 
+    public String getCountry() throws  JSONException{
+        return jsonData.getString("country");
+    }
     public void setUpdated_at(String updated_at)throws JSONException  {
         this.jsonData.put("updated_at",updated_at);
     }
