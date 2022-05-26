@@ -85,21 +85,19 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         messages.add(0, message);
     }
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         RecyclerView.ViewHolder vh = null;
-        try {
-            if(messages.get(viewType).userId.equals(currentUser.getString("id")) == VIEW_TYPE_SENT) {
-                vh = new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
-            } else {
-                vh = new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(messages.get(viewType).userId.equals(this.currentUserID) == VIEW_TYPE_SENT) {
+            vh = new SentMessageViewHolder(inflater.inflate(R.layout.chat_container_sent_message, parent, false));
+        } else {
+            vh = new ReceivedMessageViewHolder(inflater.inflate(R.layout.chat_container_received_message, parent, false));
         }
+
 
 
         return vh;
@@ -108,6 +106,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
+        holder.setIsRecyclable(false);
 //        imageGridViewAdapter = new ImageGridViewAdapter();
 
         try {
@@ -135,6 +134,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return messages.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return Integer.parseInt(messages.get(position).getMessageId());
+    }
 
     @Override
     public int getItemViewType(int position) {
