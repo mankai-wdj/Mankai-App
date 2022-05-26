@@ -3,6 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/activity_chat.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/activity_chat_container.xml" value="0.20260416666666667" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/activity_chat_create.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/app_bar_chat_set.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/chat_bottom_sheet_layout.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/chat_container_received_message.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/chat_container_sent_message.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/chat_room_list_item.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/grid_layout_stt.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/gridview_list_item.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/memo_list_item.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/multi_image_view.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/nav_header_chat_set.xml" value="0.23489583333333333" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/navbar.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_bottom_sheet.xml" value="0.378125" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="..\:/Users/chlwl/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable/background_chat_top.xml" value="0.1" />
