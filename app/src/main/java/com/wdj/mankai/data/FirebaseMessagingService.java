@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
-    String roomId;
+    public Room room;
+    public String roomId;
     String type;
     String users;
     String updated_at;
@@ -78,11 +80,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //팝업 터치시 이동할 액티비티를 지정합니다.
         Intent intent = new Intent(this, FCMChatContainer.class);
         intent.putExtra("room", new Room(roomId,"","", "","",""));
+        room = new Room(roomId,"","", "","","");
+        ((FlagClass) getApplicationContext()).setRoomId(roomId);
         //알림 채널 아이디 : 본인 하고싶으신대로...
         String channel_id = "CHN_ID";
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Log.e("Room",roomId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
         //기본 사운드로 알림음 설정. 커스텀하려면 소리 파일의 uri 입력
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id)

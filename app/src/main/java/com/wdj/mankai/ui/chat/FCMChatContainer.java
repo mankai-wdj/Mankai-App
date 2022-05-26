@@ -1,6 +1,7 @@
 package com.wdj.mankai.ui.chat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +41,8 @@ import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
+import com.wdj.mankai.data.FirebaseMessagingService;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
@@ -90,7 +93,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         setContentView(R.layout.activity_chat_container);
         progressBar = findViewById(R.id.progressBar);
         textName = findViewById(R.id.textName);
-        room = (Room) getIntent().getSerializableExtra("room");
+        room = new Room(((FlagClass) getApplicationContext()).getRoomId(),"","","","","");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerView = (View)findViewById(R.id.drawer2);
         btLeave = findViewById(R.id.btLeave);
@@ -100,7 +103,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
-
+        Log.e("room" , String.valueOf(room.id));
         channel = pusher.subscribe("room."+room.id); // 채널 연결
 
         channel.bind("send-message", new SubscriptionEventListener() {
@@ -409,6 +412,8 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         inputMessage.setText("");
     }
 
+
+
     // 채팅 봇 채팅
     private void transBotChat(String name, String message) throws JSONException {
         System.out.println(name);
@@ -512,9 +517,9 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date formatDate2 = dtFormat.parse(message.getString("created_at"));
             if(message.getInt("id") == Integer.parseInt(userID)) {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),0));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),0));
             } else {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),1));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),1));
             }
             messagesAdapter.notifyItemInserted(0);
             chat_count+=1;
@@ -522,7 +527,6 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
 
         loading(false);
     }
-
 
 
 
