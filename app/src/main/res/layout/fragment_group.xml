@@ -11,63 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:weightSum="12"
         android:orientation="horizontal">
         <EditText
 
-            android:layout_width="wrap_content"
-            android:layout_weight="10"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/GroupSearch"
             android:hint="그룹 검색"
-            android:layout_marginLeft="15dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
             android:textColor="#A9A9A9"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
             android:background="@drawable/btn_style"
             />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-
-        <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/search_style"
-            android:gravity="center"
-            android:layout_marginLeft="8dp">
-
-            <ImageView
-                android:id="@+id/group_search_btn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/loupe"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/search_style"
-            android:gravity="center"
-            android:layout_marginLeft="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/menu"/>
-
-        </LinearLayout>
 
 
     </LinearLayout>
@@ -78,26 +35,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-    <!-- TODO: Update blank fragment layout -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="right">
+            android:layout_height="30dp">
+            <TextView
+                android:id="@+id/StatusText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="가입 그룹 리스트"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginLeft="14dp"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/groupmake"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="그룹 만들기"
-                android:textColor="@color/black"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:drawableRight="@drawable/add"
                 android:drawablePadding="5dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginRight="12dp"/>
+                android:text="그룹 만들기"
+                android:textSize="14dp"
+                android:layout_marginRight="14dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 <!--        // 그룹 목록-->
         <LinearLayout
@@ -108,14 +77,6 @@
             android:padding="15dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="가입 한 그룹 리스트"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"
-                android:textSize="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_recycler_view"

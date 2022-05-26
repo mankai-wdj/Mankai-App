@@ -58,7 +58,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView recyclerView;
     private String LoginUserId, GroupName;
     private GridLayoutManager gridLayoutManager;
-
+    private TextView statusText;
     private GroupAdapter adapter;
     private ArrayList<GroupData> list = new ArrayList<>();
     private GroupData groupData;
@@ -73,7 +73,7 @@ public class GroupFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_group, container, false);
 
         GroupSearch = (EditText)view.findViewById(R.id.GroupSearch);
-
+        statusText= view.findViewById(R.id.StatusText);
 
 
         // 그룹 생성 페이지 이동
@@ -106,6 +106,7 @@ public class GroupFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN)
                 {
+                    statusText.setText("검색 결과");
                     String Test = GroupSearch.getText().toString();
                     Log.d("Test", "onEditorAction: " + Test);
                     request2(Test);
@@ -124,6 +125,8 @@ public class GroupFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(GroupSearch.getText().length()==0)
                 {
+
+                    statusText.setText("가입 그룹 리스트");
                     request1();
                 }
             }
