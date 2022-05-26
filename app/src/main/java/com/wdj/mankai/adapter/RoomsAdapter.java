@@ -13,9 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.chat.ChatContainerActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,7 +27,7 @@ import java.util.ArrayList;
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> {
     Context mContext;
     ArrayList<Room> rooms = new ArrayList<>();
-
+    ImageView imageProfile;
 
     public RoomsAdapter(Context mContext) {
         this.mContext = mContext;
@@ -45,7 +49,11 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RoomsAdapter.ViewHolder holder, int position) {
         Room room = rooms.get(position);
-        holder.setItem(room);
+        try {
+            holder.setItem(room);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -81,13 +89,13 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
 
         }
 
-        public void setItem(Room room) {
+        public void setItem(Room room) throws JSONException  {
 //            imageProfile.setImageResource((room.users));
 
             text_room_name.setText(room.title);
             text_room_last_message.setText(room.last_message);
             text_room_time.setText(room.updated_at);
-
+            Glide.with(itemView.getContext()).load(new JSONObject(room.users).getString("profile")).into((ImageView) itemView.findViewById(R.id.imageProfile));
         }
     }
 
