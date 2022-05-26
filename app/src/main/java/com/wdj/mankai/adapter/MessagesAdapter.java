@@ -63,7 +63,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     AppCompatImageView imageFileIcon, imageMemoIcon;
     LinearLayout fileLayout, memoLayout, videoLayout,messageBox, textMessageLayout;
     GridLayout gridLayout;
-    //    ImageGridViewAdapter imageGridViewAdapter;
+//    ImageGridViewAdapter imageGridViewAdapter;
     public static final Boolean VIEW_TYPE_SENT = true;
     public static final Boolean VIEW_TYPE_RECIEVED = false;
 
