@@ -45,12 +45,20 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/font"
+                android:textStyle="bold"
                 android:text="장성규"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
+            <ImageView
+                android:id="@+id/flag"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="13dp"
+                android:layout_gravity="center"
+                />
         </LinearLayout>
         <TextView
             android:id="@+id/snsContent"

@@ -10,6 +10,7 @@ public class Room implements Serializable{
     public String users;
     public String updated_at;
 
+
     public Room (String id, String title, String last_message, String type, String users, String updated_at) {
         this.id = id;
         this.title = title;

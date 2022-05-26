@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Mankai-App/app/src/main/res/font/font.xml" value="0.2234375" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/activity_you_page.xml" value="0.13269927536231885" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/board_image_view.xml" value="0.13269927536231885" />
+        <entry key="..\:/Mankai-App/app/src/main/res/layout/board_normal_view.xml" value="0.13269927536231885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/baseline_favorite_24.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_delete_24.xml" value="0.1885" />
         <entry key="..\:/Users/tjdrb/AndroidStudioProjects/Mankai-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1235" />
