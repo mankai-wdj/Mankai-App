@@ -73,6 +73,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     ImageView imageBack, fileSend;
     EditText inputMessage;
     JSONObject currentUser;
+    String fcmToken;
     private DrawerLayout drawerLayout;
     private View drawerView;
     String res;
@@ -97,6 +98,15 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences1.edit();
+        editor.putString("current_room_id","");
+        editor.commit();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_container);
@@ -112,17 +122,22 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
+
+        System.out.println(room.id);
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences1.edit();
+        editor.putString("current_room_id",room.id);
+        editor.commit();
+
         channel = pusher.subscribe("room."+room.id); // 채널 연결
-
-
 
         channel.bind("send-message", new SubscriptionEventListener() {
             @Override
             public void onEvent(PusherEvent event) {
                 try {
-
                     JSONObject jsonObject = new JSONObject(event.getData());
-                    System.out.println("event : " + jsonObject.getJSONObject("message"));
+
                     SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
                     SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                     Date formatDate2 = dtFormat.parse(jsonObject.getJSONObject("message").getString("created_at"));
