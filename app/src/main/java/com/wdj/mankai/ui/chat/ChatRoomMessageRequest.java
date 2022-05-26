@@ -13,8 +13,8 @@ public class ChatRoomMessageRequest extends StringRequest {
 
     private Map<String,String> map;
 
-    public ChatRoomMessageRequest(String ACCESS_TOKEN, String roomId, String userId , Response.Listener<String> listener) {
-        super(Method.GET,URL+roomId+'/'+userId,listener,null);
+    public ChatRoomMessageRequest(String ACCESS_TOKEN, String roomId, String userId ,int pageId, Response.Listener<String> listener) {
+        super(Method.GET,URL+roomId+'/'+userId+"?page="+pageId,listener,null);
         map = new HashMap<>();
         map.put("Authorization", "Bearer "+ACCESS_TOKEN);
     }
