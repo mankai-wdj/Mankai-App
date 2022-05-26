@@ -114,11 +114,13 @@ public class ChatCreateActivity extends AppCompatActivity {
                                 Intent intent = new Intent(ChatCreateActivity.this, ChatContainerActivity.class);
                                 finish();
                                 try {
-                                    intent.putExtra("room", new Room(response.getString("id"), response.getString("title"),response.getString("last_message"), response.getString("type"), response.getString("users"), response.getString("updated_at")));
+                                    System.out.println("room id " + response.getString("id"));
+                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                                 startActivity(intent);
+
 
                             }
                         },

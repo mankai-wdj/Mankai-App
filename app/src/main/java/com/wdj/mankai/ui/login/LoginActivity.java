@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.wdj.mankai.R;
 import com.wdj.mankai.ui.login.LoginViewModel;
 import com.wdj.mankai.ui.login.LoginViewModelFactory;
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
         getToken(); // 토큰 불러옴
+
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -151,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
     private void login() {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -170,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("login_token",token);
                         editor.commit();
+
                         Toast.makeText(LoginActivity.this,"토큰 저장 완료",Toast.LENGTH_SHORT).show();
                     } else if(statusCode == 400){
                         System.out.println("validation error");

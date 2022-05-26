@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -103,14 +104,13 @@ public class MemoListActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                StringRequest jsonObjectRequest = new StringRequest(
                         Request.Method.POST,
                         "https://api.mankai.shop/api/message/send",
-                        reqJsonObject,
-                        new Response.Listener<JSONObject>() {
+                        new Response.Listener<String>() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("TAG", "성공");
+                            public void onResponse(String response) {
+                                System.out.println( "memo 보내기 성공");
                                 Intent intent = new Intent(MemoListActivity.this, ChatContainerActivity.class);
                                 intent.putExtra("room", room);
                                 finish();
@@ -125,7 +125,17 @@ public class MemoListActivity extends AppCompatActivity {
                                 System.out.println(error);
                             }
                         }
-                );
+                ){
+                    @Override
+                    public byte[] getBody() throws AuthFailureError {
+                        return reqJsonObject.toString().getBytes();
+                    }
+
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/json";
+                    }
+                };
                 Volley.newRequestQueue(MemoListActivity.this).add(jsonObjectRequest);
             }
         });

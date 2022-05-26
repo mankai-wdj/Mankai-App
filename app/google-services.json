@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "860929381621",
+    "project_id": "mankai-project",
+    "storage_bucket": "mankai-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860929381621:android:6af9de9f00a354c522a1bc",
+        "android_client_info": {
+          "package_name": "com.wdj.mankai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860929381621-ghp0g7cbhptvcap6un5rlb3a15piqfcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRXN4glCYzI_bA3IlK9fK6f43a7Wf7nvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860929381621-ghp0g7cbhptvcap6un5rlb3a15piqfcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
