@@ -181,7 +181,7 @@ public class BoardCommentActivity extends AppCompatActivity {
                                 CommentData commentData = new CommentData(jsonArray.getJSONObject(i));
                                 list.add(commentData);
                             }
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyItemRangeChanged(adapter.getItemCount(),jsonArray.length());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -201,6 +201,7 @@ public class BoardCommentActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         comment_edit.setText("");
                         list.clear();
+                        adapter.notifyDataSetChanged();
                         CurrentPage=1;
                         GETCOMMENT();
                         try {

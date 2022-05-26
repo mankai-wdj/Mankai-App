@@ -39,7 +39,7 @@
 
         <ImageView
             android:id="@+id/category_btn"
-            android:layout_width="48dp"
+            android:layout_width="36dp"
             android:layout_height="48dp"
             android:layout_columnWeight="1"
             android:background="@drawable/board_top_style"
@@ -51,7 +51,7 @@
 
         <ImageView
             android:id="@+id/BoardWriteBtn"
-            android:layout_width="48dp"
+            android:layout_width="36dp"
             android:layout_height="48dp"
             android:layout_columnWeight="1"
             android:layout_marginRight="10dp"

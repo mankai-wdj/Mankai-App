@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.wdj.mankai.R;
+import com.wdj.mankai.ui.mypage.FragMyFollowers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     String userDescription = null;
     String userProfile = null;
     public static String userId = null;
+    public static String userCountry = null;
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
            userName = obj.getString("name");
            userDescription = obj.getString("description");
            userProfile = obj.getString("profile");
+           userCountry =obj.getString("country");
            userId = obj.getString("id");
 
         } catch (Throwable t) {
@@ -90,9 +93,11 @@ public class MainActivity extends AppCompatActivity {
                         bundle.putString("userName",userName);
                         bundle.putString("userDescription",userDescription);
                         bundle.putString("userProfile",userProfile);
+                        bundle.putString("userId",userId);
                         MyPageFragment myPageFragment = new MyPageFragment();
                         myPageFragment.setArguments(bundle);
                         fragment = myPageFragment;
+
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
