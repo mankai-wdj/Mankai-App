@@ -134,7 +134,8 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
             @Override
             public void onClick(View view) {
                 SendFollow();
-                sendInput(input);
+
+                sendInput(PASS);
             }
         });
 
