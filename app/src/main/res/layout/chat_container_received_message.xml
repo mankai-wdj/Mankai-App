@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/user_profile_image_background"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/messageBox"
+        />
+
+    <TextView
+        android:id="@+id/text_received_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/messageBox"
+        app:layout_constraintBottom_toTopOf="@id/messageBox"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/messageBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/imageProfile"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/text_received_name"
+        app:layout_constraintWidth_percent="0.75" >
+        <LinearLayout
+            android:id="@+id/textMessageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_received_message"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:layout_gravity="left"
+
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/transLine"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/black"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/textTransMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_received_message"
+            android:padding="12dp"
+            android:textColor="@color/white"
+            android:layout_gravity="left"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/fileLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_gravity="left"
+            android:visibility="gone"
+            android:background="@drawable/background_file_message"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:id="@+id/layoutSend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageFileIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/textFileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/layoutDownload"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageDownloadIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_download"
+                    app:tint="@color/primary"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/memoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_gravity="left"
+            android:visibility="gone"
+            android:background="@drawable/background_file_message"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:id="@+id/layoutMemoIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageMemoIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/textMemoName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/layoutMemoDownload"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/message_file_image_background">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageMemoDownloadIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_download"
+                    app:tint="@color/primary"
+                    android:scaleType="centerCrop" />
+            </FrameLayout>
+        </LinearLayout>
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="6dp"
+            android:layout_gravity="left"
+            android:orientation="horizontal"
+            android:background="@drawable/background_received_message"
+            android:columnCount="2">
+
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/videoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_gravity="left"
+            android:visibility="gone"
+            android:background="@drawable/background_received_message"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textVideoMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_gravity="left"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textVideoLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_gravity="left"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textDateTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/messageBox"
+        app:layout_constraintTop_toBottomOf="@id/messageBox" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

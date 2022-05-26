@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@drawable/background_chat_bottom_sheet"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/filePhotoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:background="@color/primary"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_file"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sttLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:background="@color/purple_700"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stt"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stt"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvSttTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="나라 선택"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+    <GridLayout
+        android:id="@+id/gridSttLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:padding="6dp"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:columnCount="2">
+
+    </GridLayout>
+
+</LinearLayout>
