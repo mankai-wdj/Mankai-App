@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.pusher:pusher-java-client:2.2.1'
     implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
+    implementation 'androidx.work:work-runtime:2.7.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -32,6 +32,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         System.out.println("ddddddddddddddddddddd" + message);
         try {
             JSONObject jsonObject = new JSONObject(message.getData().get("room"));
+            System.out.println(!jsonObject.getString("id").equals(currentRoomId));
             if(!jsonObject.getString("id").equals(currentRoomId)) {
                 String msg = message.getNotification().getBody();
                 if(message.getData().get("type").equals("memo")) {
@@ -70,7 +71,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //알림 채널 아이디 : 본인 하고싶으신대로...
         String channel_id = "CHN_ID";
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         //기본 사운드로 알림음 설정. 커스텀하려면 소리 파일의 uri 입력
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
