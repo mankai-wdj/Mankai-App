@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
 import com.wdj.mankai.ui.main.HomeFragment;
@@ -65,7 +66,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
-        ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
+        MaterialButton translateBtn = itemView.findViewById(R.id.translate_btn);
         TextView translateText = itemView.findViewById(R.id.translate_text);
         ImageView likeBtn = itemView.findViewById(R.id.like_btn);
         LinearLayout layout = itemView.findViewById(R.id.linear);

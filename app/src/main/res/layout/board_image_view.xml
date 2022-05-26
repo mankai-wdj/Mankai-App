@@ -36,16 +36,19 @@
             android:src="@drawable/profileimage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:civ_border_color="@color/mankai_logo"
+            app:civ_border_width="3dp"
             tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/snsName"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/font"
                 android:text="장성규"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
@@ -68,8 +71,8 @@
             android:id="@+id/translate_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
-            android:textColor="@color/black"
+            android:background="@color/translate_background"
+            android:textColor="@color/translate_text"
             android:textSize="0dp"
             android:layout_marginHorizontal="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +127,7 @@
                 android:padding="2dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/baseline_favorite_24"
-                app:tint="@color/dark_gray"/>
+                app:tint="@color/black"/>
 
             <TextView
                 android:id="@+id/likeCnt"
@@ -144,7 +147,7 @@
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:src="@drawable/ic_round_comment_24"
-                app:tint="@color/dark_gray" />
+                app:tint="@color/black" />
             <TextView
                 android:id="@+id/CommentCount"
                 android:layout_width="wrap_content"
@@ -156,13 +159,14 @@
                 android:textColor="@color/dark_gray"
                 android:textSize="24dp" />
 
-            <ImageView
+                <Button
                 android:id="@+id/translate_btn"
-                android:layout_width="36dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="2dp"
-                android:src="@drawable/ic_baseline_translate_24"
-                app:tint="@color/dark_gray" />
+                android:backgroundTint="#202d37"
+                android:text="번역하기"
+                android:textColor="@color/white"
+                />
 
         </LinearLayout>
 

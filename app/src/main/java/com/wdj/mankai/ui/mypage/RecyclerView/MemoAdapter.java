@@ -3,6 +3,7 @@ package com.wdj.mankai.ui.mypage.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,7 +41,8 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<Memo> memos = new ArrayList<>();
     Context context;
 
-    public MemoAdapter (ArrayList<Memo> memos){
+    public MemoAdapter (Context context, ArrayList<Memo> memos){
+        this.context = context;
         this.memos = memos;
     }
 
@@ -129,12 +131,20 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             ((BOARDViewHolder)holder).webView.getSettings().setJavaScriptEnabled(true);
             ((BOARDViewHolder)holder).webView.loadUrl("http://mankai.shop/boardmemo/"+memo.getMemo_id());
-            ((BOARDViewHolder)holder).webView.setWebChromeClient(new WebChromeClient());
+            ((BOARDViewHolder)holder).webView.setWebChromeClient(new WebChromeClient() {
+
+            });
             ((BOARDViewHolder)holder).webView.setWebViewClient(new WebViewClient(){
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Log.d("check URL",url);
-                    view.loadUrl(url);
+                    if(url.contains("https://mankai.shop/video")) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        context.startActivity(intent);
+                    } else {
+                        Log.d("check URL",url);
+                        view.loadUrl(url);
+                    }
+
                     return true;
                 }
 

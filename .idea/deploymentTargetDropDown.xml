@@ -1,6 +1,4 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project version="4">
   <component name="deploymentTargetDropDown">
     <targetSelectedWithDropDown>
@@ -9,14 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_XL_API_30.avd" />
+            <value value="C:\Users\zergx\.android\avd\Pixel_5_API_30.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-05-22T09:51:52.744387Z" />
-    <timeTargetWasSelectedWithDropDown value="2022-05-25T11:19:43.836433Z" />
-==
-    <timeTargetWasSelectedWithDropDown value="2022-05-22T09:51:52.744387Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-05-26T07:50:24.621349700Z" />
   </component>
 </project>

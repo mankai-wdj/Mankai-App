@@ -52,7 +52,7 @@ public class FragMyMemos extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_mymemos,container,false);
-        adapter = new MemoAdapter(memos);
+        adapter = new MemoAdapter(getContext(),memos);
         memoRecyclerView = view.findViewById(R.id.mymemo_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         memoRecyclerView.setLayoutManager(layoutManager);

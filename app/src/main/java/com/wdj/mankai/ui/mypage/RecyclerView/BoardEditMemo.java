@@ -42,7 +42,7 @@ public class BoardEditMemo extends Activity {
         });
         editMemoWebView.getSettings().setJavaScriptEnabled(true);
         editMemoWebView.setWebChromeClient(new WebChromeClient());
-        editMemoWebView.loadUrl("http://localhost:3000/boardmemoedit/"+memoId);
+        editMemoWebView.loadUrl("https://mankai.shop/boardmemoedit/"+memoId);
         /*?!스크롤 손 좀 봐야겠다..*/
         editMemoWebView.addJavascriptInterface(new WebBridge(),"BRIDGE");
         /*웹의 수정하기 버튼을 눌렀을 때 WebBridge내부의 함수를 실행한다.*/
