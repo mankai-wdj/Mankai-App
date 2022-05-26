@@ -392,6 +392,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         });
                         downDlg.show();
                     }else if (messages.get(pos).messageType.equals("memo")) {
+                        System.out.println("memo ::: " + messages.get(pos).message);
                         Intent intent = new Intent(itemView.getContext(), ChatMemoReadActivity.class);
                         intent.putExtra("memo", messages.get(pos).message);
                         mContext.startActivity(intent);

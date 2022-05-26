@@ -69,6 +69,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     ImageView imageBack, fileSend;
     EditText inputMessage;
     JSONObject currentUser;
+    String fcmToken;
     private DrawerLayout drawerLayout;
     private View drawerView;
     private ArrayList<Message> messageList = new ArrayList<Message>();
@@ -100,7 +101,16 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
 
+
+        System.out.println(room.id);
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences1.edit();
+        editor.putString("current_room_id",room.id);
+        editor.commit();
+
         channel = pusher.subscribe("room."+room.id); // 채널 연결
+
         channel.bind("send-message", new SubscriptionEventListener() {
             @Override
             public void onEvent(PusherEvent event) {
@@ -125,11 +135,10 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
+
+//                messagesAdapter.addMessage(event.getData());
             }
         });
-
-
-
         btMyMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,8 +176,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
             }
         });
-
-
 
 
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
@@ -356,7 +363,6 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
             for(int i = 0; i < toUsers.length(); i++) {
                 toUsers2.put(toUsers.getJSONObject(i).getString("user_id"));
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -497,6 +503,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         );
         Volley.newRequestQueue(ChatContainerActivity.this).add(jsonObjectRequest);
     }
+
     // message 셋팅
     private void setMessages(JSONObject messages, String userId) throws JSONException, ParseException {
         messageList.clear();
@@ -601,6 +608,7 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
         }
     }
     private void channelSubscribe(String roomID) {
+
         pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {
@@ -615,6 +623,8 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
                 System.out.println(message);
             }
         }, ConnectionState.ALL);
+
+
 
     }
     private void getUser(String token) {

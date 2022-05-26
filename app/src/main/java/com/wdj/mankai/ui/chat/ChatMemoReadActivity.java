@@ -68,36 +68,7 @@ public class ChatMemoReadActivity extends AppCompatActivity {
         getUser(token);
 
         memo = getIntent().getStringExtra("memo");
-        try {
-            jsonObject = new JSONObject(memo);
-            tvMemotitle.setText(jsonObject.getString("memo_title"));
-            if(jsonObject.getString("type").equals("SNS")) {
-                snsMemoLayout.setVisibility(View.VISIBLE);
-                tvSnsMemoContent.setText(jsonObject.getString("content_text"));
-                System.out.println(jsonObject);
-                SNSMemoRequest(jsonObject.getInt("id"));
-
-            }else {
-                boardMemoLayout.setVisibility(View.VISIBLE);
-                boardMemoWebview.loadData(jsonObject.getString("content_text"), "text/html", "UTF-8");
-
-                WebSettings settings = boardMemoWebview.getSettings();
-                settings.setDomStorageEnabled(true);
-
-                boardMemoWebview.getSettings().setJavaScriptEnabled(true);
-                boardMemoWebview.loadUrl("https://mankai.shop/boardmemo/"+jsonObject.getString("id"));
-                boardMemoWebview.setWebChromeClient(new WebChromeClient());
-                boardMemoWebview.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
-                });
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        getMemo(memo);
 
         btSaveMemo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +88,63 @@ public class ChatMemoReadActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getMemo(String memo) {
+        System.out.println("memomemomemo : " + memo.getClass().getName());
+        try {
+            JSONObject reqjsonObject = new JSONObject(memo);
+            tvMemotitle.setText(reqjsonObject.getString("memo_title"));
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    "https://api.mankai.shop/api/get/memo/"+reqjsonObject.getString("id"),
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("TAG", "get memo  success");
+                            System.out.println("resresrserdddd"+response);
+                            jsonObject = response;
+                            try {
+                                if(response.getString("type").equals("SNS")) {
+                                    snsMemoLayout.setVisibility(View.VISIBLE);
+                                    tvSnsMemoContent.setText(response.getString("content_text"));
+                                    SNSMemoRequest(response.getInt("id"));
+
+                                }else {
+                                    boardMemoLayout.setVisibility(View.VISIBLE);
+                                    boardMemoWebview.loadData(response.getString("content_text"), "text/html", "UTF-8");
+
+                                    WebSettings settings = boardMemoWebview.getSettings();
+                                    settings.setDomStorageEnabled(true);
+
+                                    boardMemoWebview.getSettings().setJavaScriptEnabled(true);
+                                    boardMemoWebview.loadUrl("https://mankai.shop/boardmemo/"+response.getString("id"));
+                                    boardMemoWebview.setWebChromeClient(new WebChromeClient());
+                                    boardMemoWebview.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                            view.loadUrl(url);
+                                            return true;
+                                        }
+                                    });
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //통신 ERROR
+                        }
+                    }
+            );
+            Volley.newRequestQueue(ChatMemoReadActivity.this).add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     //memo 저장

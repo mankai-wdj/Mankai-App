@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+
 }
 
 android {
@@ -34,7 +35,9 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.1') {
         exclude group: 'org.json', module: 'json'
     }
-
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+    implementation 'com.google.firebase:firebase-analytics'
     implementation "org.java-websocket:Java-WebSocket:1.5.1"
     implementation group: 'org.json', name: 'json', version: '20160810'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -55,3 +58,5 @@ dependencies {
     implementation 'com.pusher:pusher-java-client:2.2.1'
     implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
 }
+
+apply plugin: 'com.google.gms.google-services'
