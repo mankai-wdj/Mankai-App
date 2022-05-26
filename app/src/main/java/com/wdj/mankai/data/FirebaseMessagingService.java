@@ -27,6 +27,7 @@ import org.json.JSONObject;
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     public Room room;
     public String roomId;
+    public String roomUsers;
     String type;
     String users;
     String updated_at;
@@ -39,6 +40,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         try {
             JSONObject jsonObject = new JSONObject(message.getData().get("room"));
             roomId = jsonObject.getString("id");
+            roomUsers = jsonObject.getString("users");
             System.out.println("Ddddddddddd"+roomId);
             System.out.println(!jsonObject.getString("id").equals(currentRoomId));
             if(!jsonObject.getString("id").equals(currentRoomId)) {
@@ -79,12 +81,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void showNotification(String title, String message) {
         //팝업 터치시 이동할 액티비티를 지정합니다.
         Intent intent = new Intent(this, FCMChatContainer.class);
-        intent.putExtra("room", new Room(roomId,"","", "","",""));
         room = new Room(roomId,"","", "","","");
         ((FlagClass) getApplicationContext()).setRoomId(roomId);
+        ((FlagClass) getApplicationContext()).setRoomUsers(roomUsers);
         //알림 채널 아이디 : 본인 하고싶으신대로...
         String channel_id = "CHN_ID";
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Log.e("Room",roomId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         //기본 사운드로 알림음 설정. 커스텀하려면 소리 파일의 uri 입력
