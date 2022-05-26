@@ -31,6 +31,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.AppHelper;
+import com.wdj.mankai.ui.main.VideoActivity;
 import com.wdj.mankai.ui.mypage.FragMyMemos;
 
 import java.util.ArrayList;
@@ -138,7 +139,8 @@ public class MemoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     if(url.contains("https://mankai.shop/video")) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        Intent intent = new Intent(context,VideoActivity.class);
+                        intent.putExtra("url",url);
                         context.startActivity(intent);
                     } else {
                         Log.d("check URL",url);

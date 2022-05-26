@@ -2,6 +2,7 @@ package com.wdj.mankai.ui.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.ChatMemo;
 import com.wdj.mankai.ui.main.UserRequest;
+import com.wdj.mankai.ui.main.VideoActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,7 +126,15 @@ public class ChatMemoReadActivity extends AppCompatActivity {
                                     boardMemoWebview.setWebViewClient(new WebViewClient() {
                                         @Override
                                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                            view.loadUrl(url);
+                                            if(url.contains("https://mankai.shop/video")) {
+                                                Intent intent = new Intent(ChatMemoReadActivity.this, VideoActivity.class);
+                                                intent.putExtra("url",url);
+                                                ChatMemoReadActivity.this.startActivity(intent);
+                                            } else {
+                                                Log.d("check URL",url);
+                                                view.loadUrl(url);
+                                            }
+
                                             return true;
                                         }
                                     });

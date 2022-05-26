@@ -41,12 +41,14 @@ public class VideoActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
+    private String url;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
         String token = sharedPreferences.getString("login_token","");
         askForPermissions();
+        url = getIntent().getExtras().getString("url");
         mWebView = findViewById(R.id.webview);
 
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -87,7 +89,7 @@ public class VideoActivity extends AppCompatActivity {
 
 
 
-        mWebView.loadUrl("https://mankai.shop/video/100");
+        mWebView.loadUrl(url);
 
     }
 
