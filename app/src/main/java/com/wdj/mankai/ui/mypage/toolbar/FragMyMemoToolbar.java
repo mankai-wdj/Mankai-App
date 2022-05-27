@@ -29,14 +29,7 @@ public class FragMyMemoToolbar extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.frag_my_memo_toolbar,container,false);
-        plusMemoIv = view.findViewById(R.id.myMemoAddButton);
 
-        plusMemoIv.setOnClickListener                                                                                                                                   (new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("메모추가버튼 클릭","");
-            }
-        });
 
         return view;
     }

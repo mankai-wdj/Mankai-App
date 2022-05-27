@@ -68,7 +68,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
-        MaterialButton translateBtn = itemView.findViewById(R.id.translate_btn);
+        ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
         TextView translateText = itemView.findViewById(R.id.translate_text);
         ImageView likeBtn = itemView.findViewById(R.id.like_btn);
         LinearLayout layout = itemView.findViewById(R.id.linear);
@@ -123,7 +123,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             } else if(snsdata.getCountry().equals("zh-CN") || snsdata.getCountry().equals("zh-CN")){
                 holder.flag.setImageResource(World.getFlagOf("china"));
             } else {
-                holder.flag.setImageResource(World.getFlagOf("radfs"));
+                holder.flag.setImageResource(World.getFlagOf(snsdata.getCountry()));
             }
             Log.d("profile", position+ "?" + snsdata.getProfile());
 

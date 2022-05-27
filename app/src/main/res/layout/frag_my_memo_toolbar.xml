@@ -3,52 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="36dp"
-    android:orientation="horizontal"
-    android:background="#582DC1"
-    android:id="@+id/frag_my_memo_toolbar"
-    >
+    android:layout_height="48dp"
+    android:elevation="4dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:text="MYMEMO임"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="마이페이지"
+        android:textSize="24dp"
+        android:layout_marginLeft="3dp"
+        android:padding="5dp"
+        android:fontFamily="@font/font_hb"
+        android:textColor="@color/mankai_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/myMemoAddButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/ic_baseline_add_circle_outline_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/myMemoSearchButton"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
 
     <ImageView
-        android:id="@+id/myMemoSearchButton"
+        android:id="@+id/category_btn"
         android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/ic_baseline_search_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/myMemoSettingButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/myMemoSettingButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
+        android:layout_columnWeight="1"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/board_top_style"
         android:src="@drawable/ic_baseline_settings_24"
+        android:text="글 쓰기"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
