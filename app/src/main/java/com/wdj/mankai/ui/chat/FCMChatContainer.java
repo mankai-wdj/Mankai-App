@@ -40,6 +40,7 @@ import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
@@ -75,7 +76,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
     private ArrayList<Message> messageList = new ArrayList<Message>();
     String res;
     private int currentPage = 1;
-    private int roomId;
+    private int last_page = 1;
     private String userID;
     private ChatFragment chatFragment = new ChatFragment();
     private Parcelable recyclerViewState;
@@ -90,7 +91,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         setContentView(R.layout.activity_chat_container);
         progressBar = findViewById(R.id.progressBar);
         textName = findViewById(R.id.textName);
-        room = (Room) getIntent().getSerializableExtra("room");
+        room = new Room(((FlagClass) getApplicationContext()).getRoomId(),"","","",((FlagClass) getApplicationContext()).getRoomUsers(),"");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerView = (View)findViewById(R.id.drawer2);
         btLeave = findViewById(R.id.btLeave);
@@ -100,6 +101,13 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         btInvite = findViewById(R.id.btInvite);
         imageBack = findViewById(R.id.imageBack);
         btMyMemo = findViewById(R.id.btMyMemo);
+
+
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences1.edit();
+        editor.putString("current_room_id",room.id);
+        editor.commit();
 
         channel = pusher.subscribe("room."+room.id); // 채널 연결
 
@@ -512,9 +520,9 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Date formatDate2 = dtFormat.parse(message.getString("created_at"));
             if(message.getInt("id") == Integer.parseInt(userID)) {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),0));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),0));
             } else {
-                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),1));
+                messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message"), newDtFormat2.format(formatDate2), message.getString("user"),1));
             }
             messagesAdapter.notifyItemInserted(0);
             chat_count+=1;
@@ -527,7 +535,43 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
 
 
 
+    private void loadMore(String token, String roomId, String userId , int pageId) {
+        loading(true);
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
 
+                    last_page = jsonObject.getInt("last_page");
+                    for (int i = 0; i< jsonArray.length(); i++) {
+                        JSONObject message = jsonArray.getJSONObject(i);
+                        SimpleDateFormat newDtFormat2 = new SimpleDateFormat("h:mm");
+                        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        Date formatDate2 = dtFormat.parse(message.getString("created_at"));
+
+                        if(message.getInt("id") == Integer.parseInt(userID)) {
+                            messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),0));
+                        } else {
+                            messageList.add(0,new Message(message.getString("id"), message.getString("user_id"), message.getString("room_id"), message.getString("type"), message.getString("message")+chat_count, newDtFormat2.format(formatDate2), message.getString("user"),1));
+                        }
+
+                        chat_count+=1;
+                    }
+                    loading(false);
+                    messagesAdapter.notifyDataSetChanged();
+
+                    Log.e("라스트", String.valueOf(messageList.size()-1));
+                } catch(JSONException | ParseException err) {
+                    err.printStackTrace();
+                }
+            }
+        };
+        ChatRoomMessageRequest chatRoomMessageRequest = new ChatRoomMessageRequest(token, roomId, userId,pageId,responseListener);
+        RequestQueue queue = Volley.newRequestQueue(FCMChatContainer.this);
+        queue.add(chatRoomMessageRequest);
+    }
 
 
 
@@ -539,7 +583,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
+                    last_page = jsonObject.getInt("last_page");
                     currentPage = jsonObject.getInt("current_page");
                     setMessages(jsonObject, userId);
                     messagesAdapter.notifyDataSetChanged();

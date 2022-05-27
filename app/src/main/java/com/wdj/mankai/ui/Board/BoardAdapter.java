@@ -122,7 +122,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             } else if(snsdata.getCountry().equals("zh-CN") || snsdata.getCountry().equals("zh-CN")){
                 holder.flag.setImageResource(World.getFlagOf("china"));
             } else {
-                holder.flag.setImageResource(World.getFlagOf(snsdata.getCountry()));
+                holder.flag.setImageResource(World.getFlagOf("radfs"));
             }
             Log.d("profile", position+ "?" + snsdata.getProfile());
 

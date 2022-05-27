@@ -27,6 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mankai.NoActionBar"
+        android:name=".data.FlagClass"
         android:usesCleartextTraffic="true"
         >
 
@@ -116,7 +117,8 @@
             android:name=".ui.chat.FCMChatContainer"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
-        <service android:name=".data.FirebaseMessagingService"
+        <service
+            android:name=".data.FirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
