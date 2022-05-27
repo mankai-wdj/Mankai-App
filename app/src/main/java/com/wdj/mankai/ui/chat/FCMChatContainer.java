@@ -104,10 +104,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
 
 
 
-        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences1.edit();
-        editor.putString("current_room_id",room.id);
-        editor.commit();
+        ((FlagClass) getApplicationContext()).setCurrentRoomId(room.id);
 
         channel = pusher.subscribe("room."+room.id); // 채널 연결
 
@@ -665,6 +662,14 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
 
     @Override
     public void onButtonClicked(String text) {
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        ((FlagClass) getApplicationContext()).setCurrentRoomId(null);
+        super.onDestroy();
 
     }
 }

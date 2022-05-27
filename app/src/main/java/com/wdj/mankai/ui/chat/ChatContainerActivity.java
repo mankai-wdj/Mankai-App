@@ -666,4 +666,11 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
     public void onButtonClicked(String text) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        ((FlagClass) getApplicationContext()).setCurrentRoomId(null);
+        super.onDestroy();
+
+    }
 }

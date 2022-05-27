@@ -45,6 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             System.out.println("Ddddddddddd"+roomId);
             System.out.println(jsonObject.getString("id").equals(currentRoomId));
             if(!jsonObject.getString("id").equals(currentRoomId)) {
+                System.out.println("Ddddddddddd "+jsonObject.getString("id").equals(currentRoomId));
                 String msg = message.getNotification().getBody();
                 type = message.getData().get("type");
                 users = message.getData().get("users");
