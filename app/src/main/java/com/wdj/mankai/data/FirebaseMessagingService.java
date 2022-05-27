@@ -28,22 +28,24 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public Room room;
     public String roomId;
     public String roomUsers;
+    public String currentRoomId;
     String type;
     String users;
     String updated_at;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
-        SharedPreferences sharedPreferences1= getSharedPreferences("current_room_id", MODE_PRIVATE);
-        String currentRoomId = sharedPreferences1.getString("current_room_id","");
+
         System.out.println("ddddddddddddddddddddd" + message);
         try {
             JSONObject jsonObject = new JSONObject(message.getData().get("room"));
             roomId = jsonObject.getString("id");
             roomUsers = jsonObject.getString("users");
+            currentRoomId =((FlagClass) getApplicationContext()).getCurrentRoomId();
             System.out.println("Ddddddddddd"+roomId);
-            System.out.println(!jsonObject.getString("id").equals(currentRoomId));
+            System.out.println(jsonObject.getString("id").equals(currentRoomId));
             if(!jsonObject.getString("id").equals(currentRoomId)) {
+                System.out.println("Ddddddddddd "+jsonObject.getString("id").equals(currentRoomId));
                 String msg = message.getNotification().getBody();
                 type = message.getData().get("type");
                 users = message.getData().get("users");

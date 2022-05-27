@@ -22,7 +22,7 @@
             android:textSize="24dp"
             android:layout_marginLeft="3dp"
             android:padding="5dp"
-            android:fontFamily="@font/font"
+            android:fontFamily="@font/font_hb"
             android:textColor="@color/mankai_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
             android:paddingBottom="10dp"
             android:text="카테고리"
             android:textColor="@color/black"
-            android:fontFamily="@font/font"
+            android:fontFamily="@font/font_hb"
             android:textSize="16dp"
             app:layout_constraintStart_toEndOf="@+id/logo"
             app:layout_constraintTop_toTopOf="@+id/logo" />

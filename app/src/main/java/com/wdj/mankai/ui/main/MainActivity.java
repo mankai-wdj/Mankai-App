@@ -32,6 +32,7 @@ import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.ui.chat.ChatContainerActivity;
 
 import org.json.JSONException;
@@ -39,14 +40,12 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    String userName = null;
-    String userDescription = null;
-    String userProfile = null;
-    public static String userId = null;
-    public static String userCountry = null;
+
     BottomNavigationView bottomNavigationView;
     JSONObject currentUser;
     String fcmToken;
+    public static String country;
+    public static String userId;
     PusherOptions options = new PusherOptions() .setCluster("ap3");
     Pusher pusher = new Pusher("04847be41be2cbe59308",options);
     Channel channel; // 채널 연결
@@ -58,21 +57,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
         String token = sharedPreferences.getString("login_token","");
         getUser(token); // 유저 정보 받아오기
-        SharedPreferences sharedPreferences3 = getSharedPreferences("current_room_id",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences3.edit();
-        editor.putString("current_room_id","");
-        editor.commit();
         SharedPreferences sharedPreferences1= getSharedPreferences("fcm_token", MODE_PRIVATE);
-        fcmToken = sharedPreferences1.getString("fcm_token","");
         // fcm token 받아서 shaere에 저장
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
             public void onSuccess(String token) {
                 System.out.println("FCM Token : "+ token);
-                SharedPreferences sharedPreferences = getSharedPreferences("fcm_token",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("fcm_token",token);
-                editor.commit();
+                ((FlagClass) getApplicationContext()).setFcmToken(token);
             }
         });
 
@@ -86,18 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        try {
-           JSONObject obj = new JSONObject(user_info);
 
-           userName = obj.getString("name");
-           userDescription = obj.getString("description");
-           userProfile = obj.getString("profile");
-           userCountry =obj.getString("country");
-           userId = obj.getString("id");
-
-        } catch (Throwable t) {
-            Log.e("My App", "Could not parse malformed JSON: \"" + user_info + "\"");
-        }
 
 
 
@@ -123,13 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new GroupFragment();
                         break;
                     case R.id.mypage:
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userName",userName);
-                        bundle.putString("userDescription",userDescription);
-                        bundle.putString("userProfile",userProfile);
-                        bundle.putString("userId",userId);
+
                         MyPageFragment myPageFragment = new MyPageFragment();
-                        myPageFragment.setArguments(bundle);
                         fragment = myPageFragment;
 
                         break;
@@ -150,11 +125,26 @@ public class MainActivity extends AppCompatActivity {
                     String userName = jsonObject.getString("name");
                     SharedPreferences sharedPreferences = getSharedPreferences("user_info",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    ((FlagClass) getApplicationContext()).setUserName(jsonObject.getString("name"));
+                    ((FlagClass) getApplicationContext()).setUserProfile(jsonObject.getString("profile"));
+                    ((FlagClass) getApplicationContext()).setUserDescription(jsonObject.getString("description"));
+                    ((FlagClass) getApplicationContext()).setUserId(jsonObject.getInt("id"));
+                    ((FlagClass) getApplicationContext()).setUserCountry(jsonObject.getString("country"));
+                    country = jsonObject.getString("country");
+                    userId = jsonObject.getString("id");
+                    System.out.println("로그인" +  ((FlagClass) getApplicationContext()).getUserId());
+                    System.out.println("로그인");
                     editor.putString("user_info",response);
                     editor.commit();
+
                     if(userName != null) {
                         currentUser = jsonObject;
                         System.out.println("유저 정보 받아옴");
+                        System.out.println("유저" +((FlagClass) getApplicationContext()).getUserName());
+                        System.out.println("유저" +((FlagClass) getApplicationContext()).getUserDescription());
+                        System.out.println("유저" +((FlagClass) getApplicationContext()).getUserProfile());
+                        System.out.println("유저" +((FlagClass) getApplicationContext()).getUserId());
+
                         Toast.makeText(MainActivity.this,response,Toast.LENGTH_SHORT).show();
                         channelSubscribe(currentUser.getInt("id"));
                     } else{
@@ -211,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
     private void fcmMessage(JSONObject jsonObject) {
         JSONObject json = new JSONObject();
         try {
-            json.put("token", fcmToken);
+            json.put("token", ((FlagClass) getApplicationContext()).getFcmToken());
             json.put("body", jsonObject.getJSONObject("message").getString("message"));
             json.put("user_id", jsonObject.getJSONObject("message").getString("user_id"));
             json.put("room_id", jsonObject.getJSONObject("message").getString("room_id"));

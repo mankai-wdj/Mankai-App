@@ -45,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/font"
                 android:textStyle="bold"
                 android:text="장성규"
                 android:gravity="center"
@@ -67,6 +68,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="8dp"
             android:paddingBottom="4dp"
+            android:fontFamily="@font/font_light"
             android:textColor="@color/black"
             android:text="Text 내용 Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용Text 내용"
             android:textSize="18dp"
@@ -80,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/font_hb"
             android:textSize="0dp"
             android:background="@color/translate_background"
             android:textColor="@color/translate_text"
@@ -139,13 +142,15 @@
                 android:textColor="@color/dark_gray"
                 android:textSize="24dp" />
 
-            <Button
+
+            <ImageView
                 android:id="@+id/translate_btn"
-                android:layout_width="match_parent"
+                android:layout_width="36dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="#202d37"
                 android:text="번역하기"
                 android:textColor="@color/white"
+                android:src="@drawable/ic_baseline_translate_24"
                 />
 
         </LinearLayout>

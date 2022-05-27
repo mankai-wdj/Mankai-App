@@ -75,7 +75,6 @@
                 <!--            스크롤 했을 때 나타나거나 없어질 부분-->
 
                 <androidx.appcompat.widget.Toolbar
-                    android:layout_marginTop="13dp"
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

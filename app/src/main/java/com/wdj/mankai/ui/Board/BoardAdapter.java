@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.ui.main.HomeFragment;
 import com.wdj.mankai.ui.main.MainActivity;
 import com.wdj.mankai.ui.mypage.YouPage;
@@ -67,7 +68,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         TextView snsComment = itemView.findViewById(R.id.snsComment);
         ImageView commentBtn = itemView.findViewById(R.id.commentBtn);
         TextView commentCount = itemView.findViewById(R.id.CommentCount);
-        MaterialButton translateBtn = itemView.findViewById(R.id.translate_btn);
+        ImageView translateBtn = itemView.findViewById(R.id.translate_btn);
         TextView translateText = itemView.findViewById(R.id.translate_text);
         ImageView likeBtn = itemView.findViewById(R.id.like_btn);
         LinearLayout layout = itemView.findViewById(R.id.linear);
@@ -122,7 +123,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             } else if(snsdata.getCountry().equals("zh-CN") || snsdata.getCountry().equals("zh-CN")){
                 holder.flag.setImageResource(World.getFlagOf("china"));
             } else {
-                holder.flag.setImageResource(World.getFlagOf("radfs"));
+                holder.flag.setImageResource(World.getFlagOf(snsdata.getCountry()));
             }
             Log.d("profile", position+ "?" + snsdata.getProfile());
 
@@ -175,7 +176,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 public void onClick(View view) {
                     String translate = null;
                     try {
-                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.userCountry);
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.country);
                         Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
 
                         HomeFragment.list.get(position).setTranslateText(translate);
