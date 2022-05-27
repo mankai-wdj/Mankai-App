@@ -40,6 +40,7 @@ public class GroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_group);
 
+
         RecyclerView recyclerView = findViewById(R.id.group_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         adapter = new GroupAdapter(list);
