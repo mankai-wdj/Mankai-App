@@ -531,10 +531,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 textVideoLink.setText("https://mankai.shop/"+roomId);
             }
             textReceivedName.setText(new JSONObject(message.user).getString("name"));
-            Glide.with(itemView.getContext())
-                    .load(new JSONObject(message.user)
-                            .getString("profile"))
-                            .into((ImageView) itemView.findViewById(R.id.imageProfile));
+            if (!new JSONObject(message.user).getString("profile").equals("null")){
+                Glide.with(itemView.getContext())
+                        .load(new JSONObject(message.user)
+                                .getString("profile"))
+                        .into((ImageView) itemView.findViewById(R.id.imageProfile));
+            }
+
             textDateTime.setText(message.created_at);
 
         }

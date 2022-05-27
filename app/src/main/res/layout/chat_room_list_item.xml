@@ -3,18 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingHorizontal="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+    >
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/user_profile_image_background"
+        android:background="@drawable/group_info"
+        android:src="@drawable/profileimage"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <TextView
+        android:id="@+id/profile_count"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:textColor="@color/white"
+        android:background="@drawable/sticker"
+        android:gravity="center"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+        app:layout_constraintEnd_toEndOf="@+id/imageProfile">
+
+    </TextView>
 
 
     <TextView
@@ -28,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toEndOf="@+id/imageProfile"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/text_room_last_message" />
 
     <TextView
         android:id="@+id/text_room_last_message"
@@ -38,12 +54,9 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/text_room_time"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageProfile"
-        app:layout_constraintTop_toBottomOf="@+id/text_room_name"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text_room_name"/>
 
     <TextView
         android:id="@+id/text_room_time"
@@ -52,5 +65,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_room_last_message"
         app:layout_constraintTop_toBottomOf="@id/text_room_name" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="@id/text_room_last_message"
+        app:layout_constraintTop_toBottomOf="@id/text_room_last_message"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
