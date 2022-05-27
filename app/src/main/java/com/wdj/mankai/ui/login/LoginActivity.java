@@ -31,7 +31,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.databinding.ActivityLoginBinding;
+import com.wdj.mankai.ui.chat.FCMChatContainer;
 import com.wdj.mankai.ui.main.MainActivity;
 
 import org.json.JSONException;
@@ -176,13 +178,16 @@ public class LoginActivity extends AppCompatActivity {
                         String token = jsonObject.getString("token");
                         String toastMessage = "로그인 성공 토큰 값 : " + token;
                         Toast.makeText(LoginActivity.this,toastMessage, Toast.LENGTH_SHORT).show();
-
+                        ((FlagClass) getApplicationContext()).setLoginToken(token);
                         SharedPreferences sharedPreferences = getSharedPreferences("login_token",MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("login_token",token);
                         editor.commit();
 
                         Toast.makeText(LoginActivity.this,"토큰 저장 완료",Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     } else if(statusCode == 400){
                         System.out.println("validation error");
                         emailValidationText.setText(jsonObject.getString("email"));

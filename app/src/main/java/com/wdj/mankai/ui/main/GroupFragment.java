@@ -34,6 +34,7 @@ import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.data.GroupData;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.Group.GroupAdapter;
@@ -64,7 +65,7 @@ public class GroupFragment extends Fragment {
     private GroupData groupData;
     private String URL = "https://api.mankai.shop/api";
 
-    String userId;
+    int userId;
 
 
     @Nullable
@@ -97,9 +98,7 @@ public class GroupFragment extends Fragment {
         if (AppHelper.requestQueue == null)
             AppHelper.requestQueue = Volley.newRequestQueue(getContext());
 
-        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getString("userId","");
-
+        userId =  ((FlagClass) getActivity().getApplicationContext()).getUserId();
         request1();
         GroupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -147,7 +146,7 @@ public class GroupFragment extends Fragment {
         list.clear();
         adapter.notifyDataSetChanged();
         StringRequest request = new StringRequest(Request.Method.GET,
-                URL + "/show/mygroup/"+MainActivity.userId,
+                URL + "/show/mygroup/"+userId,
                 //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
                 new Response.Listener<String>() {
                     @Override

@@ -40,6 +40,7 @@ import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.wdj.mankai.R;
 import com.wdj.mankai.adapter.MessagesAdapter;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.data.model.Message;
 import com.wdj.mankai.data.model.Room;
 import com.wdj.mankai.ui.chat.ui.ChatBottomSheetDialog;
@@ -103,10 +104,9 @@ public class ChatContainerActivity extends AppCompatActivity implements ChatBott
 
 
 
-        SharedPreferences sharedPreferences1 = getSharedPreferences("current_room_id",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences1.edit();
-        editor.putString("current_room_id",room.id);
-        editor.commit();
+
+        ((FlagClass) getApplicationContext()).setCurrentRoomId(room.id);
+
 
         channel = pusher.subscribe("room."+room.id); // 채널 연결
 

@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.data.model.AppHelper;
 import com.wdj.mankai.ui.mypage.ViewPagerAdapter;
 import com.wdj.mankai.ui.mypage.toolbar.FragMyMemoExceptToolbar;
@@ -37,7 +38,7 @@ public class MyPageFragment extends Fragment {
     String userName;
     String userDescription;
     String userProfile;
-    String userId;
+    int userId;
     boolean first = true;
     String url;
 
@@ -67,21 +68,19 @@ public class MyPageFragment extends Fragment {
         TextView userDescriptionView = (TextView) view.findViewById(R.id.userDescription);
         CircleImageView userProfileView = (CircleImageView) view.findViewById(R.id.userProfile);
 
-        if(getArguments() != null){
-
-            userName = getArguments().getString("userName");
-            userDescription = getArguments().getString("userDescription");
-            userProfile = getArguments().getString("userProfile");
-            userId = getArguments().getString("userId");
-
+            userName =  ((FlagClass) getActivity().getApplicationContext()).getUserName();;
+            userDescription =  ((FlagClass) getActivity().getApplicationContext()).getUserDescription();;
+            userProfile =  ((FlagClass) getActivity().getApplicationContext()).getUserProfile();;
+            userId =  ((FlagClass) getActivity().getApplicationContext()).getUserId();
+            Log.e("USER" ,userName);
             userNameView.setText(userName);
             userDescriptionView.setText(userDescription);
             Glide.with(this).load(userProfile).placeholder(R.drawable.ic_launcher_foreground).dontAnimate().into(userProfileView);
-        }
+
 
 //      뷰페이저 세팅
         ViewPager viewPager = view.findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(userId,getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerAdapter = new ViewPagerAdapter(String.valueOf(userId),getActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 //
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         viewPager.setAdapter(viewPagerAdapter);

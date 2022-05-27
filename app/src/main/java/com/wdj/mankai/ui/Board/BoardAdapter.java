@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.BoardData;
+import com.wdj.mankai.data.FlagClass;
 import com.wdj.mankai.ui.main.HomeFragment;
 import com.wdj.mankai.ui.main.MainActivity;
 import com.wdj.mankai.ui.mypage.YouPage;
@@ -175,7 +176,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
                 public void onClick(View view) {
                     String translate = null;
                     try {
-                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.userCountry);
+                        translate = PapagoTranslate.getTranslation(snsdata.getContent_text(), MainActivity.country);
                         Log.d("Board", "position"+HomeFragment.list.get(position).getContent_text());
 
                         HomeFragment.list.get(position).setTranslateText(translate);
