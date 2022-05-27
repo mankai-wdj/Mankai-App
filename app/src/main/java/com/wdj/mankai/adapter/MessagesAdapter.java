@@ -153,7 +153,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             messageBox = (LinearLayout) itemView.findViewById(R.id.messageBox);
 
-//            imageProfile = itemView.findViewById(R.id.imageProfile);
+            imageProfile = itemView.findViewById(R.id.imageProfile);
             textMessageLayout = itemView.findViewById(R.id.textMessageLayout);
             textMessage = (TextView) itemView.findViewById(R.id.textMessage);
             textDateTime = (TextView) itemView.findViewById(R.id.textDateTime);
@@ -531,7 +531,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 textVideoLink.setText("https://mankai.shop/"+roomId);
             }
             textReceivedName.setText(new JSONObject(message.user).getString("name"));
-            Glide.with(itemView.getContext()).load(new JSONObject(message.user).getString("profile")).into((ImageView) itemView.findViewById(R.id.imageProfile));
+            Glide.with(itemView.getContext())
+                    .load(new JSONObject(message.user)
+                            .getString("profile"))
+                            .into((ImageView) itemView.findViewById(R.id.imageProfile));
             textDateTime.setText(message.created_at);
 
         }
