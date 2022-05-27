@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.wdj.mankai.R;
 import com.wdj.mankai.data.model.LoggedInUser;
 import com.wdj.mankai.data.model.Room;
@@ -118,7 +119,12 @@ public class FollowingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void setItem(User user) {
             textFollowingName.setText(user.name);
+            if(!user.profile.equals("null")){
+                Glide.with(itemView)
+                        .load(user.profile )
+                        .into(imageProfile);
 
+            }
         }
     }
 
@@ -166,6 +172,13 @@ public class FollowingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void setItem(User user) {
             textFollowingName.setText(user.name);
+            if(!user.profile.equals("null")){
+                Glide.with(itemView)
+                        .load(user.profile )
+                        .into(imageProfile);
+
+            }
+
 
         }
     }

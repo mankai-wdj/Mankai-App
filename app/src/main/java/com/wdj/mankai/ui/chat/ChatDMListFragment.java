@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,8 @@ public class ChatDMListFragment extends Fragment {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject room = jsonArray.getJSONObject(i);
+            Log.d("Check", "setRooms: " + jsonArray.getString(i));
+
 
             String title = room.getString("title");
             String lastMessage = room.getString("last_message");
