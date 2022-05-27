@@ -125,7 +125,6 @@ public class GroupFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(GroupSearch.getText().length()==0)
                 {
-
                     statusText.setText("가입 그룹 리스트");
                     request1();
                 }
@@ -154,13 +153,24 @@ public class GroupFragment extends Fragment {
                     public void onResponse(String response) {
                         Log.d("Group", response);
                         try {
+                            Log.d("Search", "onResponse: " + response);
                             JSONArray jsonArray = new JSONArray(response);
-                            for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject groupJSON = jsonArray.getJSONObject(i);
-                                groupData = new GroupData(groupJSON);
-                                list.add(groupData);
+                            Log.d("Search", "onResponse: " + jsonArray.length());
+                            statusText.setText("가입 그룹 리스트");
+                            if(jsonArray.length()==0){
+
+                                Log.d("Search", "isNull ");
+                                request2("NULLDATA");
                             }
-                            adapter.notifyDataSetChanged();
+                            else{
+                                for(int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject groupJSON = jsonArray.getJSONObject(i);
+                                    groupData = new GroupData(groupJSON);
+                                    list.add(groupData);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -171,21 +181,26 @@ public class GroupFragment extends Fragment {
 
     public void request2(String test) {
         list.clear();
+
+        Log.d("Search", "Call request");
         adapter.notifyDataSetChanged();
-        GroupName = GroupSearch.getText().toString();
         StringRequest request = new StringRequest(Request.Method.GET,
-                URL + "/show/group/"+GroupName,
+                URL + "/show/group/"+test,
                 //url 끌고와서 다시 배열로 제작후 각각의 함수에 넣어 줌
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Group", response);
                         try {
+                            Log.d("Search", "onResponse: " + response);
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject groupJSON = jsonArray.getJSONObject(i);
                                 groupData = new GroupData(groupJSON);
                                 list.add(groupData);
+                                if(test.equals("NULLDATA")){
+                                    statusText.setText("추천 그룹 리스트");
+                                }
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
