@@ -123,8 +123,11 @@ public class FollowingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Glide.with(itemView)
                         .load(user.profile )
                         .into(imageProfile);
+            }else {
+                imageProfile.setImageResource(R.drawable.profileimage);
 
             }
+
         }
     }
 
@@ -176,7 +179,8 @@ public class FollowingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Glide.with(itemView)
                         .load(user.profile )
                         .into(imageProfile);
-
+            }else {
+                imageProfile.setImageResource(R.drawable.profileimage);
             }
 
 
