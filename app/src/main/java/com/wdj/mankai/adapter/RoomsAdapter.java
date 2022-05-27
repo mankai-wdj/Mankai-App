@@ -122,6 +122,9 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
                                 Glide.with(itemView)
                                         .load(response)
                                         .into(imageProfile);
+                            }else {
+                                imageProfile.setImageResource(R.drawable.profileimage);
+
                             }
                         }
                     }

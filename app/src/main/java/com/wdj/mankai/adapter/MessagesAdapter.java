@@ -536,7 +536,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         .load(new JSONObject(message.user)
                                 .getString("profile"))
                         .into((ImageView) itemView.findViewById(R.id.imageProfile));
+            }else {
+                imageProfile.setImageResource(R.drawable.profileimage);
+
             }
+
 
             textDateTime.setText(message.created_at);
 
