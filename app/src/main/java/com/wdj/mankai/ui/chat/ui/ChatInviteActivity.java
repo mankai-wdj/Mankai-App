@@ -136,8 +136,8 @@ public class ChatInviteActivity extends AppCompatActivity {
                                 finish();
 
                                 try {
-                                    System.out.println("rooo23123123" + new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
-                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
+
+                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at"),response.getString("profile")));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.blongho.country_data.World;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.wdj.mankai.R;
@@ -38,6 +40,7 @@ public class MyPageFragment extends Fragment {
     String userName;
     String userDescription;
     String userProfile;
+    String userCountry;
     int userId;
     boolean first = true;
     String url;
@@ -67,11 +70,26 @@ public class MyPageFragment extends Fragment {
         TextView userNameView = (TextView) view.findViewById(R.id.userName);
         TextView userDescriptionView = (TextView) view.findViewById(R.id.userDescription);
         CircleImageView userProfileView = (CircleImageView) view.findViewById(R.id.userProfile);
-
+        ImageView flag = (ImageView) view.findViewById(R.id.flag);
             userName =  ((FlagClass) getActivity().getApplicationContext()).getUserName();;
             userDescription =  ((FlagClass) getActivity().getApplicationContext()).getUserDescription();;
             userProfile =  ((FlagClass) getActivity().getApplicationContext()).getUserProfile();;
             userId =  ((FlagClass) getActivity().getApplicationContext()).getUserId();
+            userCountry = ((FlagClass) getActivity().getApplicationContext()).getUserCountry();
+            if(userCountry.equals("ko")) {
+                    flag.setImageResource(World.getFlagOf("kr"));
+                    Log.e("true", "꼬레아로");
+                } else if(userCountry.equals("en")){
+                    flag.setImageResource(World.getFlagOf("usa"));
+                } else if(userCountry.equals("ja")){
+                    flag.setImageResource(World.getFlagOf("JAPAN"));
+                } else if(userCountry.equals("ch-TW") || userCountry.equals("zh-TW")){
+                    flag.setImageResource(World.getFlagOf("TW"));
+                } else if(userCountry.equals("zh-CN") || userCountry.equals("zh-CN")){
+                    flag.setImageResource(World.getFlagOf("china"));
+                } else {
+                    flag.setImageResource(World.getFlagOf(userCountry));
+                }
             Log.e("USER" ,userName);
             userNameView.setText(userName);
             userDescriptionView.setText(userDescription);

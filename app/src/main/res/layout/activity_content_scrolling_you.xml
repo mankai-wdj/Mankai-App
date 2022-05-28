@@ -21,27 +21,29 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/mankai_logo"
+                app:tabTextColor="@color/black"
                 app:tabTextAppearance="@style/tab_text">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Followers" />
+                    android:text="팔로워" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Followings" />
+                    android:text="팔로잉" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MyPosts" />
+                    android:text="게시글" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MyGroups" />
+                    android:text="그룹" />
 
             </com.google.android.material.tabs.TabLayout>
 

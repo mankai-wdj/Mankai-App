@@ -32,6 +32,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     String type;
     String users;
     String updated_at;
+    String profile;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
@@ -76,14 +77,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.fcm_notification_layout);
         remoteViews.setTextViewText(R.id.noti_title, title);
         remoteViews.setTextViewText(R.id.noti_message, message);
-        remoteViews.setImageViewResource(R.id.logo, R.drawable.ic_chat_info);
+        remoteViews.setImageViewResource(R.id.logo, R.drawable.app_logo);
         return remoteViews;
     }
 
     public void showNotification(String title, String message) {
         //팝업 터치시 이동할 액티비티를 지정합니다.
         Intent intent = new Intent(this, FCMChatContainer.class);
-        room = new Room(roomId,"","", "","","");
+
+        room = new Room(roomId,"","", "","","","");
         ((FlagClass) getApplicationContext()).setRoomId(roomId);
         ((FlagClass) getApplicationContext()).setRoomUsers(roomUsers);
         //알림 채널 아이디 : 본인 하고싶으신대로...
@@ -93,7 +95,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //기본 사운드로 알림음 설정. 커스텀하려면 소리 파일의 uri 입력
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id)
-                .setSmallIcon(R.drawable.ic_chat_info)
+                .setSmallIcon(R.drawable.profileimage)
                 .setSound(uri)
                 .setAutoCancel(true)
                 .setVibrate(new long[]{1000, 1000, 1000}) //알림시 진동 설정 : 1초 진동, 1초 쉬고, 1초 진동
@@ -105,7 +107,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         } else { //아니면 기본 레이아웃 호출
             builder = builder.setContentTitle(title)
                     .setContentText(message)
-                    .setSmallIcon(R.drawable.ic_chat_info); //커스텀 레이아웃에 사용된 로고 파일과 동일하게..
+                    .setSmallIcon(R.drawable.profileimage); //커스텀 레이아웃에 사용된 로고 파일과 동일하게..
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

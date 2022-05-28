@@ -1,5 +1,6 @@
 package com.wdj.mankai.ui.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -12,11 +13,14 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,6 +31,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.wdj.mankai.R;
+import com.wdj.mankai.data.FlagClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +50,7 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-        SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
-        String token = sharedPreferences.getString("login_token","");
+        String token = ((FlagClass) getApplicationContext()).getLoginToken();
         askForPermissions();
         url = getIntent().getExtras().getString("url");
         mWebView = findViewById(R.id.webview);
@@ -59,7 +63,7 @@ public class VideoActivity extends AppCompatActivity {
 
         });
 
-
+        mWebView.addJavascriptInterface(new WebBridge(),"Android");
         mWebView.setWebViewClient(new WebViewClient() {
             // localStorage 설정
             @Override
@@ -88,14 +92,52 @@ public class VideoActivity extends AppCompatActivity {
 
 
 
-
-        mWebView.loadUrl(url);
+        if(arePermissionGranted()) {
+            mWebView.loadUrl(url);
+        } else {
+            finish();
+        }
 
     }
 
 
+    @Override
+    public void onBackPressed() {
+////        if (mWebView.getUrl().equalsIgnoreCase("https://mankai.shop/video")
+////        ) {
+////            super.onBackPressed();
+////        }else if(mWebView.canGoBack()){
+////            mWebView.goBack();
+////        }else{
+////            super.onBackPressed();
+////        }
+//
+//        mWebView.loadUrl("javascript:leaveSession");
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+            if (Build.VERSION.SDK_INT >= 23) {
+
+                // requestPermission의 배열의 index가 아래 grantResults index와 매칭
+                // 퍼미션이 승인되면
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("TAG", "Permission: " + permissions[0] + "was " + grantResults[0]);
+                    mWebView.loadUrl(url);
+                    // TODO : 퍼미션이 승인되는 경우에 대한 코드
+
+                }
+                // 퍼미션이 승인 거부되면
+                else {
+                    Log.d("TAG", "Permission denied");
+
+                    // TODO : 퍼미션이 거부되는 경우에 대한 코드
+                }
+
+        }
+    }
 
     public void askForPermissions() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -121,5 +163,11 @@ public class VideoActivity extends AppCompatActivity {
     private boolean arePermissionGranted() {
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_DENIED) &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED);
+    }
+    class WebBridge {
+        @JavascriptInterface
+        public void leave() {
+            finish();
+        }
     }
 }

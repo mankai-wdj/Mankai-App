@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences= getSharedPreferences("login_token", MODE_PRIVATE);
         String token = sharedPreferences.getString("login_token","");
+        ((FlagClass) getApplicationContext()).setLoginToken(token);
         getUser(token); // 유저 정보 받아오기
         SharedPreferences sharedPreferences1= getSharedPreferences("fcm_token", MODE_PRIVATE);
         // fcm token 받아서 shaere에 저장

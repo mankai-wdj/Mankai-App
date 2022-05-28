@@ -100,7 +100,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
                 }
                 String user_id = jsonArray.getJSONObject(0).getString("user_id");
                 Log.d("Check", "Room Image: " + user_id);
-                CheckProfile(user_id);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -110,30 +110,16 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
             text_room_name.setText(room.title);
             text_room_last_message.setText(room.last_message);
             text_room_time.setText(room.updated_at);
+            if(!room.profile.isEmpty()) {
+                Glide.with(itemView)
+                        .load(room.profile)
+                        .into(imageProfile);
+            } else {
+                imageProfile.setImageResource(R.drawable.profileimage);
+            }
 
         }
-        public void CheckProfile(String user_id){
-            StringRequest request = new StringRequest(Request.Method.GET, "https://api.mankai.shop/api/getuserprofile/"+user_id,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d("Check", "profile response: " + response);
-                            if(!response.isEmpty()) {
-                                Glide.with(itemView)
-                                        .load(response)
-                                        .into(imageProfile);
-                            }else {
-                                imageProfile.setImageResource(R.drawable.profileimage);
 
-                            }
-                        }
-                    }
-                    ,null);
-
-
-            AppHelper.requestQueue.add(request);
-
-        }
     }
 
 

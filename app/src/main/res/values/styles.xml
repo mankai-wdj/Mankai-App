@@ -20,6 +20,7 @@
 
     <style name="tab_text" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">9sp</item>
+        <item name="android:fontFamily">@font/font_hb</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">

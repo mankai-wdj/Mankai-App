@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/you_page_head"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:elevation="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/user_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/font_hb"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="상대방페이지"
+                android:textColor="@color/mankai_logo"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -20,6 +44,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:backgroundTint="#ffffff"
+            android:layout_marginTop="30dp"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -48,15 +73,33 @@
                         android:src="@drawable/ic_launcher_background"
                         app:civ_border_width="2dp"
                         app:civ_border_color="#FF000000"/>
+                    <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center|top"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
 
-                    <TextView
-                        android:id="@+id/userName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="30dp"
-                        android:text="서재열"/>
 
+                        <TextView
+                            android:id="@+id/userName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="bold"
+                            android:text="장성규"
+                            android:fontFamily="@font/font"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="30dp" />
+
+                        <ImageView
+                            android:id="@+id/flag"
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:layout_gravity="center"
+                            />
+                </LinearLayout>
                     <TextView
                         android:id="@+id/userDescription"
                         android:layout_width="wrap_content"
@@ -76,6 +119,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginRight="10dp"
+                           android:backgroundTint="@color/mankai_logo"
                            android:drawableLeft="@drawable/follow"
                            android:text="팔로우"/>
 
@@ -85,6 +129,7 @@
                            android:layout_height="wrap_content"
                            android:layout_marginRight="10dp"
                            android:drawableLeft="@drawable/check"
+                           android:backgroundTint="@color/mankai_logo"
                            android:text="팔로잉"/>
 
                        <Button
@@ -92,6 +137,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:drawableLeft="@drawable/ic_baseline_send_24"
+                           android:backgroundTint="@color/mankai_logo"
                            android:text="메세지"/>
 
                    </LinearLayout>
