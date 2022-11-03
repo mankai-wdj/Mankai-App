@@ -97,7 +97,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setSound(uri)
                 .setAutoCancel(true)
                 .setVibrate(new long[]{1000, 1000, 1000}) //알림시 진동 설정 : 1초 진동, 1초 쉬고, 1초 진동
-                .setOnlyAlertOnce(true) //동일한 알림은 한번만.. : 확인 하면 다시 울림
+                .setOnlyAlertOnce(false) //동일한 알림은 한번만.. : 확인 하면 다시 울림
+                .setOngoing(true)
                 .setContentIntent(pendingIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) { //안드로이드 버전이 커스텀 알림을 불러올 수 있는 버전이면
             //커스텀 레이아웃 호출

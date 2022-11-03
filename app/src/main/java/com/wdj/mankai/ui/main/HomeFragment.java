@@ -169,12 +169,17 @@ public class HomeFragment extends Fragment {
 
 //                                                  사진 데이터 정리
                                                     JSONArray subArray = subJson.getJSONArray("images");
+                                                    Log.d("이미지", "images: " + subArray);
+
+//                                                  사진 없을떄
                                                     if(subArray.length()==0){
                                                         for(int i = StartInt ;i<list.size();i++)
                                                         {
                                                             if(list.get(i).getId() == boardJson.getString("id")){
+                                                                Log.d("Test","이미지 1번임");
                                                                 list.get(i).setIsGroup("SNS");
                                                                 list.get(i).setViewType(0);
+//                                                                Log.d("이미지 있음", "list num ? "+list.get(i).getViewType()+"ID"+boardJson.getString(("id")));
                                                                 break;
                                                             }
                                                         }
@@ -186,7 +191,8 @@ public class HomeFragment extends Fragment {
                                                         }
                                                         for(int i = StartInt;i<list.size();i++)
                                                         {
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                            Log.d("checkviewtype", list.get(i).getId() +"/"+ boardJson.getString("id"));
+                                                            if(list.get(i).getId().equals(boardJson.getString("id"))){
                                                                 list.get(i).setBoardImage(cntString);
                                                                 list.get(i).setViewType(1);
                                                                 list.get(i).setIsGroup("SNS");
@@ -208,7 +214,7 @@ public class HomeFragment extends Fragment {
                                                         }
                                                         //추출한데이터 list에 넣고 adepter 호출
                                                         for(int i = StartInt ;i< list.size();i++){
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                            if(list.get(i).getId().equals(boardJson.getString("id"))){
                                                                 list.get(i).setComments(commentText);
                                                                 list.get(i).setComment_length(subJson.getString("comment_length"));
                                                             }
@@ -217,7 +223,7 @@ public class HomeFragment extends Fragment {
 //                                                    댓글 0개일떄
                                                     else {
                                                         for(int i = StartInt ;i< list.size();i++){
-                                                            if(list.get(i).getId() == boardJson.getString("id")){
+                                                            if(list.get(i).getId().equals(boardJson.getString("id"))){
                                                                 list.get(i).setComment_length("0");
                                                             }
                                                         }

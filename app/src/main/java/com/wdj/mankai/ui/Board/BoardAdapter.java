@@ -90,7 +90,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 //        멀티 뷰타입 분리
         if(viewType == 0)
             view = inflater.inflate(R.layout.board_normal_view,parent,false);
-        else if(viewType ==1)
+        else if(viewType == 1)
             view = inflater.inflate(R.layout.board_image_view,parent,false);
 
         BoardAdapter.ViewHolder vh = new BoardAdapter.ViewHolder(view);
@@ -125,7 +125,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             } else {
                 holder.flag.setImageResource(World.getFlagOf(snsdata.getCountry()));
             }
-            Log.d("profile", position+ "?" + snsdata.getProfile());
+            Log.d("viewtype?", position+ "?" + snsdata.getViewType());
 
             if(snsdata.getProfile().equals("null")){
                 holder.snsUserImage.setImageResource(R.drawable.profileimage);

@@ -110,10 +110,8 @@ public class BoardCommentActivity extends AppCompatActivity {
                 intent.putExtra("youURL",user_id);
                 Bundle bundle = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.slide_in_right, R.anim.slide_wait).toBundle();
                 view.getContext().startActivity(intent, bundle);
-
             }
         });
-
 
         sns_text.setText(content_text);
         sns_name.setText(user_name);

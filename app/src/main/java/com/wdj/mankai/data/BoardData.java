@@ -35,6 +35,7 @@ public class BoardData implements Serializable {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("comments","댓글이 없습니다.");
             jsonArray.put(jsonObject);
+
             this.jsonData.put("comments",jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
