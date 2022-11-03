@@ -96,17 +96,26 @@ public class ChatDMListFragment extends Fragment {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject room = jsonArray.getJSONObject(i);
             Log.d("Check", "setRooms: " + jsonArray.getString(i));
-
+            Log.e("TAG", String.valueOf(room));
 
             String title = room.getString("title");
             String lastMessage = room.getString("last_message");
+//            String profile = room.getString("profile");
+            JSONArray users = new JSONArray(room.getString("users"));
+            String profile = room.getString("profile");
+
             if(title.equals("null")) {
                 title = userName(room.getString("users"));
             }
             if(lastMessage.equals("null")) {
                 lastMessage = "";
             }
-
+            if(profile.equals("null")) {
+                profile = "";
+            }
+//            if(profile.equals("null")) {
+//                profile ="";
+//            }
             try {
                 SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 Date formatDate2 = dtFormat.parse(room.getString("updated_at"));
@@ -126,7 +135,7 @@ public class ChatDMListFragment extends Fragment {
 
 
             if(room.getString("type").equals("dm")) {
-                roomsAdapter.addRoom(new Room(room.getString("id"), title, lastMessage, room.getString("type"), room.getString("users"), formatDate));
+                roomsAdapter.addRoom(new Room(room.getString("id"), title, lastMessage, room.getString("type"), room.getString("users"), formatDate,profile));
             }
             roomsAdapter.notifyDataSetChanged();
         }
@@ -177,6 +186,7 @@ public class ChatDMListFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+
                     setRooms(jsonArray);
                 } catch(JSONException err) {
                     err.printStackTrace();

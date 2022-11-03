@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.github.blongho:worldCountryData:1.5.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
-
+    implementation "androidx.cardview:cardview:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

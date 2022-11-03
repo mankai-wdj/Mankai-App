@@ -6,6 +6,7 @@
     android:layout_height="48dp"
     android:elevation="4dp"
     app:layout_constraintStart_toStartOf="parent"
+    android:background="@color/white"
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView

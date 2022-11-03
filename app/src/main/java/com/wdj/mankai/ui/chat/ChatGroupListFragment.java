@@ -64,13 +64,19 @@ public class ChatGroupListFragment extends Fragment {
             JSONObject room = jsonArray.getJSONObject(i);
             String title = room.getString("title");
             String lastMessage = room.getString("last_message");
+            String profile = room.getString("profile");
             if(title.equals("null")) {
                 title = userName(room.getString("users"));
             }
             if(lastMessage.equals("null")) {
                 lastMessage = "";
             }
-
+            if(profile.equals("null")) {
+                profile = "";
+            }
+//            if(profile.equals("null")) {
+//                profile = "";
+//            }
             try {
                 SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 Date formatDate2 = dtFormat.parse(room.getString("updated_at"));
@@ -90,7 +96,7 @@ public class ChatGroupListFragment extends Fragment {
 
 
             if(room.getString("type").equals("group")) {
-                roomsAdapter.addRoom(new Room(room.getString("id"), title, lastMessage, room.getString("type"), room.getString("users"), formatDate));
+                roomsAdapter.addRoom(new Room(room.getString("id"), title, lastMessage, room.getString("type"), room.getString("users"), formatDate,profile));
             }
             roomsAdapter.notifyDataSetChanged();
         }

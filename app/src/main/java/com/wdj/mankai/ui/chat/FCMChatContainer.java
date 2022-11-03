@@ -91,7 +91,7 @@ public class FCMChatContainer extends AppCompatActivity implements ChatBottomShe
         setContentView(R.layout.activity_chat_container);
         progressBar = findViewById(R.id.progressBar);
         textName = findViewById(R.id.textName);
-        room = new Room(((FlagClass) getApplicationContext()).getRoomId(),"","","",((FlagClass) getApplicationContext()).getRoomUsers(),"");
+        room = new Room(((FlagClass) getApplicationContext()).getRoomId(),"","","",((FlagClass) getApplicationContext()).getRoomUsers(),"","");
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerView = (View)findViewById(R.id.drawer2);
         btLeave = findViewById(R.id.btLeave);

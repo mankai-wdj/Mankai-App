@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
+import com.blongho.country_data.World;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
     String userDescription;
     String userProfile;
     String userId;
+    String userCountry;
     String url;
     Button followButton;
     Button followingButton;
@@ -87,7 +89,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you_page);
-
+        World.init(getApplicationContext());
         Intent intent = getIntent();
         userId = intent.getStringExtra("youURL");
 
@@ -223,7 +225,7 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
                                 Log.e("room", String.valueOf(jsonArray));
                                 try {
                                     System.out.println("room id " + response.getString("id"));
-                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
+                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at"),""));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -260,7 +262,8 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
                             userName = jsonObject.getString("name");
                             userDescription = jsonObject.getString("description");
                             userProfile = jsonObject.getString("profile");
-                            Setting(userName,userDescription,userProfile);
+                            userCountry = jsonObject.getString("country");
+                            Setting(userName,userDescription,userProfile,userCountry);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -325,13 +328,30 @@ public class YouPage extends AppCompatActivity implements FragYouFollowers.OnInp
     }
 
 
-    public void Setting(String userName,String userDescription,String userProfile){
+    public void Setting(String userName,String userDescription,String userProfile, String userCountry){
         TextView userNameView = findViewById(R.id.userName);
+        TextView userNameView2 = findViewById(R.id.user_name2);
         TextView userDescriptionView = findViewById(R.id.userDescription);
         CircleImageView userProfileView = (CircleImageView) findViewById(R.id.userProfile);
+        ImageView flag= (ImageView) findViewById(R.id.flag);
+        if(userCountry.equals("ko")) {
+            flag.setImageResource(World.getFlagOf("kr"));
+            Log.e("true", "꼬레아로");
+        } else if(userCountry.equals("en")){
+            flag.setImageResource(World.getFlagOf("usa"));
+        } else if(userCountry.equals("ja")){
+            flag.setImageResource(World.getFlagOf("JAPAN"));
+        } else if(userCountry.equals("ch-TW") || userCountry.equals("zh-TW")){
+            flag.setImageResource(World.getFlagOf("TW"));
+        } else if(userCountry.equals("zh-CN") || userCountry.equals("zh-CN")){
+            flag.setImageResource(World.getFlagOf("china"));
+        } else {
+            flag.setImageResource(World.getFlagOf(userCountry));
+        }
 
 
         userNameView.setText(userName);
+        userNameView2.setText(userName);
         userDescriptionView.setText(userDescription);
         Glide.with(this).load(userProfile).placeholder(R.drawable.ic_launcher_foreground).dontAnimate().into(userProfileView);
     }

@@ -115,7 +115,7 @@ public class ChatCreateActivity extends AppCompatActivity {
                                 finish();
                                 try {
                                     System.out.println("room id " + response.getString("id"));
-                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at")));
+                                    intent.putExtra("room", new Room(response.getString("id"), "","", response.getString("type"), response.getString("users"), response.getString("updated_at"),""));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
